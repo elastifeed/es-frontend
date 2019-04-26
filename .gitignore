@@ -1,0 +1,17 @@
+/target/
+
+*/target/*
+*/target
+target/*
+target
+*/.settings/*
+*/.settings
+.settings/*
+.settings
+*/.classpath
+*/.project
+.classpath
+.project
+.DS_Store
+*/.DS_Store
+.idea/*
