@@ -5,13 +5,17 @@
 /* Font */
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 
+html {
+    font-size: 16px;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background: #fafafa;
 }
 
 p {
-    font-size: 1.2em;
+    font-size: 1.2rem;
     font-weight: 300;
-    line-height: 1.8em;
+    line-height: 1.8rem;
 }
