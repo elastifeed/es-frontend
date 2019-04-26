@@ -1,0 +1,94 @@
+/*
+    Styles the web content of the elasticsearch frontend
+*/
+
+/* SIDEBAR STYLE */
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    color: #fff;
+    transition: all 0.3s;
+
+    background-color: #232939;
+
+}
+
+.sidebar.active {
+    margin-left: -250px;
+}
+
+.sidebar .sidebar-header {
+    padding: 20px;
+    background: transparent;
+    border-bottom: 1px solid #fff;
+}
+
+.sidebar ul li {
+    padding: 0;
+    height: 80px;
+}
+
+.sidebar ul li a{
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    padding: 20px 0px 0px 30px;
+
+    font-size: 1.5em;
+    color: #999;
+}
+
+.sidebar ul li a:hover{
+    background-color: #1F2433;
+    color: #fff;
+}
+
+.sidebar ul li a.active {
+    background-color: #1F2433;
+    color: #fff;
+}
+
+
+/* CONTENT STYLE */
+.content {
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.content.active {
+    width: 100%;
+}
+
+
+/* Mobile media query Sidebar and Content*/
+@media (max-width: 768px) {
+    .sidebar {
+        margin-left: -250px;
+    }
+    .sidebar.active {
+        margin-left: 0;
+    }
+    .content {
+        width: 100%;
+    }
+    .content.active {
+        width: calc(100% - 250px);
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}

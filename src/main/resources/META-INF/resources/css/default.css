@@ -1,0 +1,17 @@
+/*
+    Default styles for the page
+*/
+
+/* Font */
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-size: 1.2em;
+    font-weight: 300;
+    line-height: 1.8em;
+}
