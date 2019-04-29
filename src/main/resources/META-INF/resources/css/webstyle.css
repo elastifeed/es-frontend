@@ -2,7 +2,9 @@
     Styles the web content of the elasticsearch frontend
 */
 
-/* SIDEBAR STYLE */
+/**************************
+SIDEBAR STYLE
+***************************/
 .wrapper {
     display: flex;
     width: 100%;
@@ -17,9 +19,7 @@
     z-index: 999;
     color: #fff;
     transition: all 0.3s;
-
     background-color: #232939;
-
 }
 
 .sidebar.active {
@@ -92,3 +92,7 @@
         display: none;
     }
 }
+
+/**************************
+SIDEBAR STYLE ENDE
+***************************/
