@@ -11,5 +11,4 @@ public class HomeController extends MasterController {
     public String main(){
         return view("index",this);
     }
-
 }
