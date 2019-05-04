@@ -7,7 +7,7 @@
 <body>
     <ui:composition>
 
-        <nav class="navbar navbar-light navbar-expand-md bg-light justify-content-md-center justify-content-start">
+        <nav class="navbar navbar-expand-md justify-content-md-center justify-content-start es-navbar sticky-top">
 
             <button type="button" id="sidebarCollapse" class="btn btn-dark">
                 <i class="fas fa-align-left"></i>
@@ -19,16 +19,16 @@
                 <ul class="navbar-nav mx-auto text-md-center text-left">
 
                     <form class="form-inline mr-auto ml-2">
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" placeholder="Suche" aria-describedby="inputGroupAppend" />
+                        <div class="input-group">
+                            <input class="form-control" placeholder="Suche" aria-describedby="inputGroupAppend" />
                             <div class="input-group-append">
-                                <span class="input-group-text" id="inputGroupAppend"><i class="fas fa-search text-grey"></i></span>
+                                <span class="input-group-text" id="inputGroupAppend"><a href="#"><i class="fas fa-search text-grey"></i></a></span>
                             </div>
                         </div>
                     </form>
 
                     <li class="nav-item ml-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Erweiterte Suche</button>
+                        <button type="button" class="btn btn-outline-secondary">Erweiterte Suche</button>
                     </li>
                 </ul>
 

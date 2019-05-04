@@ -3,7 +3,7 @@
 */
 
 /**************************
-SIDEBAR STYLE
+      SIDEBAR STYLE
 ***************************/
 .wrapper {
     display: flex;
@@ -42,7 +42,7 @@ SIDEBAR STYLE
     cursor: pointer;
     text-decoration: none;
     display: block;
-    padding: 20px 0px 0px 30px;
+    padding: 25px 0px 0px 30px;
 
     font-size: 1.3rem;
     color: #999;
@@ -51,6 +51,11 @@ SIDEBAR STYLE
 .sidebar ul li a:hover{
     background-color: #1F2433;
     color: #fff;
+}
+
+.sidebar ul li svg{
+    margin-right: 10px;
+    width: 30px !important;
 }
 
 .sidebar ul li a.active {
@@ -94,5 +99,19 @@ SIDEBAR STYLE
 }
 
 /**************************
-SIDEBAR STYLE ENDE
+     SIDEBAR STYLE ENDE
+***************************/
+
+/**************************
+         SEARCHBAR
+***************************/
+
+.es-navbar {
+    background-color: #fafafa;
+    height: 82px;
+    border-bottom: 1px solid black;
+}
+
+/**************************
+     SEARCHBAR ENDE
 ***************************/
