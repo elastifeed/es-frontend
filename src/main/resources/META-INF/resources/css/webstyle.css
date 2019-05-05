@@ -34,7 +34,16 @@
 
 .sidebar ul li {
     padding: 0;
-    height: 80px;
+    height: 60px;
+}
+
+.sidebar ul li.dropdown {
+    padding: 0;
+    min-height: 60px;
+    height: auto;
+
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
 }
 
 .sidebar ul li a{
@@ -42,7 +51,9 @@
     cursor: pointer;
     text-decoration: none;
     display: block;
-    padding: 25px 0px 0px 30px;
+
+    padding: 15px 0px 0px 30px;
+    min-height: 60px;
 
     font-size: 1.3rem;
     color: #999;
@@ -61,6 +72,18 @@
 .sidebar ul li a.active {
     background-color: #1F2433;
     color: #fff;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
 }
 
 

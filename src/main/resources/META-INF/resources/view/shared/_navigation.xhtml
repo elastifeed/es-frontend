@@ -24,12 +24,18 @@
             <li>
                 <a href="#"><i class="fas fa-stream"></i>Timeline</a>
             </li>
-                <h:dataTable var="cat" value="#{NaviC.allCategories}" styleClass="list-unstyled components">
-                    <h:column>
-                       <f:facet name="header"><h:outputText value="Kategorien"/></f:facet>
+
+            <li class="dropdown">
+                <a href="#kategorienSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-dice-d6"></i>Kategorien</a>
+                <ul class="collapse list-unstyled" id="kategorienSubmenu">
+
+                    <ui:repeat value="#{NaviC.allCategories}" var="cat">
                         <li> <a href="#"><i class="fas fa-angle-double-right"></i><h:outputText value="#{cat.name}"/> </a> </li>
-                    </h:column>
-                </h:dataTable>
+                    </ui:repeat>
+
+                </ul>
+            </li>
+
             <li>
                 <a href="#"><i class="fas fa-star"></i>Favoriten</a>
             </li>
