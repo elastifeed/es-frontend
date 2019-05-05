@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xml:lang="en" lang="en">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xml:lang="en" lang="en"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 <head>
     <title>Title</title>
 </head>
-<body>
+<h:body>
 <ui:composition>
+    <form>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{NaviC.findAllCategories}"/>
+        </f:metadata>
     <nav class="sidebar">
         <div class="sidebar-header text-center">
             <h3>ES Dashboard</h3>
@@ -18,9 +24,12 @@
             <li>
                 <a href="#"><i class="fas fa-stream"></i>Timeline</a>
             </li>
-            <li>
-                <a href="#"><i class="fas fa-ellipsis-h"></i>Kategorien</a>
-            </li>
+                <h:dataTable var="cat" value="#{NaviC.allCategories}" styleClass="list-unstyled components">
+                    <h:column>
+                       <f:facet name="header"><h:outputText value="Kategorien"/></f:facet>
+                        <li> <a href="#"><i class="fas fa-angle-double-right"></i><h:outputText value="#{cat.name}"/> </a> </li>
+                    </h:column>
+                </h:dataTable>
             <li>
                 <a href="#"><i class="fas fa-star"></i>Favoriten</a>
             </li>
@@ -29,6 +38,7 @@
             </li>
         </ul>
     </nav>
+    </form>
 </ui:composition>
-</body>
+</h:body>
 </html>
