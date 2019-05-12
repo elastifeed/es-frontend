@@ -3,6 +3,53 @@
 */
 
 /**************************
+  ARTIKEL PREVIEW STYLE
+***************************/
+.card {
+    border-radius: 10px;
+    border: 2px solid rgba(0,0,0,.125);
+
+}
+
+.esf-article-thumbnail {
+    object-fit: cover;
+    width: 225px;
+    max-height: 180px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.esf-preview-headline {
+    font-size: 18px;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.esf-preview-text {
+    overflow: hidden;
+    position: relative;
+    line-height: 20px;
+    max-height: 81px;
+    font-size: 16px;
+    text-align: justify;
+    margin-right: 10px;
+    padding-right: 20px;
+}
+
+.esf-preview-text:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+/**************************
+  ARTIKEL PREVIEW STYLE END
+***************************/
+
+
+/**************************
       SIDEBAR STYLE
 ***************************/
 .wrapper {

@@ -27,15 +27,15 @@
 
             <li class="dropdown">
                 <a href="#kategorienSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-dice-d6"></i>Kategorien</a>
-            </li>
+
                 <ul class="collapse list-unstyled" id="kategorienSubmenu">
                     <ui:repeat value="#{NaviC.allCategories}" var="cat">
                         <li> <a href="#"><i class="fas fa-angle-double-right"></i><h:outputText value="#{cat.name}"/> </a> </li>
                     </ui:repeat>
                 </ul>
-
+            </li>
             <li>
-                <a href="#"><i class="fas fa-star"></i>Favoriten</a>
+                <a href="#"><i class="fas fa-bookmark"></i>Favoriten</a>
             </li>
             <li>
                 <a href="#"><i class="fas fa-bookmark"></i>Später ansehen</a>
