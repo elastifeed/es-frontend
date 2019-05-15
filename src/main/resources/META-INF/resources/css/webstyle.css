@@ -48,6 +48,29 @@
   ARTIKEL PREVIEW STYLE END
 ***************************/
 
+/**************************
+  ARTIKEL STYLE
+***************************/
+.esf-article-container h1{
+    font-size: 24px;
+}
+
+.esf-article-split-line{
+    background-color: #000000;
+    height: 1px;
+    width: 100%;
+}
+
+.esf-article-image-header {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+}
+
+/**************************
+  ARTIKEL STYLE END
+***************************/
+
 
 /**************************
       SIDEBAR STYLE
