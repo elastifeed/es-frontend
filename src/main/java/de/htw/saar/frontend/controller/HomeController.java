@@ -8,13 +8,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController extends MasterController
 {
+    private String aktuellerArtikel;
+
+    public String getAktuellerArtikel(){
+        return this.aktuellerArtikel;
+    }
+
+
     @RequestMapping("/")
     public String index() {
         return view("index",this);
     }
 
     @RequestMapping("/artikel")
-    public String artikel() {
-        return view("artikel",this);
+    public String artikel(String id)
+    {
+        if (id == null)
+        {
+            return index();
+        }
+        else
+        {
+            this.aktuellerArtikel = id;
+            return view("artikel",this);
+        }
+
     }
 }
