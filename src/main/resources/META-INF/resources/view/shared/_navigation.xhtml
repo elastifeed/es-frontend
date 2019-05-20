@@ -8,7 +8,7 @@
 </head>
 <h:body>
 <ui:composition>
-    <form>
+    <h:form>
         <f:metadata>
             <f:event type="preRenderView" listener="#{NaviC.findAllCategories}"/>
         </f:metadata>
@@ -19,10 +19,10 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a class="active" href="/"><i class="fas fa-home"></i>Home</a>
+                <h:commandLink action="/view/home/home.xhtml" value=""><i class="fas fa-home"></i>Home</h:commandLink>
             </li>
             <li>
-                <a href="/timeline"><i class="fas fa-stream"></i>Timeline</a>
+                <h:commandLink action="/view/timeline/timeline.xhtml" value=""><i class="fas fa-stream"></i>Timeline</h:commandLink>
             </li>
 
             <li class="dropdown">
@@ -34,15 +34,15 @@
                     </ui:repeat>
                 </ul>
             </li>
-            <li>
-                <a href="/favoriten"><i class="fas fa-star"></i>Favoriten</a>
+            <li class="list-unstyled components">
+                <h:commandLink action="/view/favoriten/favoriten.xhtml" value=""><i class="fas fa-star"></i>Favoriten</h:commandLink>
             </li>
             <li>
-                <a href="/spaeteransehen"><i class="fas fa-bookmark"></i>Später ansehen</a>
+                <h:commandLink action="/view/spaeteransehen/spaeteransehen.xhtml" value=""><i class="fas fa-bookmark"></i>Später ansehen</h:commandLink>
             </li>
         </ul>
     </nav>
-    </form>
+    </h:form>
 </ui:composition>
 </h:body>
 </html>
