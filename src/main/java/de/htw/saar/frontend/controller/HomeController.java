@@ -1,4 +1,4 @@
-package de.htw.saar.frontend.controller;
+/*package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
 import org.springframework.context.annotation.Scope;
@@ -35,3 +35,4 @@ public class HomeController extends MasterController
 
     }
 }
+*/
