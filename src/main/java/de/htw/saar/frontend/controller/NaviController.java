@@ -41,4 +41,24 @@ public class NaviController {
     public String toLogin(){
         return "/view/login/login.xhtml";
     }
+
+    public String toHome(){
+        return "/view/home/home";
+    }
+
+    public String toTimeline(){
+        return "/view/timeline/timeline.xhtml";
+    }
+
+    public String toFavoriten(){
+        return "/view/favoriten/favoriten.xhtml";
+    }
+
+    public String toSpaeteransehen(){
+        return "/view/spaeteransehen/spaeteransehen.xhtml";
+    }
+
+    public String toKategorie(){
+        return "/view/kategorie/kategorie.xhtml";
+    }
 }
