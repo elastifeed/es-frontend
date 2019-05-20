@@ -36,4 +36,9 @@ public class NaviController {
     public List<Categorie> getAllCategories() {
         return allCategories;
     }
+
+
+    public String toLogin(){
+        return "/view/login/login.xhtml";
+    }
 }
