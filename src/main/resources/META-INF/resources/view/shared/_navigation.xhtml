@@ -19,10 +19,10 @@
 
         <ul class="list-unstyled components">
             <li>
-                <h:commandLink action="/view/home/home.xhtml" value=""><i class="fas fa-home"></i>Home</h:commandLink>
+                <h:commandLink action="#{NaviC.toHome}" value="" ><i class="fas fa-home"></i>Home<f:ajax/></h:commandLink>
             </li>
             <li>
-                <h:commandLink action="/view/timeline/timeline.xhtml" value=""><i class="fas fa-stream"></i>Timeline</h:commandLink>
+                <h:commandLink action="#{NaviC.toTimeline}" value=""><i class="fas fa-stream"></i>Timeline<f:ajax/></h:commandLink>
             </li>
 
             <li class="dropdown">
@@ -30,15 +30,15 @@
 
                 <ul class="collapse list-unstyled" id="kategorienSubmenu">
                     <ui:repeat value="#{NaviC.allCategories}" var="cat">
-                        <li> <a href="/kategorie"><i class="fas fa-angle-double-right"></i><h:outputText value="#{cat.name}"/> </a> </li>
+                        <li> <h:commandLink action="#{NaviC.toKategorie}"><i class="fas fa-angle-double-right"></i><h:outputText value="#{cat.name}"/><f:ajax/></h:commandLink> </li>
                     </ui:repeat>
                 </ul>
             </li>
             <li class="list-unstyled components">
-                <h:commandLink action="/view/favoriten/favoriten.xhtml" value=""><i class="fas fa-star"></i>Favoriten</h:commandLink>
+                <h:commandLink action="#{NaviC.toFavoriten}" value=""><i class="fas fa-star"></i>Favoriten<f:ajax/></h:commandLink>
             </li>
             <li>
-                <h:commandLink action="/view/spaeteransehen/spaeteransehen.xhtml" value=""><i class="fas fa-bookmark"></i>Später ansehen</h:commandLink>
+                <h:commandLink action="#{NaviC.toSpaeteransehen}" value=""><i class="fas fa-bookmark"></i>Später ansehen<f:ajax/></h:commandLink>
             </li>
         </ul>
     </nav>

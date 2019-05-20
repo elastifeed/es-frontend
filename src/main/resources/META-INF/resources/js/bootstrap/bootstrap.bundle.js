@@ -2227,7 +2227,7 @@
    * @argument {Array} arr
    * @argument prop
    * @argument value
-   * @returns META-INF.resources.view.home.index or -1
+   * @returns META-INF.resources.view.home.kategorie.xhtml or -1
    */
   function find(arr, check) {
     // use native find if supported
@@ -2246,7 +2246,7 @@
    * @argument {Array} arr
    * @argument prop
    * @argument value
-   * @returns META-INF.resources.view.home.index or -1
+   * @returns META-INF.resources.view.home.kategorie.xhtml or -1
    */
   function findIndex(arr, prop, value) {
     // use native findIndex if supported
