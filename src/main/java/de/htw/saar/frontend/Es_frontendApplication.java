@@ -30,6 +30,9 @@ import org.springframework.context.annotation.Profile;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class Es_frontendApplication {
 	public static void main(String[] args) {
+
+		ElasticSearchManager m = new ElasticSearchManager();
+		m.run();
 		SpringApplication.run(Es_frontendApplication.class);
 	}
 }
