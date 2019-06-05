@@ -33,6 +33,7 @@ public class Es_frontendApplication {
 
 		ElasticSearchManager m = new ElasticSearchManager();
 		m.run();
+
 		SpringApplication.run(Es_frontendApplication.class);
 	}
 }
