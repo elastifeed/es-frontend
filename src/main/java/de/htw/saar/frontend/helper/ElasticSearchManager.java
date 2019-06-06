@@ -61,7 +61,7 @@ public class ElasticSearchManager
 
     }
 
-    public void getAllEntries(RestClient restClient) throws Exception
+    public ArrayList<Artikel> getAllEntries(RestClient restClient) throws Exception
     {
         Request request = new Request(
                 "GET",
@@ -72,6 +72,8 @@ public class ElasticSearchManager
         ArrayList<Artikel> artikelArrayList = executeRequest(restClient, request);
 
         printArrayList(artikelArrayList);
+
+        return artikelArrayList;
     }
 
     public void getFilteredEntries(RestClient restClient, String field, String search) throws Exception
@@ -93,11 +95,6 @@ public class ElasticSearchManager
     public ArrayList<Artikel> executeRequest (RestClient restClient, Request request) throws Exception
     {
         Response response = restClient.performRequest(request);
-
-        RequestLine requestLine = response.getRequestLine();
-        HttpHost host = response.getHost();
-        int statusCode = response.getStatusLine().getStatusCode();
-        Header[] headers = response.getHeaders();
         String responseBody = EntityUtils.toString(response.getEntity());
 
         // List of Artikel
