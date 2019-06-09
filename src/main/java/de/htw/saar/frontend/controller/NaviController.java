@@ -1,7 +1,7 @@
 package de.htw.saar.frontend.controller;
 
 
-import de.htw.saar.frontend.TestData.Categorie;
+import de.htw.saar.frontend.model.Categorie;
 import de.htw.saar.frontend.service.CategorieService;
 
 import javax.faces.bean.ManagedBean;
