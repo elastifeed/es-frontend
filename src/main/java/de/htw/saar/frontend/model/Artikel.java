@@ -1,10 +1,13 @@
 package de.htw.saar.frontend.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Artikel {
 
     private String id;
     private double score;
-    private String created;
+    private Date created;
     private String caption;
     private String content;
     private String url;
@@ -15,7 +18,19 @@ public class Artikel {
 
     public String getId() { return  this.id; }
     public double getScore() { return this.score; }
-    public String getCreated(){ return this.created; }
+    public String getCreated(){
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy hh:mm");
+            return dateFormat.format(this.created);
+
+            //return dateFormat.parse(this.created.toString());
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+
+    }
     public String getCaption(){ return this.caption; }
     public String getContent(){ return this.content; }
     public String getUrl(){ return this.url; }
@@ -30,7 +45,7 @@ public class Artikel {
         this.score = score;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
@@ -53,4 +68,5 @@ public class Artikel {
     public void setFeedUrl(String feedUrl) {
         this.feedUrl = feedUrl;
     }
+
 }
