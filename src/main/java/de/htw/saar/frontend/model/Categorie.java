@@ -1,4 +1,4 @@
-package de.htw.saar.frontend.TestData;
+package de.htw.saar.frontend.model;
 /**
  *
  * ********  Zum Testen ******
