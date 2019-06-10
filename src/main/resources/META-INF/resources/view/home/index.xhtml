@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:body>
+	<ui:composition template="/view/shared/_layout.xhtml">
+		<ui:define name="content">
+
+			<f:metadata>
+				<f:event type="preRenderView" listener="#{Home.findAllArtikel}"/>
+			</f:metadata>
+
+			<ui:repeat value="#{Home.allArtikel}" var="item">
+				<h:form>
+				<div class="row mt-4 mb-4">
+					<div class="col-md-12">
+						<div class="card flex-md-row">
+							<img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+
+							<div class="card-body">
+								<div class="row">
+									<div class="col-xl-10">
+										<h1 class="esf-preview-headline">
+
+											<h:commandLink action="#{Artikel.test}" value="" styleClass="text-dark">#{item.caption}<f:ajax/></h:commandLink>
+
+										</h1>
+									</div>
+									<div class="col-xl-2">
+										<div class="float-xl-right">#{item.created}</div>
+									</div>
+								</div>
+
+								<p class="card-text mb-auto esf-preview-text">
+									#{item.content}
+								</p>
+								<a href="#">mehr lesen</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				</h:form>
+			</ui:repeat>
+
+
+			<!--<a class="text-dark" href="/artikel?id=1bf1a062-dadd-49d4-9654-7c86cc84c1af">#{item.caption}</a>-->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

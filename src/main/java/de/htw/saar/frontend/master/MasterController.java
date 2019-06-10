@@ -1,29 +1,19 @@
 package de.htw.saar.frontend.master;
 
+import de.htw.saar.frontend.controller.NavigationController;
+
 public class MasterController
 {
     /**
-     * auto generates the path to a view
-     * the view should be located in view/NAME_OF_CONTROLLER/NAME_OF_VIEW
-     * @param name name of the view
-     * @param controller the controller object
-     * @return returns a path to the view
+     * Initialize the Navigation Controller
      */
-    public String view(String name, Object controller)
-    {
-        return "view/" + controller.getClass().getSimpleName().toLowerCase().replace("controller","") + "/" + name + ".xhtml";
-    }
+    private NavigationController navigationController = new NavigationController();
 
     /**
-     * auto generates the path to a view
-     * the view should be located in view/NAME_OF_CONTROLLER/NAME_OF_VIEW
-     * @param name name of the view
-     * @param controller name of the controller
-     * @return returns a path to the view
+     * populate the navigation controller to access navigation of sub controller
      * @return
      */
-    public String view(String name, String controller)
-    {
-        return "view/" + controller.toLowerCase() + "/" + name + ".xhtml";
+    public NavigationController getNavigationController() {
+        return navigationController;
     }
 }

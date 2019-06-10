@@ -8,9 +8,19 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.List;
 
-@ManagedBean (name ="NaviC")
+/**
+ * Handles the navigation between the controllers
+ *
+ */
+@ManagedBean (name ="Navigation")
 @ViewScoped
-public class NaviController {
+public class NavigationController
+{
+
+    // Constants
+    private static final String basePath = "/view/";
+    private static final String pathDivider = "/";
+    private static final String fileExtension = ".xhtml";
 
     private CategorieService categorieService=new CategorieService();
     private List<Categorie> allCategories;
@@ -39,26 +49,43 @@ public class NaviController {
 
 
     public String toLogin(){
-        return "/view/login/login.xhtml";
+        return createNavigationLink("login","login");
     }
 
     public String toHome(){
-        return "/view/home/home";
+        return createNavigationLink("home","index");
     }
 
     public String toTimeline(){
-        return "/view/timeline/timeline.xhtml";
+        return createNavigationLink("timeline","index");
     }
 
     public String toFavoriten(){
-        return "/view/favoriten/favoriten.xhtml";
+        return createNavigationLink("favoriten","index");
     }
 
     public String toSpaeteransehen(){
-        return "/view/spaeteransehen/spaeteransehen.xhtml";
+        return createNavigationLink("spaeteransehen","index");
     }
 
     public String toKategorie(){
-        return "/view/kategorie/kategorie.xhtml";
+        return createNavigationLink("kategorie","index");
+    }
+
+    public String toArtikel() {
+        return createNavigationLink("shared","artikel");
+    }
+
+    /**
+     * Navigate to the desired page
+     * requires page name and folder name
+     * Infor: these parameters are not case sensitive
+     * @param Page
+     * @param Folder
+     * @return
+     */
+    public String createNavigationLink(String Folder, String Page)
+    {
+        return basePath + Folder.toLowerCase() + pathDivider + Page.toLowerCase();
     }
 }

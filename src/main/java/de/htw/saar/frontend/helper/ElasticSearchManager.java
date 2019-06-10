@@ -58,7 +58,6 @@ public class ElasticSearchManager
         catch(Exception ex) {
             System.out.println(ex);
         }
-
     }
 
     public ArrayList<Artikel> getAllEntries(RestClient restClient) throws Exception

@@ -10,7 +10,7 @@
 <ui:composition>
     <h:form>
         <f:metadata>
-            <f:event type="preRenderView" listener="#{NaviC.findAllCategories}"/>
+            <f:event type="preRenderView" listener="#{Navigation.findAllCategories}"/>
         </f:metadata>
     <nav class="sidebar">
         <div class="sidebar-header text-center">
@@ -19,26 +19,26 @@
 
         <ul class="list-unstyled components">
             <li>
-                <h:commandLink action="#{Home.toHome}" value="" ><i class="fas fa-home"></i>Home<f:ajax/></h:commandLink>
+                <h:commandLink action="#{Navigation.toHome}" value="" ><i class="fas fa-home"></i>Home<f:ajax/></h:commandLink>
             </li>
             <li>
-                <h:commandLink action="#{NaviC.toTimeline}" value=""><i class="fas fa-stream"></i>Timeline<f:ajax/></h:commandLink>
+                <h:commandLink action="#{Navigation.toTimeline}" value=""><i class="fas fa-stream"></i>Timeline<f:ajax/></h:commandLink>
             </li>
 
             <li class="dropdown">
                 <a href="#kategorienSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-dice-d6"></i>Kategorien</a>
 
                 <ul class="collapse list-unstyled" id="kategorienSubmenu">
-                    <ui:repeat value="#{NaviC.allCategories}" var="cat">
-                        <li> <h:commandLink action="#{NaviC.toKategorie}"><i class="fas fa-angle-double-right"></i><h:outputText value="#{cat.name}"/><f:ajax/></h:commandLink> </li>
+                    <ui:repeat value="#{Navigation.allCategories}" var="cat">
+                        <li> <h:commandLink action="#{Navigation.toKategorie}"><i class="fas fa-angle-double-right"></i><h:outputText value="#{cat.name}"/><f:ajax/></h:commandLink> </li>
                     </ui:repeat>
                 </ul>
             </li>
             <li class="list-unstyled components">
-                <h:commandLink action="#{NaviC.toFavoriten}" value=""><i class="fas fa-star"></i>Favoriten<f:ajax/></h:commandLink>
+                <h:commandLink action="#{Navigation.toFavoriten}" value=""><i class="fas fa-star"></i>Favoriten<f:ajax/></h:commandLink>
             </li>
             <li>
-                <h:commandLink action="#{NaviC.toSpaeteransehen}" value=""><i class="fas fa-bookmark"></i>Später ansehen<f:ajax/></h:commandLink>
+                <h:commandLink action="#{Navigation.toSpaeteransehen}" value=""><i class="fas fa-bookmark"></i>Später ansehen<f:ajax/></h:commandLink>
             </li>
         </ul>
     </nav>

@@ -35,30 +35,4 @@ public class HomeController extends MasterController
         return allArtikelList;
     }
 
-    public String toHome() {
-
-            return "/view/home/home.xhtml";
-
-        //return view("home",this);
-    }
-
-
-
-
-    /*
-    @RequestMapping("/artikel")
-    public String artikel(String id)
-    {
-        if (id == null)
-        {
-            return index();
-        }
-        else
-        {
-            this.aktuellerArtikel = id;
-            return view("artikel",this);
-        }
-
-    }
-    */
 }

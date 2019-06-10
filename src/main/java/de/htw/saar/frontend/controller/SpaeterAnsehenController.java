@@ -4,12 +4,12 @@ import de.htw.saar.frontend.master.MasterController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+@ManagedBean(name ="SpeaterAnsehen")
+@ViewScoped
 public class SpaeterAnsehenController extends MasterController
 {
-    @RequestMapping("/spaeteransehen")
-    public String main()
-    {
-        return view("index",this);
-    }
+
 }
