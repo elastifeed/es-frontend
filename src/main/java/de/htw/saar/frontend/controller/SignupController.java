@@ -2,7 +2,7 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.model.User;
 import de.htw.saar.frontend.service.UserService;
-import de.htw.saar.frontend.controller.NaviController;
+import de.htw.saar.frontend.controller.NavigationController;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -17,7 +17,7 @@ import java.util.Random;
 @ViewScoped
 public class SignupController {
 
-    NaviController naviController=new NaviController();
+    NavigationController naviController=new NavigationController();
 
 
     private List<User> allUsers;
