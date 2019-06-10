@@ -1,6 +1,6 @@
 package de.htw.saar.frontend.service;
 
-import de.htw.saar.frontend.TestData.Categorie;
+import de.htw.saar.frontend.model.Categorie;
 
 import java.util.ArrayList;
 import java.util.List;

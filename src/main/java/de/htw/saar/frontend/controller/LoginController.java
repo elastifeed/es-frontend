@@ -1,10 +1,8 @@
 package de.htw.saar.frontend.controller;
 
-import de.htw.saar.frontend.TestData.User;
 import de.htw.saar.frontend.master.MasterController;
+import de.htw.saar.frontend.model.User;
 import de.htw.saar.frontend.service.UserService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +27,7 @@ public class LoginController extends MasterController{
         ExternalContext ec = fc.getExternalContext();
         if(UserService.isUser(username)){
             if(UserService.isPasswordValid(username,password)){
-                User u = UserService.findUser(username);
+                User u = UserService.findUserByName(username);
                 userId = u.getUserId();
 
                     try {
@@ -44,6 +42,10 @@ public class LoginController extends MasterController{
             fc.addMessage(null,new FacesMessage("Username ist Falsch"));
         }
 
+    }
+
+    public String toRegester(){
+        return "/view/login/signup.xhtml";
     }
 
     public String getUsername() {

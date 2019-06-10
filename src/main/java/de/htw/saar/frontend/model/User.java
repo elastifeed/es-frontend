@@ -1,9 +1,5 @@
-package de.htw.saar.frontend.TestData;
-/***
- *
- *      Zum Testen
- *
- * */
+package de.htw.saar.frontend.model;
+
 public class User {
     private int userId;
     private String username;
@@ -11,6 +7,11 @@ public class User {
 
     public User(int userId, String username, String password) {
         this.userId = userId;
+        this.username = username;
+        this.password = password;
+
+    }
+    public User( String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -22,6 +23,7 @@ public class User {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
 
     public String getUsername() {
         return username;
@@ -38,4 +40,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
