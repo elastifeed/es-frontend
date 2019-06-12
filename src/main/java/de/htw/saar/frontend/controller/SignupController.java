@@ -32,7 +32,8 @@ public class SignupController {
     }
 
     public String back(){
-        return naviController.toLogin();
+        return "";
+        //return naviController.toLogin();
     }
 
    /* public String deleteUser(User u){
@@ -45,7 +46,8 @@ public class SignupController {
         user.setUsername(username);
         UserService.addUser(user);
         success=true;
-       return naviController.toLogin();
+        return "";
+       //return naviController.toLogin();
     }
 
 

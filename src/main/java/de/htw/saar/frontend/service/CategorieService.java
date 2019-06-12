@@ -12,7 +12,7 @@ public class CategorieService {
     /** Test Methode gibt alle Kategorien Zurück
      * */
     public List<Categorie> findAllCategories(){
-
+        allCategories=new ArrayList<>();
         Categorie c1=new Categorie(1,"Sport");
         Categorie c2=new Categorie(2,"Politic");
         Categorie c3=  new Categorie(3,"Social");

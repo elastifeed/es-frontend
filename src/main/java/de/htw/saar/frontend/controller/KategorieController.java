@@ -6,10 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 
-@ManagedBean(name ="Kategorien")
-@ViewScoped
-public class KategorienController extends MasterController
+@Named
+@RequestMapping("/kategorie")
+public class KategorieController extends MasterController
 {
+    @RequestMapping("")
+    public String index(String id)
+    {
+        return view("index",this);
+    }
 
 }

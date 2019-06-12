@@ -1,12 +1,14 @@
 package de.htw.saar.frontend.controller;
 
+import de.htw.saar.frontend.helper.ElasticSearchManager;
 import de.htw.saar.frontend.master.MasterController;
+import de.htw.saar.frontend.model.Artikel;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 
-@ManagedBean(name ="Artikel")
-@ViewScoped
+@Named
+@RequestMapping("/")
 public class ArtikelController extends MasterController
 {
     private String artikelId;
@@ -15,31 +17,34 @@ public class ArtikelController extends MasterController
         return this.artikelId;
     }
 
-
-    public String test()
+    private Artikel artikel;
+    public Artikel getArtikel()
     {
-        System.out.println("Ohne Parameter");
-        return this.getNavigationController().toFavoriten();
+        return this.artikel;
     }
 
-    public String showArtikel()
-    {
-        System.out.println("Ohne Parameter");
-        return this.getNavigationController().toArtikel();
-    }
+    ElasticSearchManager manager = new ElasticSearchManager();
 
-    public String showArtikel(String id)
+    @RequestMapping("/artikel")
+    public String artikel(String id)
     {
-        System.out.println("Mit parameter: " + id);
-
-        if (id == null)
+        if (id == null || id == "")
         {
-            return this.getNavigationController().toHome();
+            return view("index","home");
         }
         else
         {
-            this.artikelId = id;
-            return this.getNavigationController().toArtikel();
+            artikelId = id;
+            try
+            {
+                artikel = manager.getArtikelById(id);
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex);
+            }
+
+            return view("artikel","shared");
         }
     }
 }

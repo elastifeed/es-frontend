@@ -9,11 +9,11 @@
 		<ui:define name="content">
 
 			<f:metadata>
-				<f:event type="preRenderView" listener="#{Home.findAllArtikel}"/>
+				<f:event type="preRenderView" listener="#{homeController.findAllArtikel}"/>
 			</f:metadata>
 
-			<ui:repeat value="#{Home.allArtikel}" var="item">
-				<h:form>
+			<ui:repeat value="#{homeController.allArtikel}" var="item">
+
 				<div class="row mt-4 mb-4">
 					<div class="col-md-12">
 						<div class="card flex-md-row">
@@ -21,16 +21,15 @@
 
 							<div class="card-body">
 								<div class="row">
-									<div class="col-xl-10">
+									<div class="col-xl-12">
 										<h1 class="esf-preview-headline">
-
-											<h:commandLink action="#{Artikel.test}" value="" styleClass="text-dark">#{item.caption}<f:ajax/></h:commandLink>
-
+											<a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
 										</h1>
 									</div>
-									<div class="col-xl-2">
-										<!--<div class="float-xl-right">#{item.created}</div>-->
-										<div class="float-xl-right">#{item.createdString}</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-12">
+										<label>#{item.createdString}</label>
 									</div>
 								</div>
 
@@ -42,11 +41,7 @@
 						</div>
 					</div>
 				</div>
-				</h:form>
 			</ui:repeat>
-
-
-			<!--<a class="text-dark" href="/artikel?id=1bf1a062-dadd-49d4-9654-7c86cc84c1af">#{item.caption}</a>-->
 
 		</ui:define>
 	</ui:composition>

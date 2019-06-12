@@ -17,12 +17,14 @@ public class ElasticSearchManager
     public ElasticSearchManager()
     { }
 
+    //Make the connection to ElasticSearch
+    RestClient restClient = RestClient.builder(
+            new HttpHost("localhost", 9200, "http")).build();
+
+
     public void run()
     {
         try {
-            //Make the connection to ElasticSearch
-            RestClient restClient = RestClient.builder(
-                    new HttpHost("localhost", 9200, "http")).build();
 
             //Gets all the entries form ElasticSearch
             getAllEntries(restClient);
@@ -71,6 +73,16 @@ public class ElasticSearchManager
         printArrayList(artikelArrayList);
     }
 
+    public Artikel getArtikelById(String id) throws Exception
+    {
+        Request request = new Request(
+                "GET",
+                "dummy/_search?q=_id:"+ id);
+
+        ArrayList<Artikel> artikelArrayList = executeRequest(restClient, request);
+
+        return artikelArrayList.get(0);
+    }
 
     public ArrayList<Artikel> executeRequest (RestClient restClient, Request request) throws Exception
     {

@@ -6,10 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 
-@ManagedBean(name ="ErweiterteSuche")
-@ViewScoped
+@Named
+@RequestMapping("/erweitertesuche")
 public class ErweiterteSucheController extends MasterController
 {
-
+    @RequestMapping("")
+    public String index()
+    {
+        return view("index",this);
+    }
 }

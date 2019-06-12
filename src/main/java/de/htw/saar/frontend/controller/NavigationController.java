@@ -3,24 +3,19 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.model.Categorie;
 import de.htw.saar.frontend.service.CategorieService;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 import java.util.List;
 
 /**
  * Handles the navigation between the controllers
  *
  */
-@ManagedBean (name ="Navigation")
-@ViewScoped
+@Named
 public class NavigationController
 {
 
     // Constants
-    private static final String basePath = "/view/";
     private static final String pathDivider = "/";
-    private static final String fileExtension = ".xhtml";
 
     private CategorieService categorieService=new CategorieService();
     private List<Categorie> allCategories;
@@ -29,14 +24,6 @@ public class NavigationController
 
         allCategories=categorieService.findAllCategories();
         return allCategories;
-    }
-
-    public CategorieService getCategorieService() {
-        return categorieService;
-    }
-
-    public void setCategorieService(CategorieService categorieService) {
-        this.categorieService = categorieService;
     }
 
     public void setAllCategories(List<Categorie> allCategories) {
@@ -48,44 +35,40 @@ public class NavigationController
     }
 
 
-    public String toLogin(){
-        return createNavigationLink("login","login");
-    }
-
-    public String toHome(){
-        return createNavigationLink("home","index");
-    }
-
-    public String toTimeline(){
-        return createNavigationLink("timeline","index");
-    }
-
-    public String toFavoriten(){
-        return createNavigationLink("favoriten","index");
-    }
-
-    public String toSpaeteransehen(){
-        return createNavigationLink("spaeteransehen","index");
-    }
-
-    public String toKategorie(){
-        return createNavigationLink("kategorie","index");
-    }
-
-    public String toArtikel() {
-        return createNavigationLink("shared","artikel");
+    /**
+     * Navigate to the desired page
+     * requires page name and folder name
+     * Infor: these parameters are not case sensitive
+     * @return
+     */
+    public String navigateHome()
+    {
+        return "/";
     }
 
     /**
      * Navigate to the desired page
      * requires page name and folder name
      * Infor: these parameters are not case sensitive
-     * @param Page
-     * @param Folder
+     * @param Controller
      * @return
      */
-    public String createNavigationLink(String Folder, String Page)
+    public String navigate(String Controller)
     {
-        return basePath + Folder.toLowerCase() + pathDivider + Page.toLowerCase();
+        return pathDivider + Controller.toLowerCase();
     }
+
+    /**
+     * Navigate to the desired page
+     * requires page name and folder name
+     * Infor: these parameters are not case sensitive
+     * @param Controller
+     * @param Action
+     * @return
+     */
+    public String navigate(String Controller, String Action)
+    {
+        return pathDivider + Controller.toLowerCase() + pathDivider + Action.toLowerCase();
+    }
+
 }

@@ -6,10 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 
-@ManagedBean(name ="Timeline")
-@ViewScoped
+@Named
+@RequestMapping("/timeline")
 public class TimelineController extends MasterController
 {
-
+    @RequestMapping()
+    public String index()
+    {
+        return view("index",this);
+    }
 }

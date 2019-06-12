@@ -9,12 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 import java.util.ArrayList;
 
-@ManagedBean(name = "Home")
-@ViewScoped
+@Named
+@RequestMapping("/")
 public class HomeController extends MasterController
 {
+    @RequestMapping()
+    public String index()
+    {
+        return view("index",this);
+    }
+
     private ArtikelService artikelService = new ArtikelService();
 
     private String aktuellerArtikel;
