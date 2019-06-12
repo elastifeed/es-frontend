@@ -1,12 +1,15 @@
 package de.htw.saar.frontend.model;
 
-import java.text.SimpleDateFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.text.DateFormat;
 import java.util.Date;
 
 public class Artikel {
 
     private String id;
     private double score;
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="Europe/Berlin")
     private Date created;
     private String caption;
     private String content;
@@ -14,22 +17,15 @@ public class Artikel {
     private Boolean isFromFeed;
     private String feedUrl;
 
-    public Artikel(){}
+    public Artikel()
+    {}
 
     public String getId() { return  this.id; }
     public double getScore() { return this.score; }
-    public String getCreated(){
-        try{
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy hh:mm");
-            return dateFormat.format(this.created);
-
-            //return dateFormat.parse(this.created.toString());
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
-            return null;
-        }
-
+    public Date getCreated(){ return this.created; }
+    public String getCreatedString(){
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+        return dateFormat.format(created);
     }
     public String getCaption(){ return this.caption; }
     public String getContent(){ return this.content; }

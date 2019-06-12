@@ -1,33 +1,16 @@
 package de.htw.saar.frontend.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import de.htw.saar.frontend.model.Artikel;
-import org.apache.http.Header;
 import org.apache.http.HttpHost;
-import org.apache.http.RequestLine;
 import org.apache.http.util.EntityUtils;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.Client;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 
 public class ElasticSearchManager
 {
@@ -86,8 +69,6 @@ public class ElasticSearchManager
         ArrayList<Artikel> artikelArrayList = executeRequest(restClient, request);
 
         printArrayList(artikelArrayList);
-
-        //QueryBuilder queryBuilder = QueryBuilders.matchQuery("caption", "Harter");
     }
 
 
