@@ -11,12 +11,12 @@ public class UserService {
     private static List<User> allUsers=new ArrayList<>();
 
     public UserService() {
-init_test(allUsers);
+     init_test(allUsers);
     }
-    public void init_test(List<User> allUsers)
+
+    public static void init_test(List<User> allUsers)
     {
-        User mo=new User(1,"mo","123"); //Zum Testen
-        this.allUsers=allUsers;
+        User mo=new User("mo123","moh","123"); //Zum Testen
         allUsers.add(mo);
     }
 
@@ -47,9 +47,9 @@ init_test(allUsers);
         Random random=new Random();
         boolean available=false;
         do {
-            int id = random.nextInt(5000);
+            String id =Integer.toString(random.nextInt(5000));
             for (User user1:findAllUsers()) {
-                if(user.getUserId()==id)
+                if(user1.getUserId().equals(id))
                     available=true;
                     break; }
         }while (available==true);
@@ -72,8 +72,14 @@ init_test(allUsers);
     /**
      * Check if this User exist in Datenbank
      * */
-    public static boolean isUser(String tocheck){
-        return true;                // Check fehlt
-     }
-
+    public static boolean isUser(String username) {
+        boolean valide=false;
+        for (User user1 : findAllUsers()) {
+            if (user1.getUsername().equals(username)) {
+                valide=true;
+            }}
+            return valide;
+        }
 }
+
+
