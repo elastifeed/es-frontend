@@ -1,11 +1,15 @@
 package de.htw.saar.frontend.model;
 
-public class User {
-    private int userId;
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private static final long serialVersionUID = -1389546558353914770L;
+
+    private String userId;
     private String username;
     private String password;
 
-    public User(int userId, String username, String password) {
+    public User(String userId, String username, String password) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -16,11 +20,11 @@ public class User {
         this.password = password;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
