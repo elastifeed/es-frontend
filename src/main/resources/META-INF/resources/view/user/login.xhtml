@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xml:lang="en" lang="en"
+      xmlns:p="http://primefaces.org/ui"
+      >
+<h:head>
+    <title>Login</title>
+
+</h:head>
+<h:body>
+        <ui:composition template="/view/shared/_layout.xhtml">
+            <ui:define name="content">
+                <h:form>
+                 <!--   <f:metadata>
+                        <f:viewAction action="#{UserC.isLoggedInForwardHome()}" />
+                    </f:metadata>
+              -->
+                    <p:messages id="messages" showDetail="false" />
+
+                    <p:panel id="panel" header="Login">
+                    <h:panelGrid columns="3">
+                        <p:outputLabel  value="Username:" />
+                        <p:inputText id="usernameInput" value="#{UserC.username}" required="true" requiredMessage="Benutzername wird benötigt" ></p:inputText>
+
+                        <p:message for="usernameInput" style="color: red" display="icon"/>
+
+                        <p:outputLabel  value="Password:"/>
+                        <p:password id="passwordInput" value="#{UserC.password}" required="true" requiredMessage="Password wird benötigt" > </p:password>
+
+                        <p:message for="passwordInput" style="color: red" display="icon"/>
+                    </h:panelGrid>
+                    <p:commandButton id="login" value="Login" update="panel messages" actionListener="#{UserC.checkLogin}">
+
+                    </p:commandButton>
+                    </p:panel>
+                    <h:commandLink  action="signup.xhtml" immediate="true"><h:outputText value="Signup"/> </h:commandLink>
+                </h:form>
+
+            </ui:define>
+        </ui:composition>
+
+</h:body>
+</html>
