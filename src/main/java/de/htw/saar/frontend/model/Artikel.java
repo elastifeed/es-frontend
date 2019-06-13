@@ -21,16 +21,32 @@ public class Artikel {
     {}
 
     public String getId() { return  this.id; }
+
     public double getScore() { return this.score; }
+
     public Date getCreated(){ return this.created; }
-    public String getCreatedString(){
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
-        return dateFormat.format(created);
+
+    public String getCreatedAsString(){
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
+        return dateFormat.format(this.created);
     }
+    public String getCreatedDateAsString(){
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        return dateFormat.format(this.created);
+    }
+    public String getCreatedTimeAsString(){
+        DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+        return dateFormat.format(this.created);
+    }
+
     public String getCaption(){ return this.caption; }
+
     public String getContent(){ return this.content; }
+
     public String getUrl(){ return this.url; }
+
     public Boolean getIsFromFeed(){ return this.isFromFeed; }
+
     public String getFeedUrl() { return this.feedUrl; }
 
     public void setId(String id) {

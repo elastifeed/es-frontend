@@ -12,6 +12,7 @@ import javax.inject.Named;
 @RequestMapping("/erweitertesuche")
 public class ErweiterteSucheController extends MasterController
 {
+
     @RequestMapping("")
     public String index()
     {

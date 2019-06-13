@@ -17,111 +17,138 @@ public class ElasticSearchManager
     public ElasticSearchManager()
     { }
 
-    //Make the connection to ElasticSearch
-    RestClient restClient = RestClient.builder(
-            new HttpHost("localhost", 9200, "http")).build();
+    private RestClient getRestClient(){
+        //Make the connection to ElasticSearch
+        RestClient restClient = RestClient.builder(
+                new HttpHost("localhost", 9200, "http")).build();
+        return restClient;
+    }
 
-
-    public void run()
+    public ArrayList<Artikel> getAllEntries()
     {
         try {
+            Request request = new Request(
+                    "GET",
+                    "dummy/_search");
 
-            //Gets all the entries form ElasticSearch
-            getAllEntries(restClient);
+            executeRequest(request);
 
-            //Gets the filtered entries from ElasticSearch
-            String field = "caption";
-            String search = "Datenleck";
-            getFilteredEntries(restClient, field, search);
+            ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
-            search = "Harter";
-            getFilteredEntries(restClient, field, search);
+            printArrayList(artikelArrayList);
 
-            //Closes the connection to ElasticSearch
-            restClient.close();
-        }
-        catch(Exception ex) {
-            System.out.println(ex);
+            return artikelArrayList;
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
         }
     }
 
-    public ArrayList<Artikel> getAllEntries(RestClient restClient) throws Exception
+    public void getFilteredEntries(String field, String search)
     {
-        Request request = new Request(
-                "GET",
-                "dummy/_search");
+        try {
+            Request request = new Request(
+                    "GET",
+                    "dummy/_search?q=" + field + ":" + search);
 
-        executeRequest(restClient, request);
+            executeRequest(request);
 
-        ArrayList<Artikel> artikelArrayList = executeRequest(restClient, request);
+            ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
-        printArrayList(artikelArrayList);
-
-        return artikelArrayList;
+            printArrayList(artikelArrayList);
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
-    public void getFilteredEntries(RestClient restClient, String field, String search) throws Exception
+    public Artikel getArtikelById(String id)
     {
-        Request request = new Request(
-                "GET",
-                "dummy/_search?q="+field+":"+search);
+        try {
+            Request request = new Request(
+                    "GET",
+                    "dummy/_search?q=_id:" + id);
 
-        executeRequest(restClient, request);
+            ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
-        ArrayList<Artikel> artikelArrayList = executeRequest(restClient, request);
-
-        printArrayList(artikelArrayList);
+            return artikelArrayList.get(0);
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 
-    public Artikel getArtikelById(String id) throws Exception
+    public ArrayList<Artikel> executeRequest (Request request)
     {
-        Request request = new Request(
-                "GET",
-                "dummy/_search?q=_id:"+ id);
+        try {
+            RestClient restClient = getRestClient();
+            Response response = restClient.performRequest(request);
+            String responseBody = EntityUtils.toString(response.getEntity());
 
-        ArrayList<Artikel> artikelArrayList = executeRequest(restClient, request);
+            // List of Artikel
+            ArrayList<Artikel> artikelList = new ArrayList<Artikel>();
 
-        return artikelArrayList.get(0);
-    }
+            // Strip JSON Doc to Data List
+            JSONObject obj = new JSONObject(responseBody);
+            JSONObject obj2 = obj.getJSONObject("hits");
+            JSONArray obj3 = (JSONArray) obj2.get("hits");
 
-    public ArrayList<Artikel> executeRequest (RestClient restClient, Request request) throws Exception
-    {
-        Response response = restClient.performRequest(request);
-        String responseBody = EntityUtils.toString(response.getEntity());
+            // run every entry
+            for (int i = 0; i < obj3.length(); i++) {
+                // Holds the Data of the Artikel
+                Artikel myArtikel = new Artikel();
 
-        // List of Artikel
-        ArrayList<Artikel> artikelList = new ArrayList<Artikel>();
+                // Complete Object
+                JSONObject item = obj3.getJSONObject(i);
 
-        // Strip JSON Doc to Data List
-        JSONObject obj = new JSONObject(responseBody);
-        JSONObject obj2 = obj.getJSONObject("hits");
-        JSONArray obj3 = (JSONArray) obj2.get("hits");
+                // Data Object
+                String data = item.getJSONObject("_source").toString();
 
-        // run every entry
-        for (int i = 0; i < obj3.length(); i++) {
-            // Holds the Data of the Artikel
-            Artikel myArtikel = new Artikel();
+                // Map basic data to object
+                myArtikel = new ObjectMapper().readValue(data, Artikel.class);
 
-            // Complete Object
-            JSONObject item = obj3.getJSONObject(i);
+                // Add additional informations
+                myArtikel.setId(item.getString("_id"));
+                myArtikel.setScore(item.getDouble("_score"));
 
-            // Data Object
-            String data = item.getJSONObject("_source").toString();
+                // Add to list
+                artikelList.add(myArtikel);
+            }
 
-            // Map basic data to object
-            myArtikel = new ObjectMapper().readValue(data, Artikel.class);
-
-            // Add additional informations
-            myArtikel.setId(item.getString("_id"));
-            myArtikel.setScore(item.getDouble("_score"));
-
-            // Add to list
-            artikelList.add(myArtikel);
+            return artikelList;
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
         }
 
-        return artikelList;
     }
 
+    //zum Test
+    /**
+     public void run()
+     {
+     try {
+
+     //Gets all the entries form ElasticSearch
+     getAllEntries(restClient);
+
+     //Gets the filtered entries from ElasticSearch
+     String field = "caption";
+     String search = "Datenleck";
+     getFilteredEntries(restClient, field, search);
+
+     search = "Harter";
+     getFilteredEntries(restClient, field, search);
+
+     //Closes the connection to ElasticSearch
+     restClient.close();
+     }
+     catch(Exception ex) {
+     System.out.println(ex);
+     }
+     }
+     */
+
+    //Ausgabe zum Test
     public void printArrayList(ArrayList<Artikel> artikelArrayList)
     {
         for(Artikel artikel : artikelArrayList) {
