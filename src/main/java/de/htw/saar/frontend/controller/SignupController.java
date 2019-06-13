@@ -1,23 +1,32 @@
 package de.htw.saar.frontend.controller;
 
+import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.User;
 import de.htw.saar.frontend.service.UserService;
 import de.htw.saar.frontend.controller.NavigationController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@ManagedBean(name = "userC")
-@ViewScoped
-public class SignupController {
+@ManagedBean(name = "SignupC")
+@SessionScoped
+public class SignupController extends MasterController implements Serializable {
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(UserController.class);
 
-    NavigationController naviController=new NavigationController();
+    public static final String HOME_PAGE_REDIRECT = "/view/home/index.html?faces-redirect=true";
+    public static final String LOGIN_PAGE_REDIRECT = "/view/user/user.xhtml?faces-redirect=true";
 
 
     private List<User> allUsers;
@@ -32,8 +41,8 @@ public class SignupController {
     }
 
     public String back(){
-        return "";
-        //return naviController.toLogin();
+        return LOGIN_PAGE_REDIRECT;
+
     }
 
    /* public String deleteUser(User u){
@@ -41,13 +50,22 @@ public class SignupController {
     }
 */
     public String save(){
+        FacesContext fc = FacesContext.getCurrentInstance();
         User user=new User(username,password);
-        user.setPassword(password);
-        user.setUsername(username);
-        UserService.addUser(user);
-        success=true;
-        return "";
-       //return naviController.toLogin();
+        if (UserService.isUser(username)==true){
+            fc.addMessage(null,new FacesMessage("Username ist schon Vorhanden!"));
+            LOGGER.info("Signup failed for '{}'", username);
+            FacesContext.getCurrentInstance().addMessage
+                    (null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Signup failed",
+                            "Falsche Info"));
+            return null;
+        }else {
+            user.setPassword(password);
+            user.setUsername(username);
+            UserService.addUser(user);
+            success = true;
+            return back();
+        }
     }
 
 
