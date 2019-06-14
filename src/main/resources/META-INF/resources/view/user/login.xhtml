@@ -22,22 +22,21 @@
                     <p:messages id="messages" showDetail="false" />
 
                     <p:panel id="panel" header="Login">
-                    <h:panelGrid columns="3">
-                        <p:outputLabel  value="Username:" />
-                        <p:inputText id="usernameInput" value="#{UserC.username}" required="true" requiredMessage="Benutzername wird benötigt" ></p:inputText>
+                        <h:panelGrid columns="3">
+                            <p:outputLabel  value="Username:" />
+                            <p:inputText id="usernameInput" value="#{userController.username}" required="true" requiredMessage="Benutzername wird benötigt" ></p:inputText>
 
-                        <p:message for="usernameInput" style="color: red" display="icon"/>
+                            <p:message for="usernameInput" style="color: red" display="icon"/>
 
-                        <p:outputLabel  value="Password:"/>
-                        <p:password id="passwordInput" value="#{UserC.password}" required="true" requiredMessage="Password wird benötigt" > </p:password>
+                            <p:outputLabel  value="Password:"/>
+                            <p:password id="passwordInput" value="#{userController.password}" required="true" requiredMessage="Password wird benötigt" > </p:password>
 
-                        <p:message for="passwordInput" style="color: red" display="icon"/>
-                    </h:panelGrid>
-                    <p:commandButton id="login" value="Login" update="panel messages" actionListener="#{UserC.checkLogin}">
-
-                    </p:commandButton>
+                            <p:message for="passwordInput" style="color: red" display="icon"/>
+                        </h:panelGrid>
+                        <p:commandButton id="login" value="Login" update="panel messages" actionListener="#{userController.checkLogin}"> </p:commandButton>
                     </p:panel>
-                    <h:commandLink  action="signup.xhtml" immediate="true"><h:outputText value="Signup"/> </h:commandLink>
+
+                    <a href="#{navigationController.navigate('user','signup')}">Noch keinen Account? Jetzt registrieren</a>
                 </h:form>
 
             </ui:define>

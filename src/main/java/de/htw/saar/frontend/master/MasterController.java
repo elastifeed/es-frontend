@@ -1,7 +1,18 @@
 package de.htw.saar.frontend.master;
 
+import de.htw.saar.frontend.controller.NavigationController;
+
 public class MasterController
 {
+    /**
+     * returns an instance of the navigation controller
+     * @return NavigationController
+     */
+    public NavigationController getNavigation()
+    {
+        return new NavigationController();
+    }
+
     /**
      * auto generates the path to a view
      * the view should be located in view/NAME_OF_CONTROLLER/NAME_OF_VIEW

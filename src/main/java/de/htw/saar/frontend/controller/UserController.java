@@ -20,78 +20,122 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @org.springframework.stereotype.Controller
 
-@Named("UserC")
+@Named
 @RequestMapping("/user")
-public class UserController extends MasterController implements Serializable {
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(UserController.class);
+public class UserController extends MasterController implements Serializable
+{
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     public  final String HOME_PAGE_REDIRECT = view("index","home");
     public  final String LOGOUT_PAGE_REDIRECT = view("user",this);
 
 
-    UserService userService=new UserService();
+    UserService userService = new UserService();
     private String username;
     private String password;
     private String userId;
 
     private User currentUser;
-   @RequestMapping("/login")
- public  String login(){
-     return view("login",this);
- }
-    public String checkLogin() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExternalContext ec = fc.getExternalContext();
-        currentUser=null;
-        if(UserService.isUser(username)){
-            if(UserService.isPasswordValid(username,password)) {
-                User u = UserService.findUserByName(username);
-                userId = u.getUserId();
-                currentUser=u;
-            } else{
-                fc.addMessage(null,new FacesMessage("Password ist Falsch"));
+
+
+    @RequestMapping("")
+    public String root()
+    {
+        return view("login", this);
+    }
+
+    @RequestMapping("/login")
+    public String login()
+    {
+        return view("login",this);
+    }
+
+    @RequestMapping("/signup")
+    public String signup()
+    {
+        return view("signup",this);
+    }
+
+    @RequestMapping("/success")
+    public String success()
+    {
+        return view("success",this);
+    }
+
+
+    public String checkLogin()
+    {
+        try
+        {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            currentUser=null;
+
+            if(UserService.isUser(username))
+            {
+                if(UserService.isPasswordValid(username,password))
+                {
+                    User u = UserService.findUserByName(username);
+                    userId = u.getUserId();
+                    currentUser=u;
+                }
+                else
+                {
+                    fc.addMessage(null,new FacesMessage("Password ist Falsch"));
+                }
             }
-        }else{
-            fc.addMessage(null,new FacesMessage("Username ist Falsch"));
+            else
+            {
+                fc.addMessage(null,new FacesMessage("Username ist Falsch"));
+            }
+            if (currentUser != null)
+            {
+                LOGGER.info("user successful for '{}'", username);
+                ec.redirect(getNavigation().navigate("user","success"));
+                return "";
+            }
+            else
+            {
+                LOGGER.info("user failed for '{}'", userId);
+                FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Login failed","Falsche Info"));
+                return null;
+            }
         }
-        if (currentUser != null) {
-            LOGGER.info("user successful for '{}'", username);
-            return HOME_PAGE_REDIRECT;
-        }else{
-            LOGGER.info("user failed for '{}'", userId);
-            FacesContext.getCurrentInstance().addMessage
-                    (null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Login failed",
-                    "Falsche Info"));
-            return null;
+        catch (Exception ex)
+        {
+            LOGGER.info("Error validating user");
+            return "";
         }
     }
 
-    public String logout() {
+    public String logout()
+    {
         String identifier = userId;
         // invalidate the session
         LOGGER.debug("invalidating session for '{}'", identifier);
-        FacesContext.getCurrentInstance().getExternalContext()
-                .invalidateSession();
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
         LOGGER.info("logout successful for '{}'", identifier);
         return LOGOUT_PAGE_REDIRECT;
     }
-    public boolean isLoggedIn() {
+
+    public boolean isLoggedIn()
+    {
         return currentUser != null;
     }
 
-    public String isLoggedInForwardHome() {
-        if (isLoggedIn()) {
+    public String isLoggedInForwardHome()
+    {
+        if (isLoggedIn())
+        {
             return HOME_PAGE_REDIRECT;
         }
 
         return null;
     }
 
-        public String toRegester(){
-        return "/view/user/signup.xhtml";
-    }
+
+
 
     public String getUsername() {
         return username;
