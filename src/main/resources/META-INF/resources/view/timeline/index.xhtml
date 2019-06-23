@@ -7,7 +7,9 @@
 <h:body>
     <ui:composition template="/view/shared/_layout.xhtml">
         <ui:define name="content">
-
+            <f:metadata>
+                <f:viewAction action="#{userController.isLoggedInForwardHome()}"/>
+            </f:metadata>
             <div class="row">
                 <div class="col-md-12">
                     <h1>Thema 1 von Timeline</h1>

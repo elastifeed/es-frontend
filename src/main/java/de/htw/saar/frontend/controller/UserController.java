@@ -27,13 +27,14 @@ public class UserController extends MasterController implements Serializable
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     public  final String HOME_PAGE_REDIRECT = view("index","home");
-    public  final String LOGOUT_PAGE_REDIRECT = view("user",this);
+    public  final String LOGIN_PAGE_REDIRECT = view("login",this);
 
 
     UserService userService = new UserService();
     private String username;
     private String password;
     private String userId;
+    private boolean loggedIn=isLoggedIn();
 
     private User currentUser;
 
@@ -62,6 +63,17 @@ public class UserController extends MasterController implements Serializable
         return view("success",this);
     }
 
+    @RequestMapping("/check")
+    public String check()
+    {
+        return view("check",this);
+    }
+
+    @RequestMapping("/logout")
+    public String logout()
+    {
+        return view("logout",this);
+    }
 
     public String checkLogin()
     {
@@ -92,7 +104,7 @@ public class UserController extends MasterController implements Serializable
             {
                 LOGGER.info("user successful for '{}'", username);
                 ec.redirect(getNavigation().navigate("user","success"));
-                return "";
+                return null;
             }
             else
             {
@@ -108,34 +120,44 @@ public class UserController extends MasterController implements Serializable
         }
     }
 
-    public String logout()
+    public void toLogout()
     {
+        try
+        {
         String identifier = userId;
         // invalidate the session
         LOGGER.debug("invalidating session for '{}'", identifier);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-
         LOGGER.info("logout successful for '{}'", identifier);
-        return LOGOUT_PAGE_REDIRECT;
+        currentUser=null;
+        }
+        catch (Exception ex)
+        {
+            LOGGER.info("toLogout Error");
+        }
+
     }
 
     public boolean isLoggedIn()
     {
         return currentUser != null;
+
     }
 
-    public String isLoggedInForwardHome()
-    {
-        if (isLoggedIn())
+    public String isLoggedInForwardHome() {
+        try {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            if(!isLoggedIn()) {
+                ec.redirect(getNavigation().navigate("user", "check"));
+            }
+        }catch (Exception ex)
         {
-            return HOME_PAGE_REDIRECT;
+            LOGGER.info("isLoggedInForwardHome Error");
         }
 
         return null;
     }
-
-
-
 
     public String getUsername() {
         return username;
@@ -159,5 +181,17 @@ public class UserController extends MasterController implements Serializable
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

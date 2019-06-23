@@ -6,6 +6,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xml:lang="en" lang="en"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       >
 <h:head>
     <title>Login</title>
@@ -15,10 +16,7 @@
         <ui:composition template="/view/shared/_layout.xhtml">
             <ui:define name="content">
                 <h:form>
-                 <!--   <f:metadata>
-                        <f:viewAction action="#{UserC.isLoggedInForwardHome()}" />
-                    </f:metadata>
-              -->
+
                     <p:messages id="messages" showDetail="false" />
 
                     <p:panel id="panel" header="Login">

@@ -6,12 +6,14 @@ import de.htw.saar.frontend.service.UserService;
 import de.htw.saar.frontend.controller.NavigationController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import java.io.Serializable;
@@ -25,15 +27,13 @@ public class SignupController extends MasterController implements Serializable {
     private static final Logger LOGGER =
             LoggerFactory.getLogger(UserController.class);
 
-    public static final String HOME_PAGE_REDIRECT = "/view/home/index.html?faces-redirect=true";
-    public static final String LOGIN_PAGE_REDIRECT = "/view/user/user.xhtml?faces-redirect=true";
-
-
     private List<User> allUsers;
     private String username;
     private String password;
     private User user;
     private boolean success;
+    FacesContext fc = FacesContext.getCurrentInstance();
+    ExternalContext ec = fc.getExternalContext();
 
     @PostConstruct
     public void initial(){
@@ -41,8 +41,13 @@ public class SignupController extends MasterController implements Serializable {
     }
 
     public String back(){
-        return LOGIN_PAGE_REDIRECT;
-
+try {
+    ec.redirect(getNavigation().navigate("user", "login"));
+}catch (Exception ex)
+{
+    LOGGER.info("Signup Cancel Error");
+}
+    return null;
     }
 
    /* public String deleteUser(User u){
@@ -50,22 +55,26 @@ public class SignupController extends MasterController implements Serializable {
     }
 */
     public String save(){
-        FacesContext fc = FacesContext.getCurrentInstance();
-        User user=new User(username,password);
-        if (UserService.isUser(username)==true){
-            fc.addMessage(null,new FacesMessage("Username ist schon Vorhanden!"));
-            LOGGER.info("Signup failed for '{}'", username);
-            FacesContext.getCurrentInstance().addMessage
-                    (null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Signup failed",
-                            "Falsche Info"));
-            return null;
-        }else {
-            user.setPassword(password);
-            user.setUsername(username);
-            UserService.addUser(user);
-            success = true;
-            return back();
-        }
+       try {
+           User user = new User(username, password);
+           if (UserService.isUser(username) == true) {
+               fc.addMessage(null, new FacesMessage("Username ist schon Vorhanden!"));
+               LOGGER.info("Signup failed for '{}'", username);
+               FacesContext.getCurrentInstance().addMessage
+                       (null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Signup failed",
+                               "Falsche Info"));
+           } else {
+               user.setPassword(password);
+               user.setUsername(username);
+               UserService.addUser(user);
+               ec.redirect(getNavigation().navigate("user", "success"));
+           }
+       }
+     catch (Exception ex)
+           {
+               LOGGER.info("Signup Error ");
+           }
+       return null;
     }
 
 

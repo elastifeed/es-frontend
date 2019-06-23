@@ -9,7 +9,9 @@
 		<ui:define name="content">
 
 			<f:metadata>
+				<f:viewAction action="#{userController.isLoggedInForwardHome()}"/>
 				<f:event type="preRenderView" listener="#{homeController.findAllArtikel}"/>
+
 			</f:metadata>
 
 			<ui:repeat value="#{homeController.allArtikel}" var="item">
