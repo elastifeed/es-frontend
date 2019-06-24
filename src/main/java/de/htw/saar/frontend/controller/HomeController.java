@@ -61,7 +61,6 @@ public class HomeController extends MasterController
                 int createdMonth = artikel.getCreatedMonthAsInt();
                 if(createdMonth == month){
                     monthArtikelList.add(artikel);
-                    System.out.println("GEHT");
                 }
             }
         }

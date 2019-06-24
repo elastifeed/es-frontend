@@ -213,11 +213,6 @@ a[data-toggle="collapse"] {
          TIMELINE
 ***************************/
 
-button.btnTimeline{
-    padding: 0;
-    border: none;
-    background: none;
-}
 ul.timeline {
     list-style-type: none;
     position: relative;
