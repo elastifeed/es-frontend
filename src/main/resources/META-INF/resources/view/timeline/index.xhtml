@@ -9,7 +9,251 @@
         <ui:define name="content">
             <f:metadata>
                 <f:viewAction action="#{userController.isLoggedInForwardHome()}"/>
+                <f:event type="preRenderView" listener="#{homeController.findAllArtikel}"/>
+
             </f:metadata>
+
+            <h:outputScript library="js" name="custom/hideTimeline.js" />
+            <div class="container mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-8 offset-md-1">
+                        <button class="btnTimeline" onclick="hideTimeline()"><h3>2019</h3></button>
+                        <div id="myTimeline">
+                            <ul class="timeline">
+                                <f:event type="preRenderView" listener="#{homeController.findAllArtikelByYear(2019)}"/>
+                                    <li><h4>Januar</h4>
+                                        <f:event type="preRenderView" listener="#{homeController.findAllArtikelByMonth(1)}"></f:event>
+                                        <ul class="timeline">
+                                           <!-- <ui:repeat value="#{homeController.yearArtikel}" var="item">-->
+                                            <ui:repeat value="#{homeController.monthArtikel}" var="item">
+                                                <div class="row mt-4 mb-4">
+                                                    <div class="col-md-12">
+                                                        <div class="card flex-md-row">
+                                                            <li>
+                                                                <!--
+                                                            <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+                                                                -->
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-xl-12">
+                                                                            <h1 class="esf-preview-headline">
+                                                                                <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
+                                                                            </h1>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xl-12">
+                                                                            <label>#{item.createdAsString}</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <p class="card-text mb-auto esf-preview-text">
+                                                                        #{item.content}
+                                                                    </p>
+                                                                    <a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
+                                                                </div>
+                                                            </li>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ui:repeat>
+                                        </ul>
+                                    </li>
+                                    <li><h4>Februar</h4>
+                                        <f:event type="preRenderView" listener="#{homeController.findAllArtikelByMonth(2)}"></f:event>
+                                        <ul class="timeline">
+                                            <!-- <ui:repeat value="#{homeController.yearArtikel}" var="item">-->
+                                            <ui:repeat value="#{homeController.monthArtikel}" var="item">
+                                                <div class="row mt-4 mb-4">
+                                                    <div class="col-md-12">
+                                                        <div class="card flex-md-row">
+                                                            <li>
+                                                                <!--
+                                                            <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+                                                                -->
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-xl-12">
+                                                                            <h1 class="esf-preview-headline">
+                                                                                <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
+                                                                            </h1>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xl-12">
+                                                                            <label>#{item.createdAsString}</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <p class="card-text mb-auto esf-preview-text">
+                                                                        #{item.content}
+                                                                    </p>
+                                                                    <a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
+                                                                </div>
+                                                            </li>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ui:repeat>
+                                        </ul>
+                                    </li>
+                                <li><h4>März</h4>
+                                    <f:event type="preRenderView" listener="#{homeController.findAllArtikelByMonth(3)}"></f:event>
+                                    <ul class="timeline">
+                                        <!-- <ui:repeat value="#{homeController.yearArtikel}" var="item">-->
+                                        <ui:repeat value="#{homeController.monthArtikel}" var="item">
+                                            <div class="row mt-4 mb-4">
+                                                <div class="col-md-12">
+                                                    <div class="card flex-md-row">
+                                                        <li>
+                                                            <!--
+                                                        <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+                                                            -->
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-xl-12">
+                                                                        <h1 class="esf-preview-headline">
+                                                                            <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
+                                                                        </h1>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xl-12">
+                                                                        <label>#{item.createdAsString}</label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <p class="card-text mb-auto esf-preview-text">
+                                                                    #{item.content}
+                                                                </p>
+                                                                <a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
+                                                            </div>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </ul>
+                                </li>
+                                <li><h4>April</h4>
+                                    <f:event type="preRenderView" listener="#{homeController.findAllArtikelByMonth(4)}"></f:event>
+                                    <ul class="timeline">
+                                        <!-- <ui:repeat value="#{homeController.yearArtikel}" var="item">-->
+                                        <ui:repeat value="#{homeController.monthArtikel}" var="item">
+                                            <div class="row mt-4 mb-4">
+                                                <div class="col-md-12">
+                                                    <div class="card flex-md-row">
+                                                        <li>
+                                                            <!--
+                                                        <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+                                                            -->
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-xl-12">
+                                                                        <h1 class="esf-preview-headline">
+                                                                            <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
+                                                                        </h1>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xl-12">
+                                                                        <label>#{item.createdAsString}</label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <p class="card-text mb-auto esf-preview-text">
+                                                                    #{item.content}
+                                                                </p>
+                                                                <a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
+                                                            </div>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </ul>
+                                </li>
+                                <li><h4>Mai</h4>
+                                    <f:event type="preRenderView" listener="#{homeController.findAllArtikelByMonth(5)}"></f:event>
+                                    <ul class="timeline">
+                                        <!-- <ui:repeat value="#{homeController.yearArtikel}" var="item">-->
+                                        <ui:repeat value="#{homeController.monthArtikel}" var="item">
+                                            <div class="row mt-4 mb-4">
+                                                <div class="col-md-12">
+                                                    <div class="card flex-md-row">
+                                                        <li>
+                                                            <!--
+                                                        <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+                                                            -->
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-xl-12">
+                                                                        <h1 class="esf-preview-headline">
+                                                                            <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
+                                                                        </h1>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xl-12">
+                                                                        <label>#{item.createdAsString}</label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <p class="card-text mb-auto esf-preview-text">
+                                                                    #{item.content}
+                                                                </p>
+                                                                <a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
+                                                            </div>
+                                                        </li>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-8 offset-md-1">
+                       <button onclick="hide()"><h4>2000</h4></button>
+                        <div id="test">
+                        <ul class="timeline">
+                            <li><h4>Jan</h4>
+                                <ul class="timeline">
+                                    <li>
+                                        <a target="_blank" href="https://www.totoprayogo.com/#">New Web Design</a>
+                                        <a href="#" class="float-right">21 March, 2014</a>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula....</p>
+                                    </li>
+                                    <li>
+                                        <a target="_blank" href="https://www.totoprayogo.com/#">New Web Design</a>
+                                        <a href="#" class="float-right">21 March, 2014</a>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula....</p>
+                                    </li>
+                                </ul>
+                                </li>
+                            <li>
+                                <a href="#">21 000 Job Seekers</a>
+                                <a href="#" class="float-right">4 March, 2014</a>
+                                <p>Curabitur purus sem, malesuada eu luctus eget, suscipit sed turpis. Nam pellentesque felis vitae justo accumsan, sed semper nisi sollicitudin...</p>
+                            </li>
+                            <li>
+                                <a href="#">Awesome Employers</a>
+                                <a href="#" class="float-right">1 April, 2014</a>
+                                <p>Fusce ullamcorper ligula sit amet quam accumsan aliquet. Sed nulla odio, tincidunt vitae nunc vitae, mollis pharetra velit. Sed nec tempor nibh...</p>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
             <div class="row">
                 <div class="col-md-12">
                     <h1>Thema 1 von Timeline</h1>
@@ -59,7 +303,7 @@
                     </p>
                 </div>
             </div>
-
+            -->
 
 
 

@@ -26,6 +26,8 @@ public class HomeController extends MasterController
 
     private String aktuellerArtikel;
     private ArrayList<Artikel> allArtikelList;
+    private ArrayList<Artikel> yearArtikelList;
+    private ArrayList<Artikel> monthArtikelList;
 
     public String getAktuellerArtikel(){
         return this.aktuellerArtikel;
@@ -37,9 +39,41 @@ public class HomeController extends MasterController
         allArtikelList = artikelService.getAllArtikel();
     }
 
+    public void findAllArtikelByYear(int year)
+    {
+        allArtikelList = new ArrayList<>();
+        allArtikelList = artikelService.getAllArtikel();
+        yearArtikelList = new ArrayList<>();
+        for (Artikel artikel : allArtikelList) {
+            int createdYear = artikel.getCreatedYearAsInt();
+            if(createdYear == year){
+                yearArtikelList.add(artikel);
+            }
+        }
+    }
+
+    public void findAllArtikelByMonth(int month)
+    {
+        monthArtikelList = new ArrayList<>();
+        monthArtikelList.clear();
+        if(!yearArtikelList.isEmpty()){
+            for (Artikel artikel : yearArtikelList){
+                int createdMonth = artikel.getCreatedMonthAsInt();
+                if(createdMonth == month){
+                    monthArtikelList.add(artikel);
+                    System.out.println("GEHT");
+                }
+            }
+        }
+    }
+
     public ArrayList<Artikel> getAllArtikel()
     {
         return allArtikelList;
     }
+
+    public ArrayList<Artikel> getYearArtikel() { return yearArtikelList; }
+
+    public ArrayList<Artikel> getMonthArtikel() { return monthArtikelList; }
 
 }
