@@ -44,6 +44,7 @@ public class HomeController extends MasterController
         allArtikelList = new ArrayList<>();
         allArtikelList = artikelService.getAllArtikel();
         yearArtikelList = new ArrayList<>();
+        yearArtikelList.clear();
         for (Artikel artikel : allArtikelList) {
             int createdYear = artikel.getCreatedYearAsInt();
             if(createdYear == year){
