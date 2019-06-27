@@ -3,11 +3,9 @@
 <html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui"
       xml:lang="en" lang="en">
-<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xml:lang="en" lang="en"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
 <head>
     <title>Title</title>
 </head>
@@ -63,7 +61,7 @@
                     <c:if test="#{userController.isLoggedIn()}">
                     <li class="nav-item">
                         <i style='font-size:18px;color:green;' class='fas'>&#xf058;</i><h6 style="color:#18ab29">Online</h6>
-                        <h:outputText style="color: darkgreen" value="#{userController.currentUser.username}"/>
+                        <h:outputText style="color: darkgreen" value="#{userController.currentUser.username}"></h:outputText>
                     </li>
                     <li class="nav-item">
                         <a  style="color:#c82333" class="nav-link" href="#{navigationController.navigate('user','logout')}"><i class="fas fa-sign-out-alt"></i><br/>Logout</a>
