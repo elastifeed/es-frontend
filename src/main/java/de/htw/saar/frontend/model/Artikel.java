@@ -2,6 +2,7 @@ package de.htw.saar.frontend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Artikel {
@@ -37,6 +38,16 @@ public class Artikel {
     public String getCreatedTimeAsString(){
         DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         return dateFormat.format(this.created);
+    }
+    public int getCreatedYearAsInt(){
+        String pattern = "yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return Integer.parseInt(simpleDateFormat.format(this.created));
+    }
+    public int getCreatedMonthAsInt(){
+        String pattern = "MM";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return Integer.parseInt(simpleDateFormat.format(this.created));
     }
 
     public String getCaption(){ return this.caption; }

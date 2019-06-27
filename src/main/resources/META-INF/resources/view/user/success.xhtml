@@ -13,12 +13,13 @@
         <c:view>
         <ui:composition template="/view/shared/_layout.xhtml">
             <ui:define name="content">
-                <h2>Erfolgreich!</h2>
-                <h3>Sie werden in 3 Sekunden weitergeleitet...</h3>
+                <h2 style="color: #c82333"> Erfolgreich!</h2>
+                <br/>
+                <h3 style="color: #1e7e34">Sie werden in 3 Sekunden weitergeleitet...</h3>
 
-
-                <h:outputScript library="js" name="custom/redirect.js"></h:outputScript>
-            </ui:define>
+      <h:outputScript library="js" name="custom/redirect.js" rendered="#{userController.isLoggedIn()}"></h:outputScript>
+    <h:outputScript library="js" name="custom/redirectLogin.js" rendered="#{!userController.isLoggedIn()}"></h:outputScript>
+         </ui:define>
         </ui:composition>
         </c:view>
     </h:body>

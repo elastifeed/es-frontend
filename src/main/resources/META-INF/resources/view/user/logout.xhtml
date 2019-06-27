@@ -2,11 +2,30 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Logout</title>
-</head>
-<body>
-<h1>Logout</h1>
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xml:lang="en" lang="en"
+      xmlns:p="http://primefaces.org/ui"
+>
+<h:head>
+    <title>Success Logout</title>
+</h:head>
+<h:body>
+
+        <ui:composition template="/view/shared/_layout.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <f:metadata>
+                        <f:event listener="#{userController.toLogout}" type="preRenderComponent" />
+                    </f:metadata>
+                    <p:panel header="Logout" >
+                        <p style="color:#1c7430;size: A3" align="center">Sie wurden erfolgreich abgemeldet ! </p>
+                    </p:panel>
+    <h:outputScript library="js" name="custom/redirect.js" rendered="#{!userController.isLoggedIn()}"></h:outputScript>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+</h:body>
 </html>
