@@ -41,6 +41,17 @@ public class NavigationController
      * Infor: these parameters are not case sensitive
      * @return
      */
+    public String navigateHome(String action)
+    {
+        return "/" + action;
+    }
+
+    /**
+     * Navigate to the desired page
+     * requires page name and folder name
+     * Infor: these parameters are not case sensitive
+     * @return
+     */
     public String navigateHome()
     {
         return "/";

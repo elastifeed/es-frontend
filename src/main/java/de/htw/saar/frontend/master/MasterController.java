@@ -4,6 +4,19 @@ import de.htw.saar.frontend.controller.NavigationController;
 
 public class MasterController
 {
+
+    // #region Suche
+    public String inputQuery;
+    public String getInputQuery()
+    {
+        return this.inputQuery;
+    }
+    public void setInputQuery(String value)
+    {
+        this.inputQuery = value;
+    }
+    // #endregion
+
     /**
      * returns an instance of the navigation controller
      * @return NavigationController

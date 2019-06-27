@@ -122,32 +122,6 @@ public class ElasticSearchManager
 
     }
 
-    //zum Test
-    /**
-     public void run()
-     {
-     try {
-
-     //Gets all the entries form ElasticSearch
-     getAllEntries(restClient);
-
-     //Gets the filtered entries from ElasticSearch
-     String field = "caption";
-     String search = "Datenleck";
-     getFilteredEntries(restClient, field, search);
-
-     search = "Harter";
-     getFilteredEntries(restClient, field, search);
-
-     //Closes the connection to ElasticSearch
-     restClient.close();
-     }
-     catch(Exception ex) {
-     System.out.println(ex);
-     }
-     }
-     */
-
     //Ausgabe zum Test
     public void printArrayList(ArrayList<Artikel> artikelArrayList)
     {

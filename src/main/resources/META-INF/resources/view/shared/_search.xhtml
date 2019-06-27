@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xml:lang="en" lang="en">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xml:lang="en" lang="en">
 <head>
     <title>Title</title>
 </head>
@@ -18,14 +22,25 @@
                 <!-- Items Mitte -->
                 <ul class="navbar-nav mx-auto text-md-center text-left">
 
-                    <form class="form-inline mr-auto ml-2">
+                    <h:form styleClass="form-inline mr-auto ml-2" >
                         <div class="input-group">
-                            <input class="form-control" placeholder="Suche" aria-describedby="inputGroupAppend" />
+
+                            <h:inputText value="#{homeController.inputQuery}" a:placeholder="Suche" a:aria-describedby="inputGroupAppend"></h:inputText>
+
                             <div class="input-group-append">
-                                <span class="input-group-text" id="inputGroupAppend"><a href="#"><i class="fas fa-search text-grey"></i></a></span>
+                                <span class="input-group-text" id="inputGroupAppend">
+                                    <h:commandLink action="#{homeController.initSuche(homeController.inputQuery)}">
+                                        <i class="fas fa-search text-grey"></i>
+                                    </h:commandLink>
+                                </span>
                             </div>
                         </div>
-                    </form>
+
+                        <h:commandButton  style="visibility: hidden" id="suchen" action="#{homeController.initSuche(homeController.inputQuery)}"></h:commandButton>
+
+                        <p:defaultCommand target="suchen" />
+                    </h:form>
+
 
                     <li class="nav-item ml-2">
                         <a href="#{navigationController.navigate('erweitertesuche')}" class="btn btn-outline-secondary">Erweiterte Suche</a>
