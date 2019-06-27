@@ -6,6 +6,7 @@ import de.htw.saar.frontend.service.ArtikelService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -39,7 +40,8 @@ public class HomeController extends MasterController
 
         if(this.getInputQuery() != null && this.getInputQuery().length() > 0)
         {
-            allArtikelList = artikelService.getAllArtikel();
+            allArtikelList = artikelService.getArtikelBySearch(this.getInputQuery());
+            this.setInputQuery("");
         }
         else
         {
@@ -84,10 +86,9 @@ public class HomeController extends MasterController
 
     public ArrayList<Artikel> getMonthArtikel() { return monthArtikelList; }
 
-    @RequestMapping()
+    @RequestMapping("")
     public String index()
     {
-        this.setInputQuery("");
         return view("index",this);
     }
 

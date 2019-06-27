@@ -44,7 +44,7 @@ public class ElasticSearchManager
         }
     }
 
-    public void getFilteredEntries(String field, String search)
+    public ArrayList<Artikel> getFilteredEntries(String field, String search)
     {
         try {
             Request request = new Request(
@@ -55,11 +55,45 @@ public class ElasticSearchManager
 
             ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
-            printArrayList(artikelArrayList);
+            return artikelArrayList;
         }catch(Exception ex) {
             System.out.println(ex.getMessage());
+            return null;
         }
     }
+
+    public ArrayList<Artikel> getEntriesByTextSearch(String search)
+    {
+        try {
+            String[] arr = search.split(" ");
+            String query = "";
+
+            int counter = 0;
+            for(String s : arr)
+            {
+                if(counter != 0)
+                {
+                    query += "%20OR%20";
+                }
+                query += s;
+                counter++;
+            }
+
+            Request request = new Request(
+                    "GET",
+                    "dummy/_search?q=" + "content" + ":" + query + "%20OR%20" + "caption:" + query);
+
+            executeRequest(request);
+
+            ArrayList<Artikel> artikelArrayList = executeRequest(request);
+
+            return artikelArrayList;
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
 
     public Artikel getArtikelById(String id)
     {

@@ -17,6 +17,15 @@ public class ArtikelService
             System.out.println(ex.getMessage());
             return null;
         }
+    }
 
+    public ArrayList<Artikel> getArtikelBySearch(String query)
+    {
+        try {
+            return manager.getEntriesByTextSearch(query);
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 }
