@@ -26,7 +26,7 @@
 
             <div class="container mt-5 mb-5">
                 <div class="row">
-                    <div class="col-md-8 offset-md-1">
+                    <div class="col-md-10 offset-md-1">
                         <ui:repeat value="#{timelineController.allYear}" var="year">
                             <a class="btn btn-light" data-toggle="collapse" href="#timeline#{year}" role="button" aria-expanded="false" aria-controls="timeline#{year}">
                                 <h3>#{year}</h3>
@@ -46,12 +46,10 @@
                                                 <!-- <ui:repeat value="#{homeController.yearArtikel}" var="item">-->
                                                 <ui:repeat value="#{homeController.monthArtikel}" var="item">
                                                     <li>
-                                                        <div class="row mt-4 mb-4">
+                                                        <div class="row mt-12 mb-12">
                                                             <div class="col-md-12">
                                                                 <div class="card flex-md-row">
-                                                                        <!--
                                                                     <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
-                                                                        -->
                                                                         <div class="card-body">
                                                                             <div class="row">
                                                                                 <div class="col-xl-12">
