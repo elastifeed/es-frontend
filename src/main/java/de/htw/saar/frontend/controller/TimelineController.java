@@ -20,6 +20,11 @@ public class TimelineController extends MasterController{
     private ArrayList<Integer> allYear;
     private ArrayList<TimelineDateMonth> allMonth;
 
+    /**
+     * Ruft alle vordefinierten Jahre ab
+     * Schreibt diese in eine Liste und gibt diese zurueck
+     * @return allYear
+     */
     public ArrayList<Integer> getAllYear(){
         allYear = new ArrayList<>();
         allYear.clear();
@@ -27,6 +32,11 @@ public class TimelineController extends MasterController{
         return allYear;
     }
 
+    /**
+     * Ruft alle Monate ab
+     * Schreibt diese ine eine Liste und gibt diese zurueck
+     * @return allMonth
+     */
     public ArrayList<TimelineDateMonth> getAllMonth(){
         allMonth = new ArrayList<>();
         allMonth.clear();

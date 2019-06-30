@@ -10,6 +10,11 @@ public class TimelineDateService {
     ArrayList<Integer> yearList = new ArrayList<>();
     ArrayList<TimelineDateMonth> monthList = new ArrayList<>();
 
+    /**
+     * Schreibt alle Jahre ab dem aktuellen Jahr bis zu einem festgelegten
+     * zurückliegenden Jahr in eine Liste und gibt diese zurueck
+     * @return yearList
+     */
     public ArrayList<Integer> getYearList(){
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int yearLimit = 2016;
@@ -22,6 +27,11 @@ public class TimelineDateService {
         return yearList;
     }
 
+    /**
+     * Schreibt die Namen und Nummern aller Monate in eine Liste und
+     * gibt diese zurueck
+     * @return monthList
+     */
     public ArrayList<TimelineDateMonth> getMonthList(){
         TimelineDateMonth m1 =new TimelineDateMonth(1,"Januar");
         TimelineDateMonth m2 =new TimelineDateMonth(2,"Februar");

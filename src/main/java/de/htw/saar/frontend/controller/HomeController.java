@@ -49,6 +49,11 @@ public class HomeController extends MasterController
         }
     }
 
+    /**
+     * Sucht in der allArtikelList nach allen Artikeln die dem uebergebenen Jahr
+     * entsprechen und schreibt diese in yearArtikelList
+     * @param year
+     */
     public void findAllArtikelByYear(int year)
     {
         allArtikelList = new ArrayList<>();
@@ -63,6 +68,12 @@ public class HomeController extends MasterController
         }
     }
 
+    /**
+     * Sucht in der yearArtikelList nach allen Artikeln die dem uebergebenen Monat
+     * entsprechen und schreibt diese in monthArtikelList, wenn die yearArtikelList
+     * nicht leer ist
+     * @param month
+     */
     public void findAllArtikelByMonth(int month)
     {
         monthArtikelList = new ArrayList<>();
@@ -77,13 +88,22 @@ public class HomeController extends MasterController
         }
     }
 
-    public ArrayList<Artikel> getAllArtikel()
-    {
-        return allArtikelList;
-    }
+    /**
+     * Gibt die allArtikelList zurueck
+     * @return allArtikelList
+     */
+    public ArrayList<Artikel> getAllArtikel() { return allArtikelList; }
 
+    /**
+     * Gibt die yearArtikelList zurueck
+     * @return yearArtikelList
+     */
     public ArrayList<Artikel> getYearArtikel() { return yearArtikelList; }
 
+    /**
+     * Gibt die monthArtikelList zurueck
+     * @return monthArtikelList
+     */
     public ArrayList<Artikel> getMonthArtikel() { return monthArtikelList; }
 
     @RequestMapping("")
