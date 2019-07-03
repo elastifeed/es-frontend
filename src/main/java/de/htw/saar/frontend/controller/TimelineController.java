@@ -45,15 +45,14 @@ public class TimelineController extends MasterController{
         }
     }
 
+    /**
+     * Sucht in der allArtikelList nach allen Artikeln die dem uebergebenen Jahr
+     * und Monat entsprechen und schreibt diese in monthArtikelList
+     * @param year
+     * @param month
+     */
     public void findAllArtikelByYearAndMonth(int year, int month)
     {
-        /*
-        String string = "004-034556";
-        String[] parts = string.split("-");
-        String part1 = parts[0]; // 004
-        String part2 = parts[1]; // 034556
-        */
-        //allArtikelList.clear();
         findAllArtikel();
         monthArtikelList = new ArrayList<>();
         monthArtikelList.clear();

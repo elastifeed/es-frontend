@@ -3,9 +3,7 @@
 
 <html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
-    <!--xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"-->
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:body>
     <ui:composition template="/view/shared/_layout.xhtml">
@@ -15,11 +13,6 @@
                 <f:event type="preRenderView" listener="#{homeController.findAllArtikel}"/>
             </f:metadata>
 
-            <h:form>
-                <h:commandButton value="klick"  action="#{homeController.findAllArtikelByYear(2020)}">
-                    <f:ajax execute="@this" render=":timeline" />
-                </h:commandButton>
-            </h:form>
             <div class="container mt-5 mb-5">
                 <div class="row">
                     <div class="col-md-10 offset-md-1">
@@ -31,94 +24,47 @@
                             <div class="collapse" id="timeline#{year}">
                                 <ul class="timeline">
                                     <ui:repeat value="#{timelineController.allMonth}" var="month">
-                                    <li>
-                                        <h:form>
-                                            <h:commandButton styleClass="btn btn-light" value="#{month.monthName}" action="#{timelineController.findAllArtikelByYearAndMonth(year, month.monthNumber)}">
-                                                <f:ajax execute="@form" render="artikel" />
-                                            </h:commandButton>
-                                            <h:panelGroup id="artikel">
-                                                <ui:repeat value="#{timelineController.monthArtikelList}" var="item">
-                                                    <ul class="timeline">
-                                                        <li>
-                                                            <div class="row mt-12 mb-12">
-                                                                <div class="col-md-12">
-                                                                    <div class="card flex-md-row">
-                                                                        <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
-                                                                        <div class="card-body">
-                                                                            <div class="row">
-                                                                                <div class="col-xl-12">
-                                                                                    <h1 class="esf-preview-headline">
-                                                                                        <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
-                                                                                    </h1>
+                                        <li>
+                                            <h:form>
+                                                <h:commandButton styleClass="btn btn-light" value="#{month.monthName}" action="#{timelineController.findAllArtikelByYearAndMonth(year, month.monthNumber)}">
+                                                    <f:ajax execute="@form" render="artikel" />
+                                                </h:commandButton>
+                                                <h:panelGroup id="artikel">
+                                                    <ui:repeat value="#{timelineController.monthArtikelList}" var="item">
+                                                        <ul class="timeline">
+                                                            <li>
+                                                                <div class="row mt-12 mb-12">
+                                                                    <div class="col-md-12">
+                                                                        <div class="card flex-md-row">
+                                                                            <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+                                                                            <div class="card-body">
+                                                                                <div class="row">
+                                                                                    <div class="col-xl-12">
+                                                                                        <h1 class="esf-preview-headline">
+                                                                                            <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
+                                                                                        </h1>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-xl-12">
-                                                                                    <label>#{item.createdAsString}</label>
+                                                                                <div class="row">
+                                                                                    <div class="col-xl-12">
+                                                                                        <label>#{item.createdAsString}</label>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
 
-                                                                            <p class="card-text mb-auto esf-preview-text">
-                                                                                #{item.content}
-                                                                            </p>
-                                                                            <a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
+                                                                                <p class="card-text mb-auto esf-preview-text">
+                                                                                    #{item.content}
+                                                                                </p>
+                                                                                <a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </ui:repeat>
-                                            </h:panelGroup>
-                                        </h:form>
-
-
-
-
-
-
-
-
-
-
-
-<!--
-                                        <ui:repeat value="#{timelineController.monthArtikelList}" var="item">
-
-                                            <div class="row mt-4 mb-4">
-                                                <div class="col-md-12">
-                                                    <div class="card flex-md-row">
-                                                        <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
-
-                                                        <div class="card-body">
-                                                            <div class="row">
-                                                                <div class="col-xl-12">
-                                                                    <h1 class="esf-preview-headline">
-                                                                        <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
-                                                                    </h1>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-xl-12">
-                                                                    <label>#{item.createdAsString}</label>
-                                                                </div>
-                                                            </div>
-
-                                                            <p class="card-text mb-auto esf-preview-text">
-                                                                #{item.content}
-                                                            </p>
-                                                            <a href="#">mehr lesen</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ui:repeat>
-
-
--->
-
-
-                                    </li>
+                                                            </li>
+                                                        </ul>
+                                                    </ui:repeat>
+                                                </h:panelGroup>
+                                            </h:form>
+                                        </li>
                                     </ui:repeat>
                                 </ul>
                             </div>
