@@ -3,7 +3,10 @@
 
 <html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <!--xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"-->
+
 <h:body>
     <ui:composition template="/view/shared/_layout.xhtml">
         <ui:define name="content">
@@ -12,6 +15,11 @@
                 <f:event type="preRenderView" listener="#{homeController.findAllArtikel}"/>
             </f:metadata>
 
+            <h:form>
+                <h:commandButton value="klick"  action="#{homeController.findAllArtikelByYear(2020)}">
+                    <f:ajax execute="@this" render=":timeline" />
+                </h:commandButton>
+            </h:form>
             <div class="container mt-5 mb-5">
                 <div class="row">
                     <div class="col-md-10 offset-md-1">
@@ -22,23 +30,20 @@
                             <br></br>
                             <div class="collapse" id="timeline#{year}">
                                 <ul class="timeline">
-                                    <!--homeController.findAllArtikelByYear(year)-->
-                                    <f:event type="preRenderView" listener="#{homeController.findAllArtikelByYear(2019)}"></f:event>
                                     <ui:repeat value="#{timelineController.allMonth}" var="month">
                                     <li>
-                                        <a class="btn btn-light" data-toggle="collapse" href="#timeline#{year}#{month.monthName}" role="button" aria-expanded="false" aria-controls="timeline#{year}#{month.monthName}">
-                                            <h4>#{month.monthName}</h4></a>
-                                        <div class="collapse" id="timeline#{year}#{month.monthName}">
-                                            <!--homeController.findAllArtikelByMonth(month.monthNumber)-->
-                                            <f:event type="preRenderView" listener="#{homeController.findAllArtikelByMonth(5)}"></f:event>
-                                            <ul class="timeline">
-                                                <!-- <ui:repeat value="#{homeController.yearArtikel}" var="item">-->
-                                                <ui:repeat value="#{homeController.monthArtikel}" var="item">
-                                                    <li>
-                                                        <div class="row mt-12 mb-12">
-                                                            <div class="col-md-12">
-                                                                <div class="card flex-md-row">
-                                                                    <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+                                        <h:form>
+                                            <h:commandButton styleClass="btn btn-light" value="#{month.monthName}" action="#{timelineController.findAllArtikelByYearAndMonth(year, month.monthNumber)}">
+                                                <f:ajax execute="@form" render="artikel" />
+                                            </h:commandButton>
+                                            <h:panelGroup id="artikel">
+                                                <ui:repeat value="#{timelineController.monthArtikelList}" var="item">
+                                                    <ul class="timeline">
+                                                        <li>
+                                                            <div class="row mt-12 mb-12">
+                                                                <div class="col-md-12">
+                                                                    <div class="card flex-md-row">
+                                                                        <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
                                                                         <div class="card-body">
                                                                             <div class="row">
                                                                                 <div class="col-xl-12">
@@ -58,13 +63,61 @@
                                                                             </p>
                                                                             <a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
                                                                         </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
+                                                        </li>
+                                                    </ul>
                                                 </ui:repeat>
-                                            </ul>
-                                        </div>
+                                            </h:panelGroup>
+                                        </h:form>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+                                        <ui:repeat value="#{timelineController.monthArtikelList}" var="item">
+
+                                            <div class="row mt-4 mb-4">
+                                                <div class="col-md-12">
+                                                    <div class="card flex-md-row">
+                                                        <img class="esf-article-thumbnail d-none d-md-block align-content-center" src="../images/thumbnail-default.jpg" alt="Card image cap"></img>
+
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-xl-12">
+                                                                    <h1 class="esf-preview-headline">
+                                                                        <a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
+                                                                    </h1>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xl-12">
+                                                                    <label>#{item.createdAsString}</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <p class="card-text mb-auto esf-preview-text">
+                                                                #{item.content}
+                                                            </p>
+                                                            <a href="#">mehr lesen</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ui:repeat>
+
+
+-->
+
+
                                     </li>
                                     </ui:repeat>
                                 </ul>

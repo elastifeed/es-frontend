@@ -54,6 +54,7 @@ public class HomeController extends MasterController
      * entsprechen und schreibt diese in yearArtikelList
      * @param year
      */
+    //Derzeit nicht benutzt
     public void findAllArtikelByYear(int year)
     {
         allArtikelList = new ArrayList<>();
@@ -74,6 +75,7 @@ public class HomeController extends MasterController
      * nicht leer ist
      * @param month
      */
+    //Derzeit nicht benutzt
     public void findAllArtikelByMonth(int month)
     {
         monthArtikelList = new ArrayList<>();
