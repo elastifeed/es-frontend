@@ -41,7 +41,7 @@ public class TimelineController extends MasterController{
         }
         else
         {
-            allArtikelList = artikelService.getAllArtikel();
+            allArtikelList = artikelService.getAllArtikelInIndex("dummy",10000);
         }
     }
 
@@ -53,7 +53,11 @@ public class TimelineController extends MasterController{
      */
     public void findAllArtikelByYearAndMonth(int year, int month)
     {
-        findAllArtikel();
+        if(allArtikelList == null || allArtikelList.size() == 0)
+        {
+            findAllArtikel();
+        }
+
         monthArtikelList = new ArrayList<>();
         monthArtikelList.clear();
         if(!allArtikelList.isEmpty()){
