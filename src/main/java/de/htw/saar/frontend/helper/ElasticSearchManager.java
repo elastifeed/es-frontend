@@ -4,13 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.frontend.model.Artikel;
 import org.apache.http.HttpHost;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 public class ElasticSearchManager
 {
@@ -21,17 +28,102 @@ public class ElasticSearchManager
         //Make the connection to ElasticSearch
         RestClient restClient = RestClient.builder(
                 new HttpHost("localhost", 9200, "http")).build();
+
         return restClient;
     }
+
+    public int getIndexSize(String index)
+    {
+        try{
+            Request request = new Request(
+                    "GET",
+                    index + "/_stats");
+
+            RestClient restClient = getRestClient();
+            Response response = restClient.performRequest(request);
+            String responseBody = EntityUtils.toString(response.getEntity());
+
+            // Strip JSON Doc to Data List
+            JSONObject obj = new JSONObject(responseBody);
+            JSONObject resultObj = obj.getJSONObject("_all").getJSONObject("primaries").getJSONObject("docs");
+
+            return resultObj.getInt("count");
+        }
+        catch (Exception ex)
+        {
+            return 0;
+        }
+    }
+
+    /**
+     * Gibt eine Auflistung von Artikeln sortiert nach aktualistät zurück ab der gwünschten position
+     * @param size
+     * @param from
+     * @return
+     */
+    public ArrayList<Artikel> getArtikelPaged(int size,int from)
+    {
+        try {
+            ArrayList<Artikel> artikelArrayList = new ArrayList<Artikel>();
+
+                Request request = new Request(
+                        "GET",
+                        "dummy/_search?sort=created:desc&size=" + size + "&from=" + from);
+
+                artikelArrayList = executeRequest(request);
+
+            return artikelArrayList;
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+
+    int currentScrollValue = 0;
+    public ArrayList<Artikel> getAllArtikelInIndex(String index, int scrollsize)
+    {
+        if(scrollsize > 10000)
+        {
+            scrollsize = 10000;
+        }
+
+        boolean hasResults = true;
+        try {
+            ArrayList<Artikel> artikelArrayList = new ArrayList<Artikel>();
+
+            while(hasResults)
+            {
+                Request request = new Request(
+                        "GET",
+                        index + "/_search?sort=created:desc&size=10000&from=" + currentScrollValue);
+
+                ArrayList<Artikel> tmpList;
+                tmpList = executeRequest(request);
+
+                if(tmpList.size() < scrollsize)
+                    hasResults = false;
+
+                tmpList.forEach(x -> artikelArrayList.add(x));
+                currentScrollValue += scrollsize;
+            }
+
+            int result = 0;
+            return artikelArrayList;
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+
 
     public ArrayList<Artikel> getAllEntries()
     {
         try {
             Request request = new Request(
                     "GET",
-                    "dummy/_search");
-
-            executeRequest(request);
+                    "dummy/_search?sort=created:desc");
 
             ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
@@ -111,6 +203,12 @@ public class ElasticSearchManager
         }
     }
 
+    /**
+     * Sends the prev builded request to the server and extracts the response to an readable object
+     * returns an arraylist of artikel
+     * @param request
+     * @return
+     */
     public ArrayList<Artikel> executeRequest (Request request)
     {
         try {
@@ -142,7 +240,7 @@ public class ElasticSearchManager
 
                 // Add additional informations
                 myArtikel.setId(item.getString("_id"));
-                myArtikel.setScore(item.getDouble("_score"));
+
 
                 // Add to list
                 artikelList.add(myArtikel);

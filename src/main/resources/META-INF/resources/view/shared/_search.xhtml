@@ -51,22 +51,20 @@
                 <!-- Items Rechts -->
                 <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
                     <c:if test="#{!userController.isLoggedIn()}">
-                        <li class="nav-item">
-                        <i style='font-size:19px; color:red;' class='fas'>&#xf057;</i><br/><h7 style="color: #c82333">Offline</h7>
+                       <li class="nav-item">
+                           <a style="color: red" class="nav-link text-center mr-3" href="#"><i class="fas fa-user-slash mr-1"></i><br/>Offline</a>
+                       </li>
+                       <li class="nav-item">
+                            <a style="color: #1e7e34" class="nav-link text-center" href="#{navigationController.navigate('user','login')}"><i class="fas fa-user mr-1"></i><br/>Login</a>
                         </li>
-                        <li class="nav-item">
-                        <a style="color: #1e7e34" class="nav-link" href="#{navigationController.navigate('user','login')}"><i class="fas fa-user mr-1"></i><br/>Login</a>
-                    </li>
                     </c:if>
                     <c:if test="#{userController.isLoggedIn()}">
-                    <li class="nav-item">
-                        <i style='font-size:18px;color:green;' class='fas'>&#xf058;</i><h6 style="color:#18ab29">Online</h6>
-                        <h:outputText style="color: darkgreen" value="#{userController.currentUser.username}"></h:outputText>
-                    </li>
-                    <li class="nav-item">
-                        <a  style="color:#c82333" class="nav-link" href="#{navigationController.navigate('user','logout')}"><i class="fas fa-sign-out-alt"></i><br/>Logout</a>
-                    </li>
-
+                        <li class="nav-item mr-3">
+                            <a style="color: darkgreen" class="nav-link text-center" href="#"><i class="fas fa-user mr-1"></i><br/><h:outputText style="color: darkgreen" value="#{userController.currentUser.username}"></h:outputText></a>
+                        </li>
+                        <li class="nav-item">
+                            <a  style="color:#c82333" class="nav-link text-center" href="#{navigationController.navigate('user','logout')}"><i class="fas fa-sign-out-alt"></i><br/>Logout</a>
+                        </li>
                     </c:if>
                 </ul>
 

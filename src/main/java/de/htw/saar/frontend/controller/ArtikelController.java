@@ -47,4 +47,47 @@ public class ArtikelController extends MasterController
             return view("artikel","shared");
         }
     }
+
+    @RequestMapping("/artikeledit")
+    public String artikeledit(String id, String toggle,String value)
+    {
+        if (id == null || id == "")
+        {
+            return view("index","home");
+        }
+        else
+        {
+            artikelId = id;
+            try
+            {
+                // Update Artikel to favorite or remove favorite
+                artikel = manager.getArtikelById(id);
+
+                if(toggle.equals("favorite"))
+                {
+                    if(value.equals("false")){
+                        artikel.setFavorite(false);
+                    } else {
+                        artikel.setFavorite(true);
+                    }
+
+                }
+                else if(toggle.equals("spaeteransehen"))
+                {
+                    if(value.equals("false")){
+                        artikel.setSpaeteransehen(false);
+                    } else {
+                        artikel.setSpaeteransehen(true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex);
+            }
+
+            return view("artikel","shared");
+        }
+    }
+
 }

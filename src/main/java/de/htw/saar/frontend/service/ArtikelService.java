@@ -9,9 +9,22 @@ public class ArtikelService
 {
     ElasticSearchManager manager = new ElasticSearchManager();
 
+
+    public int getArtikelPageCount(String index)
+    {
+        return manager.getIndexSize(index);
+    }
+
+    public ArrayList<Artikel> getArtikelPaged(int size, int from)
+    {
+        return manager.getArtikelPaged(size,from);
+    }
+
+
     public ArrayList<Artikel> getAllArtikel()
     {
         try {
+            //return manager.getScrollResult();
             return manager.getAllEntries();
         } catch(Exception ex) {
             System.out.println(ex.getMessage());
