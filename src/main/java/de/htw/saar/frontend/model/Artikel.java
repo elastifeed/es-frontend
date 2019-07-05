@@ -1,9 +1,12 @@
 package de.htw.saar.frontend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class Artikel {
 
@@ -17,6 +20,10 @@ public class Artikel {
     private String url;
     private Boolean isFromFeed;
     private String feedUrl;
+    private String thumbnail;
+    private String pdf;
+    private boolean favorite;
+    private boolean spaeteransehen;
 
     public Artikel()
     {}
@@ -48,6 +55,22 @@ public class Artikel {
         String pattern = "MM";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return Integer.parseInt(simpleDateFormat.format(this.created));
+    }
+
+    public String getDomain()
+    {
+        try {
+
+            if (this.url.length() < 1){
+                return "ERROR";
+            }
+
+            URI uri = new URI(this.url);
+            String domain = uri.getHost();
+            return domain.startsWith("www.") ? domain.substring(4) : domain;
+        } catch (Exception ex){
+            return "ERROR";
+        }
     }
 
     public String getCaption(){ return this.caption; }
@@ -92,4 +115,82 @@ public class Artikel {
         this.feedUrl = feedUrl;
     }
 
+    public String getThumbnailsmall() {
+
+            // return reandom image
+            Random r = new Random();
+            int rng = r.nextInt((200000 - 1) + 1) + 1;
+
+            return "https://picsum.photos/225/180?random=" + rng;
+    }
+
+    public String getThumbnail() {
+
+        if(this.thumbnail == null || this.thumbnail.length() < 1)
+        {
+            // return reandom image
+            Random r = new Random();
+            int rng = r.nextInt((200000 - 1) + 1) + 1;
+
+            return "https://picsum.photos/1110/250?random=" + rng;
+        }
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public boolean getHasPdf() {
+        if(pdf == null || pdf.length() < 1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public String getPdfName() {
+
+        if(pdf == null || pdf.length() < 1)
+        {
+            return "PDF not available";
+        }
+        else
+        {
+            return "Download PDF";
+        }
+    }
+
+    public String getPdf() {
+
+        if(pdf == null || pdf.length() < 1)
+        {
+            return "#";
+        }
+
+        return pdf;
+    }
+
+    public void setPdf(String pdf) {
+        this.pdf = pdf;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public boolean isSpaeteransehen() {
+        return spaeteransehen;
+    }
+
+    public void setSpaeteransehen(boolean spaeteransehen) {
+        this.spaeteransehen = spaeteransehen;
+    }
 }

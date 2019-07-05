@@ -2,6 +2,7 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
+import de.htw.saar.frontend.model.PageNavigation;
 import de.htw.saar.frontend.service.ArtikelService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,18 @@ import javax.inject.Named;
 import java.util.ArrayList;
 
 @Named
-@RequestMapping("/")
+@RequestMapping("/home")
 public class HomeController extends MasterController
 {
     private ArtikelService artikelService = new ArtikelService();
 
+    /* Pagnition */
+    private int totalArtikelCount = 0;
+    private int pageNumber = 0;
+    private int size = 50;
+
     private String aktuellerArtikel;
+    private ArrayList<PageNavigation> pageNavigation;
     private ArrayList<Artikel> allArtikelList;
     private ArrayList<Artikel> yearArtikelList;
     private ArrayList<Artikel> monthArtikelList;
@@ -37,6 +44,9 @@ public class HomeController extends MasterController
     public void findAllArtikel()
     {
         allArtikelList = new ArrayList<>();
+        pageNavigation = new ArrayList<>();
+        // clear navigation list
+        pageNavigation.clear();
 
         if(this.getInputQuery() != null && this.getInputQuery().length() > 0)
         {
@@ -45,8 +55,69 @@ public class HomeController extends MasterController
         }
         else
         {
-            allArtikelList = artikelService.getAllArtikel();
+            fillPageNavigationList();
+            allArtikelList = artikelService.getArtikelPaged(this.size,this.pageNumber * this.size);
         }
+    }
+
+    /**
+     * Füllt die Liste für die Page Navigation
+     */
+    private void fillPageNavigationList()
+    {
+        totalArtikelCount = artikelService.getArtikelPageCount("dummy");
+        int totalPageCount = (int)Math.ceil((double)totalArtikelCount / this.size) - 1;
+
+        ArrayList<PageNavigation> pNavigation = new ArrayList<>();
+
+        int startPage = pageNumber - 10;
+        int targetPage = pageNumber + 11;
+
+        if (startPage < 0)
+        {
+            startPage = 0;
+        }
+
+        if (targetPage >= totalPageCount)
+        {
+            targetPage = totalPageCount;
+        }
+
+        int counter = 0;
+        for (int i = startPage; i < targetPage;i++)
+        {
+            // Erste Seite, falls nicht included
+            if(startPage != 0 && counter == 0)
+            {
+                pNavigation.add(generatePageNavigation(counter));
+            }
+
+            pNavigation.add(generatePageNavigation(i));
+
+            // Wenn letztes Item, adde letzte Seite
+            if(i+1 == targetPage)
+            {
+                pNavigation.add(generatePageNavigation(totalPageCount));
+            }
+
+            counter++;
+        }
+
+        this.setPageNavigation(pNavigation);
+    }
+
+    private PageNavigation generatePageNavigation(int number)
+    {
+        PageNavigation page = new PageNavigation();
+        page.setUrl("/home?page=" + number);
+        page.setIndex(number);
+
+        if(number == pageNumber)
+        {
+            page.setActive(true);
+        }
+
+        return page;
     }
 
     /**
@@ -109,8 +180,17 @@ public class HomeController extends MasterController
     public ArrayList<Artikel> getMonthArtikel() { return monthArtikelList; }
 
     @RequestMapping("")
-    public String index()
+    public String index(String page)
     {
+        if(page == null || page.length() < 1)
+        {
+            this.pageNumber = 0;
+        }
+        else
+        {
+            this.pageNumber = Integer.parseInt(page);
+        }
+
         return view("index",this);
     }
 
@@ -137,7 +217,7 @@ public class HomeController extends MasterController
         else
         {
             try{
-                ec.redirect(getNavigation().navigateHome("suche") + "?q=" + query);
+                ec.redirect(getNavigation().navigate("home","suche") + "?q=" + query);
                 return "";
             } catch(Exception ex) {
                 return "";
@@ -146,4 +226,11 @@ public class HomeController extends MasterController
         }
     }
 
+    public ArrayList<PageNavigation> getPageNavigation() {
+        return pageNavigation;
+    }
+
+    public void setPageNavigation(ArrayList<PageNavigation> pageNavigation) {
+        this.pageNavigation = pageNavigation;
+    }
 }
