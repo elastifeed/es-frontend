@@ -4,6 +4,9 @@ import de.htw.saar.frontend.model.TimelineDateMonth;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TimelineDateService {
 
@@ -33,35 +36,21 @@ public class TimelineDateService {
      * @return monthList
      */
     public ArrayList<TimelineDateMonth> getMonthList(){
-        TimelineDateMonth m1 =new TimelineDateMonth(1,"Januar");
-        TimelineDateMonth m2 =new TimelineDateMonth(2,"Februar");
-        TimelineDateMonth m3 =new TimelineDateMonth(3,"März");
-        TimelineDateMonth m4 =new TimelineDateMonth(4,"April");
-        TimelineDateMonth m5 =new TimelineDateMonth(5,"Mai");
-        TimelineDateMonth m6 =new TimelineDateMonth(6,"Juni");
-        TimelineDateMonth m7 =new TimelineDateMonth(7,"Juli");
-        TimelineDateMonth m8 =new TimelineDateMonth(8,"August");
-        TimelineDateMonth m9 =new TimelineDateMonth(9,"September");
-        TimelineDateMonth m10 =new TimelineDateMonth(10,"Oktober");
-        TimelineDateMonth m11 =new TimelineDateMonth(11,"November");
-        TimelineDateMonth m12 =new TimelineDateMonth(12,"Dezember");
 
-        monthList.clear();
+        if(monthList == null || monthList.isEmpty())
+        {
+            Calendar c = Calendar.getInstance();
+            Map<String, Integer> originalMap = c.getDisplayNames(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+            Map<Integer, String> monthsMap = originalMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
-        monthList.add(m1);
-        monthList.add(m2);
-        monthList.add(m3);
-        monthList.add(m4);
-        monthList.add(m5);
-        monthList.add(m6);
-        monthList.add(m7);
-        monthList.add(m8);
-        monthList.add(m9);
-        monthList.add(m10);
-        monthList.add(m11);
-        monthList.add(m12);
+            for(int i = 0; i < 12; i++)
+            {
+                TimelineDateMonth monthData =new TimelineDateMonth(i+1,monthsMap.get(i));
+                this.monthList.add(monthData);
+            }
+        }
 
-        return monthList;
+        return this.monthList;
     }
 
 
