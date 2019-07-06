@@ -16,14 +16,16 @@ public class TimelineDateService {
     /**
      * Schreibt alle Jahre ab dem aktuellen Jahr bis zu einem festgelegten
      * zurückliegenden Jahr in eine Liste und gibt diese zurueck
+     *
      * @return yearList
      */
-    public ArrayList<Integer> getYearList(){
+    public ArrayList<Integer> getYearList()
+    {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int yearLimit = 2016;
         yearList.clear();
 
-        while(currentYear != yearLimit){
+        while (currentYear != yearLimit) {
             yearList.add(currentYear);
             currentYear--;
         }
@@ -33,25 +35,21 @@ public class TimelineDateService {
     /**
      * Schreibt die Namen und Nummern aller Monate in eine Liste und
      * gibt diese zurueck
+     *
      * @return monthList
      */
-    public ArrayList<TimelineDateMonth> getMonthList(){
+    public ArrayList<TimelineDateMonth> getMonthList() {
 
-        if(monthList == null || monthList.isEmpty())
-        {
+        if (monthList == null || monthList.isEmpty()) {
             Calendar c = Calendar.getInstance();
             Map<String, Integer> originalMap = c.getDisplayNames(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
             Map<Integer, String> monthsMap = originalMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
-            for(int i = 0; i < 12; i++)
-            {
-                TimelineDateMonth monthData =new TimelineDateMonth(i+1,monthsMap.get(i));
+            for (int i = 0; i < 12; i++) {
+                TimelineDateMonth monthData = new TimelineDateMonth(i + 1, monthsMap.get(i));
                 this.monthList.add(monthData);
             }
         }
-
         return this.monthList;
     }
-
-
 }

@@ -1,15 +1,25 @@
 package de.htw.saar.frontend.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import de.htw.saar.frontend.helper.ElasticSearchManager;
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.model.TimelineDateMonth;
 import de.htw.saar.frontend.service.ArtikelService;
 import de.htw.saar.frontend.service.TimelineDateService;
+import org.omnifaces.util.Json;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
@@ -19,8 +29,6 @@ import java.util.ArrayList;
 public class TimelineController extends MasterController{
 
     TimelineDateService timelineDateService = new TimelineDateService();
-    private ArrayList<Integer> allYear;
-    private ArrayList<TimelineDateMonth> allMonth;
 
     private ArtikelService artikelService = new ArtikelService();
     private ArrayList<Artikel> allArtikelList;
@@ -79,10 +87,7 @@ public class TimelineController extends MasterController{
      * @return allYear
      */
     public ArrayList<Integer> getAllYear(){
-        allYear = new ArrayList<>();
-        allYear.clear();
-        allYear= timelineDateService.getYearList();
-        return allYear;
+        return timelineDateService.getYearList();
     }
 
     /**
@@ -91,15 +96,22 @@ public class TimelineController extends MasterController{
      * @return allMonth
      */
     public ArrayList<TimelineDateMonth> getAllMonth(){
-        allMonth = new ArrayList<>();
-        allMonth.clear();
-        allMonth = timelineDateService.getMonthList();
-        return allMonth;
+        return timelineDateService.getMonthList();
     }
 
     @RequestMapping()
     public String index()
     {
         return view("index",this);
+    }
+
+    @RequestMapping(value = "/loadmoreartikel", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ArrayList<Artikel> loadmoreartikel(@RequestParam String year, @RequestParam String month)
+    {
+        ElasticSearchManager manager = new ElasticSearchManager();
+        ArrayList<Artikel> result = manager.getArtikelPaged(50,0);
+
+        return result;
     }
 }
