@@ -1,13 +1,12 @@
 package de.htw.saar.frontend.service;
 
-import de.htw.saar.frontend.helper.ElasticSearchManager;
 import de.htw.saar.frontend.model.Artikel;
 
 import java.util.ArrayList;
 
 public class ArtikelService
 {
-    ElasticSearchManager manager = new ElasticSearchManager();
+    ElasticSearchService manager = new ElasticSearchService();
 
 
     public int getArtikelPageCount(String index)

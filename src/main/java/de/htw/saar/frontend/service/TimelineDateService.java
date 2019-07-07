@@ -38,7 +38,8 @@ public class TimelineDateService {
      *
      * @return monthList
      */
-    public ArrayList<TimelineDateMonth> getMonthList() {
+    public ArrayList<TimelineDateMonth> getMonthList()
+    {
 
         if (monthList == null || monthList.isEmpty()) {
             Calendar c = Calendar.getInstance();
@@ -52,4 +53,6 @@ public class TimelineDateService {
         }
         return this.monthList;
     }
+
+
 }

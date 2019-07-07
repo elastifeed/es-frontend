@@ -1,85 +1,75 @@
 package de.htw.saar.frontend.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import de.htw.saar.frontend.helper.ElasticSearchManager;
+import de.htw.saar.frontend.helper.MinifyObject;
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
+import de.htw.saar.frontend.model.ArtikelDisplay;
 import de.htw.saar.frontend.model.TimelineDateMonth;
-import de.htw.saar.frontend.service.ArtikelService;
+import de.htw.saar.frontend.service.ElasticSearchService;
 import de.htw.saar.frontend.service.TimelineDateService;
-import org.omnifaces.util.Json;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 @Named
 @RequestMapping("/timeline")
-public class TimelineController extends MasterController{
-
+public class TimelineController extends MasterController
+{
+    ElasticSearchService service = new ElasticSearchService();
     TimelineDateService timelineDateService = new TimelineDateService();
+    MinifyObject minifyObject = new MinifyObject();
 
-    private ArtikelService artikelService = new ArtikelService();
-    private ArrayList<Artikel> allArtikelList;
-    private ArrayList<Artikel> monthArtikelList;
+    // Speichert den bereits geladenen content
+    Map<String,Integer> loadedContentMap = new IdentityHashMap<>();
+
+    @RequestMapping()
+    public String index()
+    {
+        return view("index",this);
+    }
 
     /**
-     * Rufe die in der Datenbank enthaltenen Artikel ab
-     * Ist der String inputQuery gesetzt soll danach gefiltert werden
+     * Mehr Artikel
+     * @param year
+     * @param month
+     * @return
      */
-    public void findAllArtikel()
+    @RequestMapping(value = "/loadmoreartikel", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ArrayList<ArtikelDisplay> loadmoreartikel(@RequestParam String year, @RequestParam String month)
     {
-        allArtikelList = new ArrayList<>();
+        if(year.isEmpty() || month.isEmpty())
+            return null;
 
-        if(this.getInputQuery() != null && this.getInputQuery().length() > 0)
+        String key = year + "_" + month;
+        int requestSize = 50;
+        int startingFrom = 0;
+
+        // Suche den Eintrag in der loadedContentMap
+        if(loadedContentMap.containsKey(key) == false)
         {
-            allArtikelList = artikelService.getArtikelBySearch(this.getInputQuery());
-            this.setInputQuery("");
+            loadedContentMap.put(key,startingFrom + requestSize);
         }
         else
         {
-            allArtikelList = artikelService.getAllArtikelInIndex("dummy",10000);
+            startingFrom = loadedContentMap.get(key).intValue();
+            //Update entry
+            loadedContentMap.put(key,startingFrom + requestSize);
         }
+
+        ArrayList<Artikel> resultRequest = service.getArtikelPaged(requestSize,startingFrom);
+
+        ArrayList<ArtikelDisplay> result = new ArrayList<>();
+        resultRequest.forEach(x -> result.add(minifyObject.getMinifyArtikel(x)));
+
+        return result;
     }
-
-    /**
-     * Sucht in der allArtikelList nach allen Artikeln die dem uebergebenen Jahr
-     * und Monat entsprechen und schreibt diese in monthArtikelList
-     * @param year
-     * @param month
-     */
-    public void findAllArtikelByYearAndMonth(int year, int month)
-    {
-        if(allArtikelList == null || allArtikelList.size() == 0)
-        {
-            findAllArtikel();
-        }
-
-        monthArtikelList = new ArrayList<>();
-        monthArtikelList.clear();
-        if(!allArtikelList.isEmpty()){
-            for(Artikel artikel : allArtikelList){
-                int createdYear = artikel.getCreatedYearAsInt();
-                int createdMonth = artikel.getCreatedMonthAsInt();
-                if(createdYear == year && createdMonth == month){
-                    monthArtikelList.add(artikel);
-                }
-            }
-        }
-    }
-
-    public ArrayList<Artikel> getMonthArtikelList(){ return this.monthArtikelList; }
 
     /**
      * Ruft alle vordefinierten Jahre ab
@@ -97,21 +87,5 @@ public class TimelineController extends MasterController{
      */
     public ArrayList<TimelineDateMonth> getAllMonth(){
         return timelineDateService.getMonthList();
-    }
-
-    @RequestMapping()
-    public String index()
-    {
-        return view("index",this);
-    }
-
-    @RequestMapping(value = "/loadmoreartikel", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public ArrayList<Artikel> loadmoreartikel(@RequestParam String year, @RequestParam String month)
-    {
-        ElasticSearchManager manager = new ElasticSearchManager();
-        ArrayList<Artikel> result = manager.getArtikelPaged(50,0);
-
-        return result;
     }
 }

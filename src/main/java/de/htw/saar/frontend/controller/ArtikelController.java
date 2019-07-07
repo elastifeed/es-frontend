@@ -1,8 +1,9 @@
 package de.htw.saar.frontend.controller;
 
-import de.htw.saar.frontend.helper.ElasticSearchManager;
+
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
+import de.htw.saar.frontend.service.ElasticSearchService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.inject.Named;
@@ -23,7 +24,7 @@ public class ArtikelController extends MasterController
         return this.artikel;
     }
 
-    ElasticSearchManager manager = new ElasticSearchManager();
+    ElasticSearchService manager = new ElasticSearchService();
 
     @RequestMapping("/artikel")
     public String artikel(String id)
