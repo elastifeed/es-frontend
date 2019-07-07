@@ -15,27 +15,25 @@ $(document).ready(function () {
 
         var element = e.target;
 
-        if (element.getAttribute("targetfn") === "initMonth") {
-            initMonth(element);
-        } else if (element.getAttribute("targetfn") === "getMoreMonth") {
+        if (element.getAttribute("targetfn") === "getMoreMonth") {
             getMoreMonth(element);
         }
     }
 
-    // Initialisiere den angeforderten Monat mit startdaten
-    function initMonth(element)
-    {
-        var selectedYear = element.getAttribute("jahr");
-        var selectedMonth = element.getAttribute("monat");
-
-        console.log("Month Clicked: " + selectedYear + " - " + selectedMonth);
-    }
 
     // Initialisiere den angeforderten Monat mit startdaten
     function getMoreMonth(element)
     {
         var selectedYear = element.getAttribute("jahr");
         var selectedMonth = element.getAttribute("monat");
+        var init = element.getAttribute("init");
+        var isInit = false;
+
+        if(init === "true"){
+            isInit = true;
+        } else {
+            isInit = false;
+        }
 
         console.log("MORE Month Clicked: " + selectedYear + " - " + selectedMonth);
 
@@ -44,7 +42,8 @@ $(document).ready(function () {
             type: 'GET',
             data: {
                 year: selectedYear,
-                month: selectedMonth
+                month: selectedMonth,
+                isinit: isInit
             },
             dataType: "json",
             success: function (response) {

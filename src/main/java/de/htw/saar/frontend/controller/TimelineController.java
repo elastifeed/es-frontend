@@ -42,7 +42,7 @@ public class TimelineController extends MasterController
      */
     @RequestMapping(value = "/loadmoreartikel", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ArrayList<ArtikelDisplay> loadmoreartikel(@RequestParam String year, @RequestParam String month)
+    public ArrayList<ArtikelDisplay> loadmoreartikel(@RequestParam String year, @RequestParam String month, @RequestParam Boolean isinit)
     {
         if(year.isEmpty() || month.isEmpty())
             return null;
@@ -58,6 +58,14 @@ public class TimelineController extends MasterController
         }
         else
         {
+            // Es existiert schon die Anzeige für die Artikel
+            // Wurde aber als init angefordert
+            // return empty array
+            if(isinit)
+            {
+                return new ArrayList<ArtikelDisplay>();
+            }
+
             startingFrom = loadedContentMap.get(key).intValue();
             //Update entry
             loadedContentMap.put(key,startingFrom + requestSize);

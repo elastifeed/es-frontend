@@ -28,7 +28,7 @@
 
                                             <a class="btn btn-light" data-toggle="collapse" href="#timeline#{year}_#{month.monthName}_#{month.monthNumber}"
                                                role="button" aria-expanded="false" aria-controls="timeline#{year}_#{month.monthName}_#{month.monthNumber}"
-                                               targetfn="initMonth" jahr="#{year}" monat="#{month.monthNumber}">
+                                               targetfn="getMoreMonth" jahr="#{year}" monat="#{month.monthNumber}" init="true">
                                                 #{month.monthName}
                                             </a>
 
@@ -37,7 +37,7 @@
 
                                                 </ul>
 
-                                                <a class="btn btn-light" targetfn="getMoreMonth" jahr="#{year}" monat="#{month.monthNumber}">
+                                                <a class="btn btn-light" targetfn="getMoreMonth" jahr="#{year}" monat="#{month.monthNumber}" init="false">
                                                     Mehr Artikel anzeigen
                                                 </a>
                                             </div>
