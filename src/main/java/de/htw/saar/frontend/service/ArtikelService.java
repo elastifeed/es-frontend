@@ -19,16 +19,6 @@ public class ArtikelService
         return manager.getArtikelPaged(size,from);
     }
 
-    public ArrayList<Artikel> getAllArtikelInIndex(String index, int scrollsize)
-    {
-        try {
-            return manager.getAllArtikelInIndex(index,scrollsize);
-        } catch(Exception ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-    }
-
     public ArrayList<Artikel> getAllArtikel()
     {
         try {

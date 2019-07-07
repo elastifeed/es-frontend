@@ -16,12 +16,10 @@
     <ui:composition template="/view/shared/_layout.xhtml">
         <ui:define name="content">
             <h:form>
-
                 <p:panel  header="Achtung" rendered="#{!userController.isLoggedIn()}">
                     <p> Sie sind abgemeldet.Melden Sie sich zuerst an!</p>
                     <a style="color: green" class="nav-link" href="#{navigationController.navigate('user','login')}">Login <i class="fas fa-sign-in-alt"></i></a>
                 </p:panel>
-
             </h:form>
         </ui:define>
     </ui:composition>

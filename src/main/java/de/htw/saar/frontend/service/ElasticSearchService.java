@@ -3,14 +3,25 @@ package de.htw.saar.frontend.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.frontend.model.Artikel;
 import org.apache.http.HttpHost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ElasticSearchService
 {
@@ -115,6 +126,48 @@ public class ElasticSearchService
             Request request = new Request(
                     "GET",
                     "dummy/_search?sort=created:desc&size=" + size + "&from=" + from);
+
+            artikelArrayList = executeRequest(request);
+
+            return artikelArrayList;
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Gibt eine Auflistung von Artikeln sortiert nach aktualistät zurück ab der gwünschten position
+     * @param size
+     * @param from
+     * @return
+     */
+    public ArrayList<Artikel> getArtikelPagedByYearAndMonth(int size,int from, String year, String month)
+    {
+        try {
+            ArrayList<Artikel> artikelArrayList = new ArrayList<>();
+
+            // add leading 0 to month if < 10
+            String convertedMonthNumber = String.format("%02d", Integer.parseInt(month));
+
+            String startDate = year + "-" + convertedMonthNumber + "-01";
+
+            // generate the end date of the requested month
+            LocalDate endDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            endDate = endDate.withDayOfMonth(
+                    endDate.getMonth().length(endDate.isLeapYear()));
+
+            // request Query
+            RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("created").from(startDate).to(endDate.toString());
+            String queryBody = "{\n \"query\": " + rangeQueryBuilder.toString() + " \n}";
+
+            Request request = new Request(
+                    "GET",
+                    "dummy/_search?sort=created:desc&size=" + size + "&from=" + from);
+
+            request.setEntity(new NStringEntity(
+                    queryBody,
+                    ContentType.APPLICATION_JSON));
 
             artikelArrayList = executeRequest(request);
 

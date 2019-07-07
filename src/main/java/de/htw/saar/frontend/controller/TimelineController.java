@@ -63,10 +63,12 @@ public class TimelineController extends MasterController
             loadedContentMap.put(key,startingFrom + requestSize);
         }
 
-        ArrayList<Artikel> resultRequest = service.getArtikelPaged(requestSize,startingFrom);
 
+        ArrayList<Artikel> resultRequest = service.getArtikelPagedByYearAndMonth(requestSize,startingFrom,year,month);
         ArrayList<ArtikelDisplay> result = new ArrayList<>();
-        resultRequest.forEach(x -> result.add(minifyObject.getMinifyArtikel(x)));
+        if(resultRequest != null && resultRequest.size() != 0) {
+            resultRequest.forEach(x -> result.add(minifyObject.getMinifyArtikel(x)));
+        }
 
         return result;
     }
