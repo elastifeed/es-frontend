@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
@@ -26,7 +27,8 @@ public class TimelineController extends MasterController
     MinifyObject minifyObject = new MinifyObject();
 
     // Speichert den bereits geladenen content
-    Map<String,Integer> loadedContentMap = new IdentityHashMap<>();
+    //Map<String,Integer> loadedContentMap = new IdentityHashMap<>();
+    Map<String,Integer> loadedContentMap = new HashMap<>();
 
     @RequestMapping()
     public String index()
@@ -50,6 +52,9 @@ public class TimelineController extends MasterController
         String key = year + "_" + month;
         int requestSize = 50;
         int startingFrom = 0;
+
+        // Ausgabe zum Test des Key Value
+        System.out.println("Key Value: " + loadedContentMap.get(key));
 
         // Suche den Eintrag in der loadedContentMap
         if(loadedContentMap.containsKey(key) == false)
