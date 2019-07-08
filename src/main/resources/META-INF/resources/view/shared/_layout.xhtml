@@ -19,6 +19,15 @@
 
 
 <h:body>
+
+    <div class="loader-container" id="myloader">
+        <div class="cssload-loader">
+            <div class="cssload-inner cssload-one"></div>
+            <div class="cssload-inner cssload-two"></div>
+            <div class="cssload-inner cssload-three"></div>
+        </div>
+    </div>
+
     <div class="wrapper">
 
         <!-- Sidebar -->
@@ -46,6 +55,14 @@
 
 <script type="application/javascript">
     $(document).ready(function () {
+        var $loading = $('#myloader').hide();
+        $(document)
+            .ajaxStart(function () {
+                $loading.fadeIn(250);
+            })
+            .ajaxStop(function () {
+                $loading.fadeOut(250);
+            });
 
         $('#sidebarCollapse').on('click', function () {
             $('.sidebar, .content').toggleClass('active');

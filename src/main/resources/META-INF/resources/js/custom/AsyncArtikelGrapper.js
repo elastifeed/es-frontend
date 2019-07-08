@@ -24,21 +24,18 @@ $(document).ready(function () {
     // Initialisiere den angeforderten Monat mit startdaten
     function getMoreMonth(element)
     {
-        if (checkClick(element)) {
-
-
             var selectedYear = element.getAttribute("jahr");
             var selectedMonth = element.getAttribute("monat");
             var init = element.getAttribute("init");
-            var isInit = false;
+
+            var monthButtonElement = document.getElementById('tl_' + selectedYear + '_' + selectedMonth);
+            var fromValue = parseInt(monthButtonElement.getAttribute("from"));
 
             if (init === "true") {
-                isInit = true;
-            } else {
-                isInit = false;
+                if(!checkFirstClick(element)){
+                    return;
+                }
             }
-
-            console.log("MORE Month Clicked: " + selectedYear + " - " + selectedMonth);
 
             $.ajax({
                 url: '/timeline/loadmoreartikel',
@@ -46,36 +43,31 @@ $(document).ready(function () {
                 data: {
                     year: selectedYear,
                     month: selectedMonth,
-                    isinit: isInit
+                    from: fromValue
                 },
                 dataType: "json",
                 success: function (response) {
                     if (response.length == 0) {
-                        alert("Keine Daten vorhanden")
+                        alert("Keine Daten vorhanden!")
                     } else {
                         printArtikel(response, selectedYear, selectedMonth);
+                        fromValue += 50;
+                        monthButtonElement.setAttribute("from",fromValue);
                     }
                 },
                 error: function (error) {
                     alert("error error");
                 }
             });
-
-        }
-
     }
 
-    function checkClick(element) {
-        var click;
-        if(element.target.className.contains('isClicked')){
-            click = false;
-            element.target.className.removeClass('isClicked');
+    function checkFirstClick(element) {
+        if(element.classList.contains('wasClicked')){
+            return false;
         } else{
-            click = true;
-            element.target.className.addClass('isClicked');
+            element.classList.add('wasClicked');
+            return true;
         }
-
-        return click;
     }
 
     // Gibt das Array mit Artikeln aus
