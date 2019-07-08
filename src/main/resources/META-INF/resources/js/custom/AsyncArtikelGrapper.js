@@ -24,40 +24,58 @@ $(document).ready(function () {
     // Initialisiere den angeforderten Monat mit startdaten
     function getMoreMonth(element)
     {
-        var selectedYear = element.getAttribute("jahr");
-        var selectedMonth = element.getAttribute("monat");
-        var init = element.getAttribute("init");
-        var isInit = false;
+        if (checkClick(element)) {
 
-        if(init === "true"){
-            isInit = true;
-        } else {
-            isInit = false;
+
+            var selectedYear = element.getAttribute("jahr");
+            var selectedMonth = element.getAttribute("monat");
+            var init = element.getAttribute("init");
+            var isInit = false;
+
+            if (init === "true") {
+                isInit = true;
+            } else {
+                isInit = false;
+            }
+
+            console.log("MORE Month Clicked: " + selectedYear + " - " + selectedMonth);
+
+            $.ajax({
+                url: '/timeline/loadmoreartikel',
+                type: 'GET',
+                data: {
+                    year: selectedYear,
+                    month: selectedMonth,
+                    isinit: isInit
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.length == 0) {
+                        alert("Keine Daten vorhanden")
+                    } else {
+                        printArtikel(response, selectedYear, selectedMonth);
+                    }
+                },
+                error: function (error) {
+                    alert("error error");
+                }
+            });
+
         }
 
-        console.log("MORE Month Clicked: " + selectedYear + " - " + selectedMonth);
+    }
 
-        $.ajax({
-            url: '/timeline/loadmoreartikel',
-            type: 'GET',
-            data: {
-                year: selectedYear,
-                month: selectedMonth,
-                isinit: isInit
-            },
-            dataType: "json",
-            success: function (response) {
-                if(response.length == 0) {
-                    alert("Keine Daten vorhanden")
-                }
-                else {
-                    printArtikel(response,selectedYear,selectedMonth);
-                }
-            },
-            error: function (error) {
-                alert("error error");
-            }
-        });
+    function checkClick(element) {
+        var click;
+        if(element.target.className.contains('isClicked')){
+            click = false;
+            element.target.className.removeClass('isClicked');
+        } else{
+            click = true;
+            element.target.className.addClass('isClicked');
+        }
+
+        return click;
     }
 
     // Gibt das Array mit Artikeln aus
