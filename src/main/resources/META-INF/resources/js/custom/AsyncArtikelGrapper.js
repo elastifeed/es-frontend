@@ -48,6 +48,7 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (response) {
                     if (response.length == 0) {
+                        document.getElementById("showMore_"+selectedYear+"_"+selectedMonth).style.display="none";
                         alert("Keine Daten vorhanden!")
                     } else {
                         printArtikel(response, selectedYear, selectedMonth);
