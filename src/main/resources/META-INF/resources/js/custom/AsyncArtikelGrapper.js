@@ -48,11 +48,23 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (response) {
                     if (response.length == 0) {
-                        document.getElementById("showMore_"+selectedYear+"_"+selectedMonth).style.display="none";
-                        alert("Keine Daten vorhanden!")
+
+                        var targetMonthButton = document.getElementById("showMore_"+selectedYear+"_"+selectedMonth);
+
+                        if(!targetMonthButton.classList.contains('disabled'))
+                        {
+                            targetMonthButton.classList.add('disabled');
+
+                            if(fromValue < 1){
+                                targetMonthButton.innerHTML = "Keine Artikel vorhanden!";
+                            } else {
+                                targetMonthButton.innerHTML = "Keine weiteren Artikel vorhanden!";
+                            }
+                        }
+
                     } else {
                         printArtikel(response, selectedYear, selectedMonth);
-                        fromValue += 50;
+                        fromValue += 25;
                         monthButtonElement.setAttribute("from",fromValue);
                     }
                 },

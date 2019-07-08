@@ -119,7 +119,7 @@ public class Artikel {
 
             // return reandom image
             Random r = new Random();
-            int rng = r.nextInt((200000 - 1) + 1) + 1;
+            int rng = r.nextInt((2000 - 1) + 1) + 1;
 
             return "https://picsum.photos/225/180?random=" + rng;
     }
@@ -130,7 +130,7 @@ public class Artikel {
         {
             // return reandom image
             Random r = new Random();
-            int rng = r.nextInt((200000 - 1) + 1) + 1;
+            int rng = r.nextInt((2000 - 1) + 1) + 1;
 
             return "https://picsum.photos/1110/250?random=" + rng;
         }

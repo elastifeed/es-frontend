@@ -51,7 +51,8 @@ public class TimelineController extends MasterController
         if(year.isEmpty() || month.isEmpty())
             return null;
 
-        int requestSize = 50;
+
+        int requestSize = 25;
         int startingFrom = from;
 
         ArrayList<Artikel> resultRequest = service.getArtikelPagedByYearAndMonth(requestSize,startingFrom,year,month);

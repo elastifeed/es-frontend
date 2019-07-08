@@ -13,20 +13,34 @@
                 <f:viewAction action="#{userController.isLoggedInForwardHome()}"/>
             </f:metadata>
 
+
+
+            <div class="container">
+                <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-sidebar rounded box-shadow">
+                    <img class="mr-3" src="https://img.icons8.com/nolan/64/000000/future.png" alt="" width="48" height="48"></img>
+                    <div class="lh-100">
+                        <h4 class="mb-0 text-white lh-100">Timeline</h4>
+                    </div>
+                </div>
+            </div>
+
             <div class="container mt-5 mb-5">
                 <div class="row">
-                    <div class="col-md-10 offset-md-1">
+                    <div class="col-md-12">
+                        <ul class="list-unstyled">
+
                         <ui:repeat value="#{timelineController.allYear}" var="year">
-                            <a class="btn btn-light" data-toggle="collapse" href="#timeline#{year}" role="button" aria-expanded="false" aria-controls="timeline#{year}">
-                                <h3>#{year}</h3>
-                            </a>
-                            <br></br>
+                            <li class="mb-3">
+                                <a class="btn btn-sidebar btn-lg" data-toggle="collapse" href="#timeline#{year}" role="button" aria-expanded="false" aria-controls="timeline#{year}">
+                                    #{year}
+                                </a>
+
                             <div class="collapse" id="timeline#{year}">
                                 <ul class="timeline">
                                     <ui:repeat value="#{timelineController.allMonth}" var="month">
                                         <li>
 
-                                            <a class="btn btn-light" data-toggle="collapse" href="#timeline#{year}_#{month.monthName}_#{month.monthNumber}"
+                                            <a class="btn btn-sidebar btn-sm" data-toggle="collapse" href="#timeline#{year}_#{month.monthName}_#{month.monthNumber}"
                                                role="button" aria-expanded="false" aria-controls="timeline#{year}_#{month.monthName}_#{month.monthNumber}"
                                                targetfn="getMoreMonth" id="tl_#{year}_#{month.monthNumber}" jahr="#{year}" monat="#{month.monthNumber}" init="true" from="0">
                                                 #{month.monthName}
@@ -37,7 +51,7 @@
 
                                                 </ul>
 
-                                                <a class="btn btn-light" targetfn="getMoreMonth" id="showMore_#{year}_#{month.monthNumber}"  jahr="#{year}" monat="#{month.monthNumber}" init="false">
+                                                <a class="btn btn-outline-secondary mt-3" targetfn="getMoreMonth" id="showMore_#{year}_#{month.monthNumber}"  jahr="#{year}" monat="#{month.monthNumber}" init="false">
                                                     Mehr Artikel anzeigen
                                                 </a>
                                             </div>
@@ -47,7 +61,10 @@
                                     </ui:repeat>
                                 </ul>
                             </div>
+                            </li>
                         </ui:repeat>
+
+                        </ul>
                     </div>
                 </div>
             </div>

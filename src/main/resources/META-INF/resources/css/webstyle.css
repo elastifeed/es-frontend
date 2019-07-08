@@ -475,3 +475,64 @@ ul.timeline > li:before {
     }
 }
 /*END BUSY INDICATOR*/
+
+/* TIMELINE */
+.text-white-50 { color: rgba(255, 255, 255, .5); }
+
+.bg-sidebar { background-color: #232939; }
+
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.lh-100 { line-height: 1; }
+.lh-125 { line-height: 1.25; }
+.lh-150 { line-height: 1.5; }
+
+.btn-sidebar {
+    color: #FFFFFF;
+    background-color: #232939;
+    border-color: #130269;
+}
+
+.btn-sidebar:hover,
+.btn-sidebar:focus,
+.btn-sidebar:active,
+.btn-sidebar.active,
+.open .dropdown-toggle.btn-sidebar {
+    color: #FFFFFF;
+    background-color: #343754;
+    border-color: #130269;
+}
+
+.btn-sidebar:active,
+.btn-sidebar.active,
+.open .dropdown-toggle.btn-sidebar {
+    background-image: none;
+}
+
+.btn-sidebar.disabled,
+.btn-sidebar[disabled],
+fieldset[disabled] .btn-sidebar,
+.btn-sidebar.disabled:hover,
+.btn-sidebar[disabled]:hover,
+fieldset[disabled] .btn-sidebar:hover,
+.btn-sidebar.disabled:focus,
+.btn-sidebar[disabled]:focus,
+fieldset[disabled] .btn-sidebar:focus,
+.btn-sidebar.disabled:active,
+.btn-sidebar[disabled]:active,
+fieldset[disabled] .btn-sidebar:active,
+.btn-sidebar.disabled.active,
+.btn-sidebar[disabled].active,
+fieldset[disabled] .btn-sidebar.active {
+    background-color: #232939;
+    border-color: #130269;
+}
+
+.btn-sidebar .badge {
+    color: #232939;
+    background-color: #FFFFFF;
+}
+
+/* TIMELINE END */
