@@ -1,11 +1,14 @@
 package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
+import org.primefaces.event.ToggleEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.util.Date;
 
@@ -36,5 +39,10 @@ public class ErweiterteSucheController extends MasterController
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public void handleToggle(ToggleEvent event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Toggled", "Visibility:" + event.getVisibility());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }
