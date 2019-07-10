@@ -28,6 +28,7 @@ public class HomeController extends MasterController
     private int size = 50;
 
     private String aktuellerArtikel;
+    private String suchanfrage;
     private ArrayList<PageNavigation> pageNavigation;
     private ArrayList<Artikel> allArtikelList;
     private ArrayList<Artikel> yearArtikelList;
@@ -35,6 +36,11 @@ public class HomeController extends MasterController
 
     public String getAktuellerArtikel(){
         return this.aktuellerArtikel;
+    }
+
+    public String getSuchanfrage()
+    {
+        return suchanfrage;
     }
 
     /**
@@ -51,11 +57,13 @@ public class HomeController extends MasterController
         if(this.getInputQuery() != null && this.getInputQuery().length() > 0)
         {
             allArtikelList = artikelService.getArtikelBySearch(this.getInputQuery());
+            suchanfrage = "Suchanfrage: " + this.getInputQuery();
             this.setInputQuery("");
         }
         else
         {
             fillPageNavigationList();
+            suchanfrage = "";
             allArtikelList = artikelService.getArtikelPaged(this.size,this.pageNumber * this.size);
         }
     }

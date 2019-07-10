@@ -236,24 +236,6 @@ public class ElasticSearchService
         }
     }
 
-    public ArrayList<Artikel> getFilteredEntries(String field, String search)
-    {
-        try {
-            Request request = new Request(
-                    "GET",
-                    "dummy/_search?q=" + field + ":" + search);
-
-            executeRequest(request);
-
-            ArrayList<Artikel> artikelArrayList = executeRequest(request);
-
-            return artikelArrayList;
-        }catch(Exception ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-    }
-
     public ArrayList<Artikel> getEntriesByTextSearch(String search)
     {
         try {
@@ -273,7 +255,7 @@ public class ElasticSearchService
 
             Request request = new Request(
                     "GET",
-                    "dummy/_search?q=" + "content" + ":" + query + "%20OR%20" + "caption:" + query);
+                    "dummy/_search?sort=created:desc&q=" + "content" + ":" + query + "%20OR%20" + "caption:" + query);
 
             executeRequest(request);
 

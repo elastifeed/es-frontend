@@ -23,45 +23,53 @@
 				</ul>
 			</nav>
 
-			<!-- Content Aritkel -->
-			<ui:repeat value="#{homeController.allArtikel}" var="item">
-				<div class="row mt-4 mb-4">
-					<div class="col-md-12">
-						<div class="card flex-md-row">
-							<img class="esf-article-thumbnail d-none d-md-block align-content-center" alt="img artikel" src="#{item.thumbnailsmall}"></img>
-							<div class="card-body">
-								<div class="row">
-									<div class="col-xl-12">
-										<h1 class="esf-preview-headline">
-											<a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
-										</h1>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xl-12">
-										<label>#{item.createdAsString}</label>
-									</div>
-								</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h1>#{homeController.suchanfrage}</h1>
+				</div>
+			</div>
 
-								<p class="card-text mb-auto esf-preview-text">
-									#{item.content}
-								</p>
-								<a href="#">mehr lesen</a>
+			<div id="artikel-content-area">
+				<!-- Content Aritkel -->
+				<ui:repeat value="#{homeController.allArtikel}" var="item">
+					<div class="row mt-4 mb-4">
+						<div class="col-md-12">
+							<div class="card flex-md-row">
+								<img class="esf-article-thumbnail d-none d-md-block align-content-center" alt="img artikel" src="#{item.thumbnailsmall}"></img>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-xl-12">
+											<h1 class="esf-preview-headline">
+												<a href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">#{item.caption}</a>
+											</h1>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xl-12">
+											<label>#{item.createdAsString}</label>
+										</div>
+									</div>
+
+									<p class="card-text mb-auto esf-preview-text">
+										#{item.content}
+									</p>
+									<a href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</ui:repeat>
-
+				</ui:repeat>
+			</div>
 
 			<!-- Bottom Navigation -->
-			<nav aria-label="Page navigation example">
-				<ul class="pagination justify-content-center">
-					<ui:repeat value="#{homeController.pageNavigation}" var="navItem">
-						<li class="page-item #{navItem.activeClass}"><a class="page-link" href="#{navItem.url}"><h:outputText value="#{navItem.index}"></h:outputText> </a></li>
-					</ui:repeat>
-				</ul>
-			</nav>
+
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<ui:repeat value="#{homeController.pageNavigation}" var="navItem">
+							<li class="page-item #{navItem.activeClass}"><a class="page-link" href="#{navItem.url}"><h:outputText value="#{navItem.index}"></h:outputText> </a></li>
+						</ui:repeat>
+					</ul>
+				</nav>
 
 
 
