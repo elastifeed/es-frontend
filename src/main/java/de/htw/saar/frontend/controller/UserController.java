@@ -2,6 +2,7 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.User;
+import de.htw.saar.frontend.service.RequestService;
 import de.htw.saar.frontend.service.UserService;
 
 import javax.faces.application.FacesMessage;
@@ -26,14 +27,10 @@ public class UserController extends MasterController implements Serializable
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    public  final String HOME_PAGE_REDIRECT = view("index","home");
-    public  final String LOGIN_PAGE_REDIRECT = view("login",this);
-
-
     UserService userService = new UserService();
-    private String username;
+    private String email;
     private String password;
-    private String userId;
+
     private boolean loggedIn=isLoggedIn();
 
     private User currentUser;
@@ -75,48 +72,40 @@ public class UserController extends MasterController implements Serializable
         return view("logout",this);
     }
 
-    public String checkLogin()
+    /**
+     * prüfe die angaben und versuche den user mit dem server zu validieren
+     * @return
+     */
+    public void checkLogin()
     {
         try
         {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
-            currentUser=null;
+            currentUser = null;
 
-            if(UserService.isUser(username))
-            {
-                if(UserService.isPasswordValid(username,password))
-                {
-                    User u = UserService.findUserByName(username);
-                    userId = u.getUserId();
-                    currentUser=u;
-                }
-                else
-                {
-                    fc.addMessage(null,new FacesMessage("Password ist Falsch"));
-                }
-            }
-            else
-            {
-                fc.addMessage(null,new FacesMessage("Username ist Falsch"));
-            }
+            // logge den service im endpoint ein
+            // ist der Vorgang erfolgreich return token
+            String token = userService.login(email,password);
+
+            // requeste alle details des nutzers und speichere sie für die session
+            currentUser = userService.getUser(token);
+
             if (currentUser != null)
             {
-                LOGGER.info("user successful for '{}'", username);
+                LOGGER.info("user successful for '{}'", email);
                 ec.redirect(getNavigation().navigate("user","success"));
-                return null;
             }
             else
             {
-                LOGGER.info("user failed for '{}'", userId);
-                FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Login failed","Falsche Info"));
-                return null;
+                LOGGER.info("user failed for '{}'", email);
+                FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Login fehlgeschlagen!","Login fehlgeschlagen!"));
             }
         }
         catch (Exception ex)
         {
             LOGGER.info("Error validating user");
-            return "";
+            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Login fehlgeschlagen!","Login fehlgeschlagen!"));
         }
     }
 
@@ -124,12 +113,13 @@ public class UserController extends MasterController implements Serializable
     {
         try
         {
-        String identifier = userId;
-        // invalidate the session
-        LOGGER.debug("invalidating session for '{}'", identifier);
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        LOGGER.info("logout successful for '{}'", identifier);
-        currentUser=null;
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            // invalidate the session
+            LOGGER.debug("invalidating session for '{}'", email);
+            ec.invalidateSession();
+            LOGGER.info("logout successful for '{}'", email);
+            currentUser=null;
         }
         catch (Exception ex)
         {
@@ -144,7 +134,8 @@ public class UserController extends MasterController implements Serializable
 
     }
 
-    public String isLoggedInForwardHome() {
+    public String isLoggedInForwardHome()
+    {
         try {
             FacesContext fc = FacesContext.getCurrentInstance();
             ExternalContext ec = fc.getExternalContext();
@@ -159,12 +150,12 @@ public class UserController extends MasterController implements Serializable
         return null;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = username;
     }
 
     public String getPassword() {
@@ -173,14 +164,6 @@ public class UserController extends MasterController implements Serializable
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public void setLoggedIn(boolean loggedIn) {

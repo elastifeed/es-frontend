@@ -2,32 +2,17 @@ package de.htw.saar.frontend.model;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
-    private static final long serialVersionUID = -1389546558353914770L;
-
-    private String userId;
+public class User implements Serializable
+{
+    private String token;
     private String username;
-    private String password;
+    private String email;
 
-    public User(String userId, String username, String password) {
-        this.userId = userId;
+    public User(String token, String username, String email) {
+        this.token = token;
         this.username = username;
-        this.password = password;
-
+        this.email = email;
     }
-    public User( String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
 
     public String getUsername() {
         return username;
@@ -37,12 +22,11 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
     }
-
 }

@@ -21,10 +21,10 @@
 
                     <p:panel id="panel" header="Login">
                         <h:panelGrid columns="3">
-                            <p:outputLabel  value="Username:" />
-                            <p:inputText id="usernameInput" value="#{userController.username}" required="true" requiredMessage="Benutzername wird benötigt" ></p:inputText>
+                            <p:outputLabel  value="E-Mail:" />
+                            <p:inputText id="emailInput" value="#{userController.email}" required="true" requiredMessage="Benutzername wird benötigt" ></p:inputText>
 
-                            <p:message for="usernameInput" style="color: red" display="icon"/>
+                            <p:message for="emailInput" style="color: red" display="icon"/>
 
                             <p:outputLabel  value="Password:"/>
                             <p:password id="passwordInput" value="#{userController.password}" required="true" requiredMessage="Password wird benötigt" > </p:password>

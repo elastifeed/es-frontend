@@ -20,24 +20,36 @@
                     <h:panelGrid columns="3">
                         <p:outputLabel  value="Username:" />
                         <p:inputText id="usernameInput" value="#{SignupC.username}" required="true"
-                                     requiredMessage="Username darf nicht leer sein" validatorMessage="Username mindestens 3 Ziffern" > <f:validateLength minimum="3" />
+                                     requiredMessage="Username darf nicht leer sein" validatorMessage="Username maximal 255 Ziffern" > <f:validateLength minimum="1" maximum="255" />
                     </p:inputText>
                         <p:message for="usernameInput" style="color: red" display="icon"/>
 
+
+                        <p:outputLabel  value="E-Mail:" />
+                        <p:inputText id="emailInput" value="#{SignupC.email}" required="true"
+                                     requiredMessage="E-Mail darf nicht leer sein" validatorMessage="Bitte E-Mail Adresse angeben" > <f:validateLength minimum="1" maximum="255" />
+                        </p:inputText>
+                        <p:message for="usernameInput" style="color: red" display="icon"/>
+
+
                         <p:outputLabel  value="Password:"/>
                         <p:password id="passwordInput" value="#{SignupC.password}" required="true"
-                                    requiredMessage="Password darf nicht leer sein" validatorMessage="Password mindestens 3 Ziffern"> <f:validateLength minimum="3" />
+                                    requiredMessage="Password darf nicht leer sein" validatorMessage="Password mindestens muss zwischen 5 und 32 Zeichen lang sein"> <f:validateLength minimum="5" maximum="32" />
                         </p:password>
                         <p:message for="passwordInput" style="color: red" display="icon"/>
 
 
-                        <p:commandButton id="save" value="Save" update="panel messages" action="#{SignupC.save}">
+                        <p:commandButton id="save" value="Save" update="panel messages" action="#{SignupC.registrieren}">
 
                         </p:commandButton>
-                        <p:commandButton id="cancel" value="Cancel" update="panel messages" action="#{SignupC.back}"
+                        <p:commandButton id="cancel" value="Cancel" update="panel messages" action="#{SignupC.cancel}"
+                                         immediate="true" />
+
+                        <p:commandButton id="login" value="zum Login" update="panel messages" action="#{SignupC.showLogin}"
                                          immediate="true" />
                     </h:panelGrid>
                     </p:panel>
+                    <a href="#{navigationController.navigate('user','signup')}">Bereits einen Account? Jetzt einloggen</a>
                 </h:form>
             </ui:define>
         </ui:composition>

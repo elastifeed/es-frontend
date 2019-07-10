@@ -199,7 +199,7 @@
     <orderEntry type="library" name="Maven: org.elasticsearch.plugin:percolator-client:7.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.elasticsearch.plugin:parent-join-client:7.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.elasticsearch.plugin:rank-eval-client:7.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.primefaces:primefaces:7.0" level="project" />
+    <orderEntry type="library" name="Maven: org.primefaces:primefaces:6.1" level="project" />
     <orderEntry type="library" name="Maven: org.fluttercode.datafactory:datafactory:0.8" level="project" />
     <orderEntry type="library" name="Maven: com.sun.faces:jsf-impl:2.2.14" level="project" />
     <orderEntry type="library" name="Maven: com.sun.faces:jsf-api:2.2.14" level="project" />
