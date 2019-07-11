@@ -24,6 +24,7 @@ public class ErweiterteSucheController extends MasterController
     }
     private Date startDate;
     private Date endDate;
+    private String text;
 
     public Date getStartDate() {
         return startDate;
@@ -39,6 +40,14 @@ public class ErweiterteSucheController extends MasterController
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public void handleToggle(ToggleEvent event) {

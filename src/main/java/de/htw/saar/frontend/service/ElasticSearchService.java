@@ -273,7 +273,7 @@ public class ElasticSearchService
         try {
             Request request = new Request(
                     "GET",
-                    "dummy/_search?q=_id:" + id);
+                    "dummy/_search?q=_id    :" + id);
 
             ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
@@ -283,4 +283,10 @@ public class ElasticSearchService
             return null;
         }
     }
+  /*  public ArrayList<Artikel> getArtikelsbyDateRange(Date strDate, Date endDate){
+
+        Request request = new Request("GET","dummy/_search?");
+    }
+
+   */
 }

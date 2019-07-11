@@ -12,7 +12,7 @@ import java.util.Date;
 public class DateRangeBean {
     private Date startDate;
     private Date endDate;
-    private DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public DateRangeBean() {
         Calendar c1 = Calendar.getInstance();
@@ -39,7 +39,7 @@ public class DateRangeBean {
         this.endDate = endDate;
     }
     public String getDateRangeString() {
-        return String.format("Zeitraum   Von:  %s   Bis: %s%n",
+        return String.format(" Von:  %s   Bis: %s%n",
                 formatter.format(startDate), formatter.format(endDate));
     }
 

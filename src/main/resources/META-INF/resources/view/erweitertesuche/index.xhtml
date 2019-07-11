@@ -3,6 +3,7 @@
 
 <html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xml:lang="en" lang="en">
@@ -13,37 +14,53 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <p>
-                        <p:outputLabel for="dateSelectBtn"  value="#{dateRange.dateRangeString}"/>
-                    </p>
+                    <p:panel id="panel" header="Erweiterte Suche">
+                    <h:panelGrid columns="3">
+                    <h:outputText value="Suche nach: "/>
+                    <h:inputText id="text" value="#{erweiterteSucheController.text}" a:placeholder="Suche" a:aria-describedby="inputGroupAppend" />
+                    <p:message for="text" style="color: red" display="icon"/>
 
-                    <p:commandButton id="dateSelectBtn" value="Zeitraum ändern" type="button"
+                    <h:outputText value="Datum: "/>
+                    <p:outputLabel for="dateSelectBtn"  value="#{dateRange.dateRangeString}"/>
+                    <p:commandButton id="dateSelectBtn" value="Datum ändern" type="button"
                                      onclick="PF('dateRangeDlg').show();"/>
 
-                    <p:dialog closable="false"
-                              header="Wählen Sie einen Zeitraum!" resizable="false"
-                              widgetVar="dateRangeDlg" minHeight="40" modal="true">
+                        <p:dialog closable="false"
+                                  header="Date ändern" resizable="false"
+                                  widgetVar="dateRangeDlg" minHeight="100" minWidth="100" modal="true" width="450" height="300">
                         <p:outputPanel>
-                            <h:form>
-                                <p:calendar id="idStartDate" binding="#{startDate}"
-                                            value="#{dateRange.startDate}">
-                                </p:calendar>
-                                <p:calendar id="idEndDate" value="#{dateRange.endDate}">
-                                    <f:validator validatorId="dateRangeValidator"/>
-                                    <f:attribute name="startDateAttr" value="#{startDate}"/>
-                                </p:calendar>
-                                <br/>
-                                <p:messages id="messages" showDetail="true"
-                                            autoUpdate="true"/>
-                                <br/>
-                                <p:commandButton value="Save" icon="ui-icon-check" />
-                                <p:commandButton value="Cancel" icon="ui-icon-close"
-                                                 immediate="true"
-                                                 onclick="PF('dateRangeDlg').hide()"/>
-                            </h:form>
-                        </p:outputPanel>
-                    </p:dialog>
+                        <h:form>
+                            <h:panelGrid columns="2">
+                     <h:outputText value="Start Date" />
+                        <p:calendar id="idStartDate" binding="#{startDate}"
+                                    value="#{dateRange.startDate}" pattern="MM/dd/yyyy HH:mm"/>
 
+
+
+                     <h:outputText value="End Date:" />
+                        <p:calendar id="idEndDate" value="#{dateRange.endDate}"  pattern="MM/dd/yyyy HH:mm">
+                            <f:validator validatorId="dateRangeValidator"/>
+                            <f:attribute name="startDateAttr" value="#{startDate}"/>
+                        </p:calendar>
+
+                            <br/><br/>
+                            <p:messages id="messages" showDetail="true"
+                                        autoUpdate="true"/>
+                            <br/>
+                            </h:panelGrid>
+                            <p:commandButton value="Save" icon="ui-icon-check"/>
+                            <p:commandButton value="Cancel" icon="ui-icon-close"
+                                             immediate="true"
+                                             onclick="PF('dateRangeDlg').hide()"/>
+                            <br/>
+
+                        </h:form>
+                        </p:outputPanel>
+                        </p:dialog>
+
+
+</h:panelGrid>
+                    </p:panel>
                 </div>
             </div>
 
