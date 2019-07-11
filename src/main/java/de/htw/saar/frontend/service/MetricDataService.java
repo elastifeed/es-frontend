@@ -1,6 +1,8 @@
 package de.htw.saar.frontend.service;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -139,9 +141,10 @@ public class MetricDataService
      */
     private String getCurrentTimestamp()
     {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDate localDate = LocalDate.now();
-        return dtf.format(localDate);
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+
+        return formatter.format(date);
     }
 
 }
