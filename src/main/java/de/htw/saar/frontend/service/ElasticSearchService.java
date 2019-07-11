@@ -309,6 +309,8 @@ public class ElasticSearchService
                     "GET",
                     "dummy/_search?q=_id:" + id);
 
+            MetricDataService m = new MetricDataService();
+            m.addArtikelMetrik(id,"dummy");
             ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
             return artikelArrayList.get(0);

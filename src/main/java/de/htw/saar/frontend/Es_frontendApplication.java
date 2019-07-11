@@ -15,6 +15,7 @@
  */
 package de.htw.saar.frontend;
 
+import de.htw.saar.frontend.service.MetricDataService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,6 +28,10 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class Es_frontendApplication {
 	public static void main(String[] args) {
+		// Create Database if not exist
+		MetricDataService metricDataService = new MetricDataService();
+		metricDataService.createDatabaseIfNotExist();
+
 		SpringApplication.run(Es_frontendApplication.class);
 	}
 }
