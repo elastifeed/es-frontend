@@ -307,7 +307,7 @@ public class ElasticSearchService
         try {
             Request request = new Request(
                     "GET",
-                    "dummy/_search?q=_id:" + id);
+                    "dummy/_search?q=_id    :" + id);
 
             MetricDataService m = new MetricDataService();
             m.addArtikelMetrik(id,"dummy");
@@ -319,4 +319,10 @@ public class ElasticSearchService
             return null;
         }
     }
+  /*  public ArrayList<Artikel> getArtikelsbyDateRange(Date strDate, Date endDate){
+
+        Request request = new Request("GET","dummy/_search?");
+    }
+
+   */
 }
