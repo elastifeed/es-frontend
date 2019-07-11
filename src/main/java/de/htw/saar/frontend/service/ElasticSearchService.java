@@ -140,6 +140,40 @@ public class ElasticSearchService
     }
 
     /**
+     * Gibt die Artikel zwischen dem Datumsbereich zurück
+     * @param size
+     * @param from
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public ArrayList<Artikel> getArtikelPagedDateRange(int size,int from, String startDate, String endDate)
+    {
+        try {
+            ArrayList<Artikel> artikelArrayList = new ArrayList<>();
+
+            // request Query
+            RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("created").from(startDate).to(endDate.toString());
+            String queryBody = "{\n \"query\": " + rangeQueryBuilder.toString() + " \n}";
+
+            Request request = new Request(
+                    "GET",
+                    "dummy/_search?sort=created:desc&size=" + size + "&from=" + from);
+
+            request.setEntity(new NStringEntity(
+                    queryBody,
+                    ContentType.APPLICATION_JSON));
+
+            artikelArrayList = executeRequest(request);
+
+            return artikelArrayList;
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Gibt eine Auflistung von Artikeln sortiert nach aktualistät zurück ab der gwünschten position
      * @param size
      * @param from
