@@ -130,7 +130,7 @@ public class ErweiterteSucheController extends MasterController
     }
 
     public void searchResult(){
-       searchArtikelList= elasticSearchService.getArtikelPagedDateRange(10000,0,startDate,endDate,text,exact,sort);
+       searchArtikelList= elasticSearchService.getArtikelPagedDateRange(1000,0,startDate,endDate,text,exact,sort);
     }
 
     public void pageSort(){
