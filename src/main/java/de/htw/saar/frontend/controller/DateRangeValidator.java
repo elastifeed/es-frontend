@@ -26,7 +26,7 @@ public class DateRangeValidator implements Validator {
             FacesMessage msg =
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Vorsicht!",
-                            "Start-Time kann nicht vor End-Time sein! ");
+                            "Start-Time kann nicht vor dem End-Time sein! ");
             throw new ValidatorException(msg);
         } else {
             RequestContext c = RequestContext.getCurrentInstance();

@@ -147,30 +147,74 @@ public class ElasticSearchService
      * @param endDate
      * @return
      */
-    public ArrayList<Artikel> getArtikelPagedDateRange(int size,int from, String startDate, String endDate)
+    public ArrayList<Artikel> getArtikelPagedDateRange(int size,int from, Date startDate, Date endDate, String search,Boolean exact,String sort)
     {
+        String start=dateConverter(startDate);
+        String end=dateConverter(endDate);
+
         try {
             ArrayList<Artikel> artikelArrayList = new ArrayList<>();
 
-            // request Query
-            RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("created").from(startDate).to(endDate.toString());
-            String queryBody = "{\n \"query\": " + rangeQueryBuilder.toString() + " \n}";
+            String query_string = "";
+            String operator="OR";
+            if(exact==true){
+                operator="AND";
+            }
 
-            Request request = new Request(
-                    "GET",
-                    "dummy/_search?sort=created:desc&size=" + size + "&from=" + from);
+            if(search != null && search.length() > 0)
+            {
+             query_string=",\n" +
+                     "        {\n" +
+                     "          \"query_string\": {\n" +
+                     "            \"fields\": [\n" +
+                     "              \"content\",\n" +
+                     "              \"caption\"\n" +
+                     "            ],\n" +
+                     "            \"query\": \""+search+"\",\n" +
+                     "            \"default_operator\": \""+operator+"\"\n" +
+                     "          }\n" +
+                     "        }";
+
+            }
+            String queryBody =
+                    "{\n" +
+                    "  \"query\": {\n" +
+                    "    \"bool\": {\n" +
+                    "      \"must\": [\n" +
+                    "        {\n" +
+                    "          \"range\": {\n" +
+                    "            \"created\": {\n" +
+                    "              \"gte\": \""+dateConverter(startDate)+"\",\n" +
+                    "              \"lte\": \""+dateConverter(endDate)+"\"\n" +
+                    "            }\n" +
+                    "          }\n" +
+                    "        }"+query_string+"\n"+
+                    "      ]\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "  , \"sort\": [\n" +
+                    "    {\n" +
+                    "      \"created\": {\n" +
+                    "        \"order\": \""+sort+"\"\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}";
+
+
+            Request request = new Request("GET","dummy/_search?size="+size+"&from="+from);
 
             request.setEntity(new NStringEntity(
                     queryBody,
                     ContentType.APPLICATION_JSON));
 
             artikelArrayList = executeRequest(request);
-
             return artikelArrayList;
         }catch(Exception ex) {
             System.out.println(ex.getMessage());
             return null;
         }
+
     }
 
     /**
@@ -200,7 +244,7 @@ public class ElasticSearchService
 
             Request request = new Request(
                     "GET",
-                    "dummy/_search?sort=created:desc&size=" + size + "&from=" + from);
+                    "dummy_new/_search?sort=created:desc&size=" + size + "&from=" + from);
 
             request.setEntity(new NStringEntity(
                     queryBody,
@@ -319,10 +363,17 @@ public class ElasticSearchService
             return null;
         }
     }
-  /*  public ArrayList<Artikel> getArtikelsbyDateRange(Date strDate, Date endDate){
+ public String dateConverter(Date date)
+ {
+     Calendar cal = Calendar.getInstance();
+     cal.setTime(date);
+     cal.add(Calendar.HOUR, -2);
+     date = cal.getTime();
+     DateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
+     DateFormat formatterTime = new SimpleDateFormat("HH:mm");
+     String strDate = formatterDate.format(date);
+     String strTime = formatterTime.format(date);
+     return strDate+"T"+strTime;
+ }
 
-        Request request = new Request("GET","dummy/_search?");
-    }
-
-   */
 }
