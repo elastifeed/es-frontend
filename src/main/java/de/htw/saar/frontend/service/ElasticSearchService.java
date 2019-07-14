@@ -2,6 +2,7 @@ package de.htw.saar.frontend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.frontend.model.Artikel;
+import de.htw.saar.frontend.model.ArtikelNew;
 import org.apache.http.HttpHost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
@@ -16,6 +17,7 @@ import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -91,6 +93,54 @@ public class ElasticSearchService
         }
     }
 
+    /**
+     * Sends the prev builded request to the server and extracts the response to an readable object
+     * returns an arraylist of artikel
+     * @param request
+     * @return
+     */
+    public ArrayList<ArtikelNew> executeRequestNewDataFormat (Request request)
+    {
+        try {
+            RestClient restClient = getRestClient();
+            Response response = restClient.performRequest(request);
+            String responseBody = EntityUtils.toString(response.getEntity());
+
+            // List of Artikel
+            ArrayList<ArtikelNew> artikelList = new ArrayList<>();
+
+            // Strip JSON Doc to Data List
+            JSONObject obj = new JSONObject(responseBody).getJSONObject("hits");
+            JSONArray resultArray = (JSONArray) obj.get("hits");
+
+            // run every entry
+            for (int i = 0; i < resultArray.length(); i++) {
+                // Holds the Data of the Artikel
+                ArtikelNew myArtikel = new ArtikelNew();
+
+                // Complete Object
+                JSONObject item = resultArray.getJSONObject(i);
+
+                // Data Object
+                String data = item.getJSONObject("_source").toString();
+
+                // Map basic data to object
+                myArtikel = new ObjectMapper().readValue(data, ArtikelNew.class);
+
+                // Add additional informations
+                myArtikel.setId(item.getString("_id"));
+
+
+                // Add to list
+                artikelList.add(myArtikel);
+            }
+            return artikelList;
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
 
     public int getIndexSize(String index)
     {
@@ -131,6 +181,16 @@ public class ElasticSearchService
                     "dummy/_search?sort=created:desc&size=" + size + "&from=" + from);
 
             artikelArrayList = executeRequest(request);
+
+
+            // TODO REMOVE
+            // Testrequest new Data Format
+            ArrayList<ArtikelNew> resTest = new ArrayList<>();
+            Request requestTest = new Request(
+                    "GET",
+                    "dummy_new/_search?sort=created:desc&size=" + size + "&from=" + from);
+            resTest = executeRequestNewDataFormat(requestTest);
+
 
             return artikelArrayList;
         }catch(Exception ex) {
