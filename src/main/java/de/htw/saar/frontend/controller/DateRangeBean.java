@@ -1,5 +1,7 @@
 package de.htw.saar.frontend.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.text.DateFormat;
@@ -23,6 +25,8 @@ public class DateRangeBean {
         startDate = c2.getTime();
     }
 
+
+
     public Date getStartDate() {
         return startDate;
     }
@@ -38,9 +42,12 @@ public class DateRangeBean {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    public String getDateRangeString() {
-        return String.format(" Von:  %s   Bis: %s%n",
-                formatter.format(startDate), formatter.format(endDate));
+
+    public String getStartDateRangeString() {
+        return String.format(" Von:  %s ", formatter.format(startDate));
+    }
+    public String getEndDateRangeString() {
+        return String.format("Bis: %s%n", formatter.format(endDate));
     }
 
 }
