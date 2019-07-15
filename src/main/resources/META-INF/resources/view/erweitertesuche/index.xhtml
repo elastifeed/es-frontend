@@ -11,11 +11,20 @@
 <h:body>
     <ui:composition template="/view/shared/_layout.xhtml">
         <ui:define name="content">
+            <f:metadata>
+                <f:viewAction action="#{userController.isLoggedInForwardHome()}"/>
+            </f:metadata>
 <h:form>
             <div class="row">
                 <div class="col-md-12">
 <h:form id="erweiterteSucheForm" >
-                    <p:panel id="panel" header="Erweiterte Suche">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-sidebar rounded box-shadow">
+        <img class="mr-3" src="https://img.icons8.com/nolan/64/000000/view-file.png" alt="" width="48" height="48"></img>
+        <div class="lh-100">
+            <h4 class="mb-0 text-white lh-100">Erweiterte Suche</h4>
+        </div>
+    </div>
+                    <p:panel id="panel">
                     <h:panelGrid id="grid" columns="3">
                     <h:outputText value="Suche nach: "/>
                     <h:inputText id="text" value="#{erweiterteSucheController.text}" a:placeholder="Suche" a:aria-describedby="inputGroupAppend" lang="50"/>
@@ -23,17 +32,17 @@
                         Von:<p:outputLabel style="font-weight: bold;color: #002752;border: #1b1e21;" value="#{erweiterteSucheController.startDateRangeString}"/>
                         <h:outputText value=""/>
                         bis:<p:outputLabel style="font-weight: bold;color: #002752;border: #1b1e21;" value="#{erweiterteSucheController.endDateRangeString}"/>
-                        <p:commandButton id="dateSelectBtn" value="Datum ändern" type="button"
+                        <p:commandButton styleClass="btn btn-sidebar btn-sm" id="dateSelectBtn" value="Datum ändern" type="button"
                                      onclick="PF('dateRangeDlg').show();"> </p:commandButton>
 
                         <h:outputText value="Sortieren nach:" />
-                        <p:selectOneButton value="#{erweiterteSucheController.sort}">
+                        <p:selectOneButton styleClass="btn btn-sidebar btn-sm" value="#{erweiterteSucheController.sort}">
                             <f:selectItem itemLabel="Das Neuste" itemValue="desc" />
                             <f:selectItem itemLabel="das Älteste" itemValue="asc" />
                         </p:selectOneButton>
                         <h:outputText value=""/>
 
-                        <p:commandButton type="submit" id="los" value="Suchen" actionListener="#{erweiterteSucheController.searchResult}">
+                        <p:commandButton styleClass="btn btn-sidebar btn-sm" type="submit" id="los" value="Suchen" actionListener="#{erweiterteSucheController.searchResult}">
                             <f:ajax render="searchField"/>
                         </p:commandButton>
 
@@ -81,18 +90,24 @@
             <h:form id="searchField">
             <div id="artikel-content-area">
                 <c:if  test="#{!erweiterteSucheController.isFound()}">
-                   <br/><br/><h2 align="center" style="color: #c82333">Keine Artikel gefunden :( </h2>
+                        <div class="alert alert-danger">
+                            <img class="mr-3" src="https://img.icons8.com/nolan/64/000000/sad.png" alt="" width="48" height="48"></img>
+                            <strong>Leider</strong> <a href="#" class="alert-link">Keine Ergebnisse gefunden</a>.
+                    </div>
                 </c:if>
                 <c:if  test="#{!erweiterteSucheController.tabViewVisible()}">
+                    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-sidebar rounded box-shadow">
+                        <img class="mr-3" src="https://img.icons8.com/nolan/64/000000/report-card.png" alt="" width="48" height="48"></img>
+                        <div class="lh-100">
+                            <h4 class="mb-0 text-white lh-100">Suchergebnisse</h4>
+                        </div>
+                    </div>
                     <p:dataGrid  var="item" value="#{erweiterteSucheController.searchArtikelList}" columns="1" layout="grid"
                                 rows="20" paginator="true" style="margin-top:15px"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10,20,30">
 
-                        <f:facet name="header">
-                            Suchergebnisse
-                        </f:facet>
-                        <p:panel header="#{item.caption}"  style="text-align:center">
+                        <p:panel header="#{item.title}"  style="text-align:center">
                              <!-- Content Aritkel -->
                         <div class="row mt-4 mb-4">
                                     <div class="col-md-12">
@@ -102,7 +117,7 @@
                                                 <div class="row">
                                                     <div class="col-xl-12">
                                                        <a style="color:blue" href="#{navigationController.navigate('artikel')}?id=#{item.id}" class="text-dark">
-                                                    <h5 style="color: #130269">#{item.caption}</h5></a>
+                                                    <h5 style="color: #130269">#{item.title}</h5></a>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -112,7 +127,7 @@
                                                 </div>
 
                                                 <p class="card-text mb-auto esf-preview-text">
-                                                    #{item.content}
+                                                    #{item.markdown_content}
                                                 </p>
                                                 <a style="color: #005cbf" href="#{navigationController.navigate('artikel')}?id=#{item.id}">mehr lesen</a>
                                             </div>
