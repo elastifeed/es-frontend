@@ -2,16 +2,10 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
-import de.htw.saar.frontend.model.ArtikelNew;
 import de.htw.saar.frontend.model.PageNavigation;
 import de.htw.saar.frontend.service.ArtikelService;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -31,9 +25,9 @@ public class HomeController extends MasterController
     private String aktuellerArtikel;
     private String suchanfrage;
     private ArrayList<PageNavigation> pageNavigation;
-    private ArrayList<ArtikelNew> allArtikelList;
-    private ArrayList<ArtikelNew> yearArtikelList;
-    private ArrayList<ArtikelNew> monthArtikelList;
+    private ArrayList<Artikel> allArtikelList;
+    private ArrayList<Artikel> yearArtikelList;
+    private ArrayList<Artikel> monthArtikelList;
 
     public String getAktuellerArtikel(){
         return this.aktuellerArtikel;
@@ -141,7 +135,7 @@ public class HomeController extends MasterController
         allArtikelList = artikelService.getAllArtikel();
         yearArtikelList = new ArrayList<>();
         yearArtikelList.clear();
-        for (ArtikelNew artikel : allArtikelList) {
+        for (Artikel artikel : allArtikelList) {
             int createdYear = artikel.getCreatedYearAsInt();
             if(createdYear == year){
                 yearArtikelList.add(artikel);
@@ -161,7 +155,7 @@ public class HomeController extends MasterController
         monthArtikelList = new ArrayList<>();
         monthArtikelList.clear();
         if(!yearArtikelList.isEmpty()){
-            for (ArtikelNew artikel : yearArtikelList){
+            for (Artikel artikel : yearArtikelList){
                 int createdMonth = artikel.getCreatedMonthAsInt();
                 if(createdMonth == month){
                     monthArtikelList.add(artikel);
@@ -174,19 +168,19 @@ public class HomeController extends MasterController
      * Gibt die allArtikelList zurueck
      * @return allArtikelList
      */
-    public ArrayList<ArtikelNew> getAllArtikel() { return allArtikelList; }
+    public ArrayList<Artikel> getAllArtikel() { return allArtikelList; }
 
     /**
      * Gibt die yearArtikelList zurueck
      * @return yearArtikelList
      */
-    public ArrayList<ArtikelNew> getYearArtikel() { return yearArtikelList; }
+    public ArrayList<Artikel> getYearArtikel() { return yearArtikelList; }
 
     /**
      * Gibt die monthArtikelList zurueck
      * @return monthArtikelList
      */
-    public ArrayList<ArtikelNew> getMonthArtikel() { return monthArtikelList; }
+    public ArrayList<Artikel> getMonthArtikel() { return monthArtikelList; }
 
     @RequestMapping("")
     public String index(String page)

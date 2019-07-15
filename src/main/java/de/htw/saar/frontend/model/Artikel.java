@@ -15,42 +15,57 @@ public class Artikel {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date created;
-    private String caption;
-    private String content;
-    private String url;
-    private Boolean isFromFeed;
-    private String feedUrl;
-    private String thumbnail;
+    private String author;
+    private String title;
+    private String raw_content;
+    private String markdown_content;
     private String pdf;
-    private boolean favorite;
-    private boolean spaeteransehen;
+    private String screenshot;
+    private String thumbnail;
+    private String url;
+    private boolean from_feed;
+    private String feed_url;
+    private boolean starred;
+    private boolean read_later;
+
 
     public Artikel()
     {}
 
     public String getId() { return  this.id; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public double getScore() { return this.score; }
+    public void setScore(double score) {
+        this.score = score;
+    }
 
     public Date getCreated(){ return this.created; }
+    public void setCreated(Date created) {this.created = created;}
 
     public String getCreatedAsString(){
         DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
         return dateFormat.format(this.created);
     }
+
     public String getCreatedDateAsString(){
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         return dateFormat.format(this.created);
     }
+
     public String getCreatedTimeAsString(){
         DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         return dateFormat.format(this.created);
     }
+
     public int getCreatedYearAsInt(){
         String pattern = "yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return Integer.parseInt(simpleDateFormat.format(this.created));
     }
+
     public int getCreatedMonthAsInt(){
         String pattern = "MM";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -73,72 +88,50 @@ public class Artikel {
         }
     }
 
-    public String getCaption(){ return this.caption; }
 
-    public String getContent(){ return this.content; }
-
-    public String getUrl(){ return this.url; }
-
-    public Boolean getIsFromFeed(){ return this.isFromFeed; }
-
-    public String getFeedUrl() { return this.feedUrl; }
-
-    public void setId(String id) {
-        this.id = id;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getRaw_content() {
+        return raw_content;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setRaw_content(String raw_content) {
+        this.raw_content = raw_content;
     }
 
-    public void setFromFeed(Boolean fromFeed) {
-        isFromFeed = fromFeed;
+    public String getMarkdown_content() {
+        return markdown_content;
     }
 
-    public void setFeedUrl(String feedUrl) {
-        this.feedUrl = feedUrl;
+    public void setMarkdown_content(String markdown_content) {
+        this.markdown_content = markdown_content;
     }
 
-    public String getThumbnailsmall() {
-
-            // return reandom image
-            Random r = new Random();
-            int rng = r.nextInt((2000 - 1) + 1) + 1;
-
-            return "https://picsum.photos/225/180?random=" + rng;
-    }
-
-    public String getThumbnail() {
-
-        if(this.thumbnail == null || this.thumbnail.length() < 1)
+    public String getPdf() {
+        if(pdf == null || pdf.length() < 1)
         {
-            // return reandom image
-            Random r = new Random();
-            int rng = r.nextInt((2000 - 1) + 1) + 1;
-
-            return "https://picsum.photos/1110/250?random=" + rng;
+            return "#";
         }
-        return thumbnail;
+
+        return pdf;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setPdf(String pdf) {
+        this.pdf = pdf;
     }
 
     public boolean getHasPdf() {
@@ -164,33 +157,74 @@ public class Artikel {
         }
     }
 
-    public String getPdf() {
+    public String getScreenshot() {
+        return screenshot;
+    }
 
-        if(pdf == null || pdf.length() < 1)
+    public void setScreenshot(String screenshot) {
+        this.screenshot = screenshot;
+    }
+
+    public String getThumbnailsmall() {
+
+        // return reandom image
+        Random r = new Random();
+        int rng = r.nextInt((2000 - 1) + 1) + 1;
+
+        return "https://picsum.photos/225/180?random=" + rng;
+    }
+
+    public String getThumbnail() {
+        if(this.thumbnail == null || this.thumbnail.length() < 1)
         {
-            return "#";
+            // return reandom image
+            Random r = new Random();
+            int rng = r.nextInt((2000 - 1) + 1) + 1;
+
+            return "https://picsum.photos/1110/250?random=" + rng;
         }
-
-        return pdf;
+        return thumbnail;
     }
 
-    public void setPdf(String pdf) {
-        this.pdf = pdf;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
-    public boolean isFavorite() {
-        return favorite;
+    public String getUrl(){ return this.url; }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
+    public boolean isFrom_feed() {
+        return from_feed;
     }
 
-    public boolean isSpaeteransehen() {
-        return spaeteransehen;
+    public void setFrom_feed(boolean from_feed) {
+        this.from_feed = from_feed;
     }
 
-    public void setSpaeteransehen(boolean spaeteransehen) {
-        this.spaeteransehen = spaeteransehen;
+    public String getFeed_url() {
+        return feed_url;
+    }
+
+    public void setFeed_url(String feed_url) {
+        this.feed_url = feed_url;
+    }
+
+    public boolean isStarred() {
+        return starred;
+    }
+
+    public void setStarred(boolean starred) {
+        this.starred = starred;
+    }
+
+    public boolean isRead_later() {
+        return read_later;
+    }
+
+    public void setRead_later(boolean read_later) {
+        this.read_later = read_later;
     }
 }

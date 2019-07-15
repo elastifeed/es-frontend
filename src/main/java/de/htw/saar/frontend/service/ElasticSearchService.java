@@ -3,7 +3,6 @@ package de.htw.saar.frontend.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.frontend.controller.UserController;
 import de.htw.saar.frontend.model.Artikel;
-import de.htw.saar.frontend.model.ArtikelNew;
 import org.apache.http.HttpHost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
@@ -11,20 +10,15 @@ import org.apache.http.util.EntityUtils;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Map;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,7 +62,7 @@ public class ElasticSearchService
      * returns an arraylist of artikel
      * @param request
      * @return
-     */
+
     public ArrayList<Artikel> executeRequest (Request request)
     {
         try {
@@ -110,6 +104,8 @@ public class ElasticSearchService
             return null;
         }
     }
+     */
+
 
     /**
      * Sends the prev builded request to the server and extracts the response to an readable object
@@ -117,7 +113,7 @@ public class ElasticSearchService
      * @param request
      * @return
      */
-    public ArrayList<ArtikelNew> executeRequestNewDataFormat (Request request)
+    public ArrayList<Artikel> executeRequestNewDataFormat (Request request)
     {
         try {
             RestClient restClient = getRestClient();
@@ -125,7 +121,7 @@ public class ElasticSearchService
             String responseBody = EntityUtils.toString(response.getEntity());
 
             // List of Artikel
-            ArrayList<ArtikelNew> artikelList = new ArrayList<>();
+            ArrayList<Artikel> artikelList = new ArrayList<>();
 
             // Strip JSON Doc to Data List
             JSONObject obj = new JSONObject(responseBody).getJSONObject("hits");
@@ -134,7 +130,7 @@ public class ElasticSearchService
             // run every entry
             for (int i = 0; i < resultArray.length(); i++) {
                 // Holds the Data of the Artikel
-                ArtikelNew myArtikel = new ArtikelNew();
+                Artikel myArtikel = new Artikel();
 
                 // Complete Object
                 JSONObject item = resultArray.getJSONObject(i);
@@ -143,7 +139,7 @@ public class ElasticSearchService
                 String data = item.getJSONObject("_source").toString();
 
                 // Map basic data to object
-                myArtikel = new ObjectMapper().readValue(data, ArtikelNew.class);
+                myArtikel = new ObjectMapper().readValue(data, Artikel.class);
 
                 // Add additional informations
                 myArtikel.setId(item.getString("_id"));
@@ -189,10 +185,10 @@ public class ElasticSearchService
      * @param from
      * @return
      */
-    public ArrayList<ArtikelNew> getArtikelPaged(int size,int from)
+    public ArrayList<Artikel> getArtikelPaged(int size, int from)
     {
         try {
-            ArrayList<ArtikelNew> artikelArrayList = new ArrayList<>();
+            ArrayList<Artikel> artikelArrayList = new ArrayList<>();
 
             Request request = new Request(
                     "GET",
@@ -203,7 +199,7 @@ public class ElasticSearchService
 
             // TODO REMOVE
             // Testrequest new Data Format
-            ArrayList<ArtikelNew> resTest = new ArrayList<>();
+            ArrayList<Artikel> resTest = new ArrayList<>();
             Request requestTest = new Request(
                     "GET",
                     this.index + "/_search?sort=created:desc&size=" + size + "&from=" + from);
@@ -225,13 +221,13 @@ public class ElasticSearchService
      * @param endDate
      * @return
      */
-    public ArrayList<ArtikelNew> getArtikelPagedDateRange(int size,int from, Date startDate, Date endDate, String search,Boolean exact,String sort)
+    public ArrayList<Artikel> getArtikelPagedDateRange(int size, int from, Date startDate, Date endDate, String search, Boolean exact, String sort)
     {
         String start=dateConverter(startDate);
         String end=dateConverter(endDate);
 
         try {
-            ArrayList<ArtikelNew> artikelArrayList = new ArrayList<>();
+            ArrayList<Artikel> artikelArrayList = new ArrayList<>();
 
             String query_string = "";
             String operator="OR";
@@ -301,10 +297,10 @@ public class ElasticSearchService
      * @param from
      * @return
      */
-    public ArrayList<ArtikelNew> getArtikelPagedByYearAndMonth(int size,int from, String year, String month)
+    public ArrayList<Artikel> getArtikelPagedByYearAndMonth(int size, int from, String year, String month)
     {
         try {
-            ArrayList<ArtikelNew> artikelArrayList = new ArrayList<>();
+            ArrayList<Artikel> artikelArrayList = new ArrayList<>();
 
             // add leading 0 to month if < 10
             String convertedMonthNumber = String.format("%02d", Integer.parseInt(month));
@@ -338,51 +334,14 @@ public class ElasticSearchService
     }
 
 
-    int currentScrollValue = 0;
-    public ArrayList<Artikel> getAllArtikelInIndex(int scrollsize)
-    {
-        if(scrollsize > 10000)
-        {
-            scrollsize = 10000;
-        }
-
-        boolean hasResults = true;
-        try {
-            ArrayList<Artikel> artikelArrayList = new ArrayList<Artikel>();
-
-            while(hasResults)
-            {
-                Request request = new Request(
-                        "GET",
-                        this.index + "/_search?sort=created:desc&size=10000&from=" + currentScrollValue);
-
-                ArrayList<Artikel> tmpList;
-                tmpList = executeRequest(request);
-
-                if(tmpList.size() < scrollsize)
-                    hasResults = false;
-
-                tmpList.forEach(x -> artikelArrayList.add(x));
-                currentScrollValue += scrollsize;
-            }
-
-            int result = 0;
-            return artikelArrayList;
-        }catch(Exception ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-    }
-
-
-    public ArrayList<ArtikelNew> getAllEntries()
+    public ArrayList<Artikel> getAllEntries()
     {
         try {
             Request request = new Request(
                     "GET",
                     this.index + "/_search?sort=created:desc");
 
-            ArrayList<ArtikelNew> artikelArrayList = executeRequestNewDataFormat(request);
+            ArrayList<Artikel> artikelArrayList = executeRequestNewDataFormat(request);
 
             return artikelArrayList;
         }catch(Exception ex) {
@@ -391,13 +350,13 @@ public class ElasticSearchService
         }
     }
 
-    public ArrayList<ArtikelNew> getFavoritEntries(){
+    public ArrayList<Artikel> getFavoritEntries(){
         try{
             Request request = new Request(
                     "GET",
                     this.index + "/_search?q=starred:true&sort=created:desc&size=1000");
 
-            ArrayList<ArtikelNew> favoritArtikelArrayList = executeRequestNewDataFormat(request);
+            ArrayList<Artikel> favoritArtikelArrayList = executeRequestNewDataFormat(request);
 
             return favoritArtikelArrayList;
         }catch (Exception ex){
@@ -406,13 +365,13 @@ public class ElasticSearchService
         }
     }
 
-    public ArrayList<ArtikelNew> getReadLaterEntries(){
+    public ArrayList<Artikel> getReadLaterEntries(){
         try{
             Request request = new Request(
                     "GET",
                     this.index + "/_search?q=read_later:true&sort=created:desc&size=1000");
 
-            ArrayList<ArtikelNew> readlaterArtikelArrayList = executeRequestNewDataFormat(request);
+            ArrayList<Artikel> readlaterArtikelArrayList = executeRequestNewDataFormat(request);
 
             return readlaterArtikelArrayList;
         }catch (Exception ex){
@@ -421,7 +380,7 @@ public class ElasticSearchService
         }
     }
 
-    public ArrayList<ArtikelNew> getEntriesByTextSearch(String search)
+    public ArrayList<Artikel> getEntriesByTextSearch(String search)
     {
         try {
             String[] arr = search.split(" ");
@@ -442,9 +401,7 @@ public class ElasticSearchService
                     "GET",
                     this.index + "/_search?sort=created:desc&q=" + "content" + ":" + query + "%20OR%20" + "caption:" + query);
 
-            executeRequest(request);
-
-            ArrayList<ArtikelNew> artikelArrayList = executeRequestNewDataFormat(request);
+            ArrayList<Artikel> artikelArrayList = executeRequestNewDataFormat(request);
 
             return artikelArrayList;
         }catch(Exception ex) {
@@ -453,7 +410,7 @@ public class ElasticSearchService
         }
     }
 
-    public ArtikelNew getArtikelById(String id)
+    public Artikel getArtikelById(String id)
     {
         try {
             Request request = new Request(
@@ -462,7 +419,7 @@ public class ElasticSearchService
 
             MetricDataService m = new MetricDataService();
             m.addArtikelMetrik(id,this.index);
-            ArrayList<ArtikelNew> artikelArrayList = executeRequestNewDataFormat(request);
+            ArrayList<Artikel> artikelArrayList = executeRequestNewDataFormat(request);
 
             return artikelArrayList.get(0);
         }catch(Exception ex) {

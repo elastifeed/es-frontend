@@ -1,7 +1,6 @@
 package de.htw.saar.frontend.service;
 
 import de.htw.saar.frontend.model.Artikel;
-import de.htw.saar.frontend.model.ArtikelNew;
 
 import java.util.ArrayList;
 
@@ -15,12 +14,12 @@ public class ArtikelService
         return manager.getIndexSize();
     }
 
-    public ArrayList<ArtikelNew> getArtikelPaged(int size, int from)
+    public ArrayList<Artikel> getArtikelPaged(int size, int from)
     {
         return manager.getArtikelPaged(size,from);
     }
 
-    public ArrayList<ArtikelNew> getAllArtikel()
+    public ArrayList<Artikel> getAllArtikel()
     {
         try {
             return manager.getAllEntries();
@@ -30,7 +29,7 @@ public class ArtikelService
         }
     }
 
-    public ArrayList<ArtikelNew> getArtikelBySearch(String query)
+    public ArrayList<Artikel> getArtikelBySearch(String query)
     {
         try {
             return manager.getEntriesByTextSearch(query);
@@ -40,7 +39,7 @@ public class ArtikelService
         }
     }
 
-    public ArrayList<ArtikelNew> getFavoritArtikel(){
+    public ArrayList<Artikel> getFavoritArtikel(){
         try {
             return manager.getFavoritEntries();
         } catch (Exception ex){
@@ -49,7 +48,7 @@ public class ArtikelService
         }
     }
 
-    public ArrayList<ArtikelNew> getReadLaterArtikel(){
+    public ArrayList<Artikel> getReadLaterArtikel(){
         try{
             return manager.getReadLaterEntries();
         }catch (Exception ex){

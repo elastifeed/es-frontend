@@ -2,19 +2,13 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
-import de.htw.saar.frontend.model.ArtikelNew;
 import de.htw.saar.frontend.service.ElasticSearchService;
 import org.primefaces.event.ToggleEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.text.DateFormat;
@@ -23,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import de.htw.saar.frontend.controller.DateRangeBean;
 
 @Named
 @RequestMapping("/erweitertesuche")
@@ -46,8 +38,8 @@ public class ErweiterteSucheController extends MasterController
     private Boolean exact;
     private int pageCount;
     private String sort;
-    private ArrayList<ArtikelNew> searchArtikelList;
-    List<List<ArtikelNew>> allArtikel;
+    private ArrayList<Artikel> searchArtikelList;
+    List<List<Artikel>> allArtikel;
 
     private DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
@@ -109,19 +101,19 @@ public class ErweiterteSucheController extends MasterController
         this.pageCount = pageCount;
     }
 
-    public List<List<ArtikelNew>> getAllArtikel() {
+    public List<List<Artikel>> getAllArtikel() {
         return allArtikel;
     }
 
-    public void setAllArtikel(List<List<ArtikelNew>> allArtikel) {
+    public void setAllArtikel(List<List<Artikel>> allArtikel) {
         this.allArtikel = allArtikel;
     }
 
-    public ArrayList<ArtikelNew> getSearchArtikelList() {
+    public ArrayList<Artikel> getSearchArtikelList() {
         return searchArtikelList;
     }
 
-    public void setSearchArtikelList(ArrayList<ArtikelNew> searchArtikelList) {
+    public void setSearchArtikelList(ArrayList<Artikel> searchArtikelList) {
         this.searchArtikelList = searchArtikelList;
     }
 
@@ -140,15 +132,15 @@ public class ErweiterteSucheController extends MasterController
         }else{
             pageCount=searchArtikelList.size()/20;
         }
-        allArtikel=new ArrayList<List<ArtikelNew>>();
+        allArtikel=new ArrayList<List<Artikel>>();
         int index=0;
         while (pageCount!=0){
             int restArtikel=searchArtikelList.size()-index+1;
             if(restArtikel>=20){
-                List<ArtikelNew> pageArtikel = searchArtikelList.subList(index, index + 20);
+                List<Artikel> pageArtikel = searchArtikelList.subList(index, index + 20);
                 allArtikel.add(pageArtikel);
             }else {
-                List<ArtikelNew> pageArtikel = searchArtikelList.subList(index,index+restArtikel-1);
+                List<Artikel> pageArtikel = searchArtikelList.subList(index,index+restArtikel-1);
                 allArtikel.add(pageArtikel);
             }
             index+=20;

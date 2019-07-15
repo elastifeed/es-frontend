@@ -3,7 +3,6 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
-import de.htw.saar.frontend.model.ArtikelNew;
 import de.htw.saar.frontend.service.ElasticSearchService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,8 +18,8 @@ public class ArtikelController extends MasterController
         return this.artikelId;
     }
 
-    private ArtikelNew artikel;
-    public ArtikelNew getArtikel()
+    private Artikel artikel;
+    public Artikel getArtikel()
     {
         return this.artikel;
     }

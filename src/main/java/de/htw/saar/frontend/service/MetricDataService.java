@@ -39,7 +39,7 @@ public class MetricDataService
                 System.out.println("Erstelle Tabellen if not exist: sqlCreateArtikelmetric");
                 String sqlCreateArtikelmetric = "CREATE TABLE IF NOT EXISTS artikelmetric"
                         + "  (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
-                        + "   artikelid varchar(36) NOT NULL,"
+                        + "   artikelid varchar(100) NOT NULL,"
                         + "   username varchar(100) NOT NULL,"
                         + "   date TEXT NOT NULL)";
 
@@ -72,7 +72,7 @@ public class MetricDataService
 
         try(Connection conn = DriverManager.getConnection(getConnectionString())) {
             if(conn != null) {
-                String sqlQuery = "INSERT INTO artikelmetric(artikelid, username, date) VALUES (" + idArtikel + ", " + benutzername + ", " + timestamp + ")";
+                String sqlQuery = "INSERT INTO artikelmetric(artikelid, username, date) VALUES ('"+idArtikel+"','"+benutzername+"','"+timestamp+"')";
                 Statement stmt = conn.createStatement();
                 stmt.execute(sqlQuery);
             }

@@ -1,9 +1,8 @@
 package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
-import de.htw.saar.frontend.model.ArtikelNew;
+import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.service.ArtikelService;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.inject.Named;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 public class SpaeterAnsehenController extends MasterController
 {
     private ArtikelService artikelService = new ArtikelService();
-    private ArrayList<ArtikelNew> readLaterArtikelList;
+    private ArrayList<Artikel> readLaterArtikelList;
 
 
     public void findReadLaterArtikel()
@@ -23,7 +22,7 @@ public class SpaeterAnsehenController extends MasterController
         readLaterArtikelList = artikelService.getReadLaterArtikel();
     }
 
-    public ArrayList<ArtikelNew> getReadLaterArtikelList(){ return this.readLaterArtikelList; }
+    public ArrayList<Artikel> getReadLaterArtikelList(){ return this.readLaterArtikelList; }
 
     @RequestMapping()
     public String index()
