@@ -4,6 +4,7 @@ import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.model.PageNavigation;
 import de.htw.saar.frontend.service.ArtikelService;
+import de.htw.saar.frontend.service.MetricDataService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.faces.context.ExternalContext;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 public class HomeController extends MasterController
 {
     private ArtikelService artikelService = new ArtikelService();
+
+    private String benutzername = "dummy_new";
 
     /* Pagnition */
     private int totalArtikelCount = 0;
@@ -210,6 +213,9 @@ public class HomeController extends MasterController
      */
     public String initSuche(String query)
     {
+        MetricDataService metricDataService = new MetricDataService();
+        metricDataService.addSearchMetric(query, this.benutzername);
+
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
 

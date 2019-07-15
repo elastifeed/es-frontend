@@ -99,7 +99,7 @@ public class MetricDataService
 
         try(Connection conn = DriverManager.getConnection(getConnectionString())) {
             if(conn != null) {
-                String sqlQuery = "INSERT INTO searchmetric(search, username, date) VALUES (" + searchRequest + ", " + benutzername + ", " + timestamp + ")";
+                String sqlQuery = "INSERT INTO searchmetric(search, username, date) VALUES ('"+ searchRequest +"','" + benutzername +"','" + timestamp +"')";
                 Statement stmt = conn.createStatement();
                 stmt.execute(sqlQuery);
             }
