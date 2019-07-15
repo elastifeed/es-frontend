@@ -68,8 +68,10 @@ public class ArtikelController extends MasterController
                 {
                     if(value.equals("false")){
                         artikel.setStarred(false);
+                        manager.toggleFavorite(artikel.getId(),false);
                     } else {
                         artikel.setStarred(true);
+                        manager.toggleFavorite(artikel.getId(),true);
                     }
 
                 }
@@ -77,8 +79,10 @@ public class ArtikelController extends MasterController
                 {
                     if(value.equals("false")){
                         artikel.setRead_later(false);
+                        manager.toggleReadLater(artikel.getId(),false);
                     } else {
                         artikel.setRead_later(true);
+                        manager.toggleReadLater(artikel.getId(),true);
                     }
                 }
             }

@@ -14,20 +14,27 @@
 				<f:event type="preRenderView" listener="#{homeController.findAllArtikel}"></f:event>
 			</f:metadata>
 
-			<!-- Top Navigation -->
-			<nav aria-label="Page navigation example">
-				<ul class="pagination justify-content-center">
-					<ui:repeat value="#{homeController.pageNavigation}" var="navItem">
-						<li class="page-item #{navItem.activeClass}"><a class="page-link" href="#{navItem.url}"><h:outputText value="#{navItem.index}"></h:outputText> </a></li>
-					</ui:repeat>
-				</ul>
-			</nav>
 
-			<div class="row">
-				<div class="col-md-12">
-					<h1>#{homeController.suchanfrage}</h1>
+			<div class="" id="homeHeader">
+				<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-sidebar rounded box-shadow">
+					<img class="mr-3" src="https://img.icons8.com/nolan/64/000000/home-page.png" alt="" width="48" height="48"></img>
+					<div class="lh-100">
+						<h4 class="mb-0 text-white lh-100">Home</h4>
+					</div>
 				</div>
 			</div>
+
+
+			<div class="" id="searchHeader">
+				<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-sidebar rounded box-shadow">
+					<img class="mr-3" src="https://img.icons8.com/nolan/64/000000/search.png" alt="" width="48" height="48"></img>
+					<div class="lh-100">
+						<h4 class="mb-0 text-white lh-100" id="searchHeaderContentText">#{homeController.suchanfrage}</h4>
+					</div>
+				</div>
+			</div>
+
+
 
 			<div id="artikel-content-area">
 				<!-- Content Aritkel -->
@@ -62,16 +69,29 @@
 			</div>
 
 			<!-- Bottom Navigation -->
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<ui:repeat value="#{homeController.pageNavigation}" var="navItem">
+						<li class="page-item #{navItem.activeClass}"><a class="page-link" href="#{navItem.url}"><h:outputText value="#{navItem.index}"></h:outputText> </a></li>
+					</ui:repeat>
+				</ul>
+			</nav>
 
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<ui:repeat value="#{homeController.pageNavigation}" var="navItem">
-							<li class="page-item #{navItem.activeClass}"><a class="page-link" href="#{navItem.url}"><h:outputText value="#{navItem.index}"></h:outputText> </a></li>
-						</ui:repeat>
-					</ul>
-				</nav>
+			<script type="application/javascript">
+				$(document).ready(function() {
+					var obj = $('#searchHeaderContentText');
 
-
+					if($('#searchHeaderContentText').text().length > 0)
+					{
+						$('#homeHeader').hide();
+						$('#searchHeader').show();
+					}
+					else {
+						$('#homeHeader').show();
+						$('#searchHeader').hide();
+					}
+				});
+			</script>
 
 		</ui:define>
 	</ui:composition>

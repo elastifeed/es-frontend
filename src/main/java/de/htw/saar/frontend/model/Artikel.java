@@ -1,8 +1,10 @@
 package de.htw.saar.frontend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -127,7 +129,7 @@ public class Artikel {
             return "#";
         }
 
-        return pdf;
+        return CropLinkToLocalhost(this.pdf);
     }
 
     public void setPdf(String pdf) {
@@ -157,8 +159,9 @@ public class Artikel {
         }
     }
 
-    public String getScreenshot() {
-        return screenshot;
+    public String getScreenshot()
+    {
+        return CropLinkToLocalhost(this.screenshot);
     }
 
     public void setScreenshot(String screenshot) {
@@ -167,11 +170,16 @@ public class Artikel {
 
     public String getThumbnailsmall() {
 
-        // return reandom image
-        Random r = new Random();
-        int rng = r.nextInt((2000 - 1) + 1) + 1;
+        if(this.thumbnail == null || this.thumbnail.length() < 1)
+        {
+            // return reandom image
+            Random r = new Random();
+            int rng = r.nextInt((2000 - 1) + 1) + 1;
 
-        return "https://picsum.photos/225/180?random=" + rng;
+            return "https://picsum.photos/225/180?random=" + rng;
+        }
+
+        return CropLinkToLocalhost(this.thumbnail);
     }
 
     public String getThumbnail() {
@@ -183,7 +191,16 @@ public class Artikel {
 
             return "https://picsum.photos/1110/250?random=" + rng;
         }
-        return thumbnail;
+        return CropLinkToLocalhost(this.thumbnail);
+    }
+
+    public String CropLinkToLocalhost(String link)
+    {
+        // Replace https with http because https protocol does not seem to work
+
+        String initialUri = link;
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(initialUri);
+        return builder.host("localhost").toUriString().replaceFirst("https","http");
     }
 
     public void setThumbnail(String thumbnail) {

@@ -62,56 +62,6 @@ public class ElasticSearchService
      * returns an arraylist of artikel
      * @param request
      * @return
-
-    public ArrayList<Artikel> executeRequest (Request request)
-    {
-        try {
-            RestClient restClient = getRestClient();
-            Response response = restClient.performRequest(request);
-            String responseBody = EntityUtils.toString(response.getEntity());
-
-            // List of Artikel
-            ArrayList<Artikel> artikelList = new ArrayList<>();
-
-            // Strip JSON Doc to Data List
-            JSONObject obj = new JSONObject(responseBody).getJSONObject("hits");
-            JSONArray resultArray = (JSONArray) obj.get("hits");
-
-            // run every entry
-            for (int i = 0; i < resultArray.length(); i++) {
-                // Holds the Data of the Artikel
-                Artikel myArtikel = new Artikel();
-
-                // Complete Object
-                JSONObject item = resultArray.getJSONObject(i);
-
-                // Data Object
-                String data = item.getJSONObject("_source").toString();
-
-                // Map basic data to object
-                myArtikel = new ObjectMapper().readValue(data, Artikel.class);
-
-                // Add additional informations
-                myArtikel.setId(item.getString("_id"));
-
-
-                // Add to list
-                artikelList.add(myArtikel);
-            }
-            return artikelList;
-        }catch(Exception ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-    }
-     */
-
-
-    /**
-     * Sends the prev builded request to the server and extracts the response to an readable object
-     * returns an arraylist of artikel
-     * @param request
-     * @return
      */
     public ArrayList<Artikel> executeRequestNewDataFormat (Request request)
     {
@@ -120,6 +70,7 @@ public class ElasticSearchService
             Response response = restClient.performRequest(request);
             String responseBody = EntityUtils.toString(response.getEntity());
 
+
             // List of Artikel
             ArrayList<Artikel> artikelList = new ArrayList<>();
 
@@ -148,6 +99,7 @@ public class ElasticSearchService
                 // Add to list
                 artikelList.add(myArtikel);
             }
+            restClient.close();
             return artikelList;
         }catch(Exception ex) {
             System.out.println(ex.getMessage());
@@ -155,7 +107,27 @@ public class ElasticSearchService
         }
     }
 
+    /**
+     * Performs a raw request to the server
+     * no response expected
+     * @param request
+     */
+    public void performRawRequest(Request request)
+    {
+        try {
+            RestClient restClient = getRestClient();
+            restClient.performRequest(request);
+            restClient.close();
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
+
+    /**
+     * returns the size of the given index
+     * @return
+     */
     public int getIndexSize()
     {
         try{
@@ -170,7 +142,7 @@ public class ElasticSearchService
             // Strip JSON Doc to Data List
             JSONObject obj = new JSONObject(responseBody);
             JSONObject resultObj = obj.getJSONObject("_all").getJSONObject("primaries").getJSONObject("docs");
-
+            restClient.close();
             return resultObj.getInt("count");
         }
         catch (Exception ex)
@@ -195,16 +167,6 @@ public class ElasticSearchService
                     this.index + "/_search?sort=created:desc&size=" + size + "&from=" + from);
 
             artikelArrayList = executeRequestNewDataFormat(request);
-
-
-            // TODO REMOVE
-            // Testrequest new Data Format
-            ArrayList<Artikel> resTest = new ArrayList<>();
-            Request requestTest = new Request(
-                    "GET",
-                    this.index + "/_search?sort=created:desc&size=" + size + "&from=" + from);
-            resTest = executeRequestNewDataFormat(requestTest);
-
 
             return artikelArrayList;
         }catch(Exception ex) {
@@ -241,8 +203,8 @@ public class ElasticSearchService
                      "        {\n" +
                      "          \"query_string\": {\n" +
                      "            \"fields\": [\n" +
-                     "              \"content\",\n" +
-                     "              \"caption\"\n" +
+                     "              \"raw_content\",\n" +
+                     "              \"title\"\n" +
                      "            ],\n" +
                      "            \"query\": \""+search+"\",\n" +
                      "            \"default_operator\": \""+operator+"\"\n" +
@@ -399,7 +361,7 @@ public class ElasticSearchService
 
             Request request = new Request(
                     "GET",
-                    this.index + "/_search?sort=created:desc&q=" + "content" + ":" + query + "%20OR%20" + "caption:" + query);
+                    this.index + "/_search?sort=created:desc&q=" + "raw_content" + ":" + query + "%20OR%20" + "title:" + query);
 
             ArrayList<Artikel> artikelArrayList = executeRequestNewDataFormat(request);
 
@@ -427,17 +389,78 @@ public class ElasticSearchService
             return null;
         }
     }
- public String dateConverter(Date date)
- {
-     Calendar cal = Calendar.getInstance();
-     cal.setTime(date);
-     cal.add(Calendar.HOUR, -2);
-     date = cal.getTime();
-     DateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
-     DateFormat formatterTime = new SimpleDateFormat("HH:mm");
-     String strDate = formatterDate.format(date);
-     String strTime = formatterTime.format(date);
-     return strDate+"T"+strTime;
- }
+
+    /**
+     * toggles favorite status of the artikel
+     * @param id
+     * @return
+     */
+    public void toggleFavorite(String id, boolean setTrue)
+    {
+        String queryBody = "{\n" +
+                "    \"doc\": {";
+
+        if(setTrue){
+            queryBody += "\"starred\": true";
+        } else{
+            queryBody += "\"starred\": false";
+        }
+
+        queryBody += "    }\n" +
+                "}";
+
+        Request request = new Request(
+                "POST",
+                "/" + this.index + "/_update/" + id);
+
+        request.setEntity(new NStringEntity(
+                queryBody,
+                ContentType.APPLICATION_JSON));
+
+        performRawRequest(request);
+    }
+
+    /**
+     * toggles read_later status of the artikel
+     * @param id
+     * @return
+     */
+    public void toggleReadLater(String id, boolean setTrue)
+    {
+        String queryBody = "{\n" +
+                "    \"doc\": {";
+
+        if(setTrue){
+            queryBody += "\"read_later\": true";
+        } else{
+            queryBody += "\"read_later\": false";
+        }
+
+        queryBody += "    }\n" +
+                "}";
+
+        Request request = new Request(
+                "POST",
+                "/" + this.index + "/_update/" + id);
+
+        request.setEntity(new NStringEntity(
+                queryBody,
+                ContentType.APPLICATION_JSON));
+
+        performRawRequest(request);
+    }
+
+     public String dateConverter(Date date)
+     {
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(date);
+         cal.add(Calendar.HOUR, -2);
+         date = cal.getTime();
+         DateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
+         DateFormat formatterTime = new SimpleDateFormat("HH:mm");
+         String strDate = formatterDate.format(date);
+         String strTime = formatterTime.format(date);
+         return strDate+"T"+strTime;
+     }
 
 }
