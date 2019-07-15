@@ -375,7 +375,6 @@ public class ElasticSearchService
     }
 
 
-
     public ArrayList<ArtikelNew> getAllEntries()
     {
         try {
@@ -387,6 +386,36 @@ public class ElasticSearchService
 
             return artikelArrayList;
         }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    public ArrayList<ArtikelNew> getFavoritEntries(){
+        try{
+            Request request = new Request(
+                    "GET",
+                    this.index + "/_search?q=starred:true&sort=created:desc&size=1000");
+
+            ArrayList<ArtikelNew> favoritArtikelArrayList = executeRequestNewDataFormat(request);
+
+            return favoritArtikelArrayList;
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    public ArrayList<ArtikelNew> getReadLaterEntries(){
+        try{
+            Request request = new Request(
+                    "GET",
+                    this.index + "/_search?q=read_later:true&sort=created:desc&size=1000");
+
+            ArrayList<ArtikelNew> readlaterArtikelArrayList = executeRequestNewDataFormat(request);
+
+            return readlaterArtikelArrayList;
+        }catch (Exception ex){
             System.out.println(ex.getMessage());
             return null;
         }

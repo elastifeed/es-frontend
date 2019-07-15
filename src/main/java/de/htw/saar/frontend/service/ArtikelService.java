@@ -39,4 +39,22 @@ public class ArtikelService
             return null;
         }
     }
+
+    public ArrayList<ArtikelNew> getFavoritArtikel(){
+        try {
+            return manager.getFavoritEntries();
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    public ArrayList<ArtikelNew> getReadLaterArtikel(){
+        try{
+            return manager.getReadLaterEntries();
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
 }
