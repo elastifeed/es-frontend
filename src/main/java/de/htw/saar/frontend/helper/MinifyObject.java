@@ -1,6 +1,7 @@
 package de.htw.saar.frontend.helper;
 
 import de.htw.saar.frontend.model.Artikel;
+import de.htw.saar.frontend.model.ArtikelNew;
 import de.htw.saar.frontend.model.ArtikelDisplay;
 
 /**
@@ -8,12 +9,12 @@ import de.htw.saar.frontend.model.ArtikelDisplay;
  */
 public class MinifyObject
 {
-    public ArtikelDisplay getMinifyArtikel(Artikel artikel)
+    public ArtikelDisplay getMinifyArtikel(ArtikelNew artikel)
     {
         ArtikelDisplay result = new ArtikelDisplay();
         result.id = artikel.getId();
-        result.caption = artikel.getCaption();
-        result.content = artikel.getContent();
+        result.caption = artikel.getTitle();
+        result.content = artikel.getMarkdown_content();
         result.thumbnail = artikel.getThumbnail();
         result.date = artikel.getCreatedAsString();
         return result;

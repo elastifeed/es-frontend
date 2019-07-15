@@ -2,6 +2,7 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
+import de.htw.saar.frontend.model.ArtikelNew;
 import de.htw.saar.frontend.service.ElasticSearchService;
 import org.primefaces.event.ToggleEvent;
 import org.slf4j.Logger;
@@ -45,8 +46,8 @@ public class ErweiterteSucheController extends MasterController
     private Boolean exact;
     private int pageCount;
     private String sort;
-    private ArrayList<Artikel> searchArtikelList;
-    List<List<Artikel>> allArtikel;
+    private ArrayList<ArtikelNew> searchArtikelList;
+    List<List<ArtikelNew>> allArtikel;
 
     private DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
@@ -108,19 +109,19 @@ public class ErweiterteSucheController extends MasterController
         this.pageCount = pageCount;
     }
 
-    public List<List<Artikel>> getAllArtikel() {
+    public List<List<ArtikelNew>> getAllArtikel() {
         return allArtikel;
     }
 
-    public void setAllArtikel(List<List<Artikel>> allArtikel) {
+    public void setAllArtikel(List<List<ArtikelNew>> allArtikel) {
         this.allArtikel = allArtikel;
     }
 
-    public ArrayList<Artikel> getSearchArtikelList() {
+    public ArrayList<ArtikelNew> getSearchArtikelList() {
         return searchArtikelList;
     }
 
-    public void setSearchArtikelList(ArrayList<Artikel> searchArtikelList) {
+    public void setSearchArtikelList(ArrayList<ArtikelNew> searchArtikelList) {
         this.searchArtikelList = searchArtikelList;
     }
 
@@ -139,15 +140,15 @@ public class ErweiterteSucheController extends MasterController
         }else{
             pageCount=searchArtikelList.size()/20;
         }
-        allArtikel=new ArrayList<List<Artikel>>();
+        allArtikel=new ArrayList<List<ArtikelNew>>();
         int index=0;
         while (pageCount!=0){
             int restArtikel=searchArtikelList.size()-index+1;
             if(restArtikel>=20){
-                List<Artikel> pageArtikel = searchArtikelList.subList(index, index + 20);
+                List<ArtikelNew> pageArtikel = searchArtikelList.subList(index, index + 20);
                 allArtikel.add(pageArtikel);
             }else {
-                List<Artikel> pageArtikel = searchArtikelList.subList(index,index+restArtikel-1);
+                List<ArtikelNew> pageArtikel = searchArtikelList.subList(index,index+restArtikel-1);
                 allArtikel.add(pageArtikel);
             }
             index+=20;

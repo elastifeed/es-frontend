@@ -3,6 +3,7 @@ package de.htw.saar.frontend.controller;
 import de.htw.saar.frontend.helper.MinifyObject;
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
+import de.htw.saar.frontend.model.ArtikelNew;
 import de.htw.saar.frontend.model.ArtikelDisplay;
 import de.htw.saar.frontend.model.TimelineDateMonth;
 import de.htw.saar.frontend.service.ElasticSearchService;
@@ -55,7 +56,7 @@ public class TimelineController extends MasterController
         int requestSize = 25;
         int startingFrom = from;
 
-        ArrayList<Artikel> resultRequest = service.getArtikelPagedByYearAndMonth(requestSize,startingFrom,year,month);
+        ArrayList<ArtikelNew> resultRequest = service.getArtikelPagedByYearAndMonth(requestSize,startingFrom,year,month);
         ArrayList<ArtikelDisplay> result = new ArrayList<>();
         if(resultRequest != null && resultRequest.size() != 0) {
             resultRequest.forEach(x -> result.add(minifyObject.getMinifyArtikel(x)));
