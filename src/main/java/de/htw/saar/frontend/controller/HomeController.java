@@ -73,7 +73,7 @@ public class HomeController extends MasterController
      */
     private void fillPageNavigationList()
     {
-        totalArtikelCount = artikelService.getArtikelPageCount("dummy");
+        totalArtikelCount = artikelService.getArtikelPageCount();
         int totalPageCount = (int)Math.ceil((double)totalArtikelCount / this.size) - 1;
 
         ArrayList<PageNavigation> pNavigation = new ArrayList<>();

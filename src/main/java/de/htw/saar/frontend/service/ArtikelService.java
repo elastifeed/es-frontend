@@ -9,9 +9,9 @@ public class ArtikelService
     ElasticSearchService manager = new ElasticSearchService();
 
 
-    public int getArtikelPageCount(String index)
+    public int getArtikelPageCount()
     {
-        return manager.getIndexSize(index);
+        return manager.getIndexSize();
     }
 
     public ArrayList<Artikel> getArtikelPaged(int size, int from)

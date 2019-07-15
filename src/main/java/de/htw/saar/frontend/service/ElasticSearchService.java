@@ -1,6 +1,7 @@
 package de.htw.saar.frontend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.htw.saar.frontend.controller.UserController;
 import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.model.ArtikelNew;
 import org.apache.http.HttpHost;
@@ -30,8 +31,25 @@ import java.util.Calendar;
 
 public class ElasticSearchService
 {
+    private final String hostname = "localhost";
+    private final String scheme = "http";
+    private final int port = 9200;
+
+    private String index = "dummy";
+
+    UserController userController;
+
     public ElasticSearchService()
-    { }
+    {
+        /*
+        if(userController.isLoggedIn()){
+            this.index = userController.getCurrentUser().getUsername();
+        }
+        else{
+            this.index = "dummy_new";
+        }
+         */
+    }
 
     /**
      * Gibt einten RestClient zurück
@@ -40,7 +58,7 @@ public class ElasticSearchService
     private RestClient getRestClient(){
         //Make the connection to ElasticSearch
         RestClient restClient = RestClient.builder(
-                new HttpHost("localhost", 9200, "http")).build();
+                new HttpHost(hostname, port, scheme)).build();
 
         return restClient;
     }
@@ -142,12 +160,12 @@ public class ElasticSearchService
     }
 
 
-    public int getIndexSize(String index)
+    public int getIndexSize()
     {
         try{
             Request request = new Request(
                     "GET",
-                    index + "/_stats");
+                    this.index + "/_stats");
 
             RestClient restClient = getRestClient();
             Response response = restClient.performRequest(request);
@@ -178,7 +196,7 @@ public class ElasticSearchService
 
             Request request = new Request(
                     "GET",
-                    "dummy/_search?sort=created:desc&size=" + size + "&from=" + from);
+                    this.index + "/_search?sort=created:desc&size=" + size + "&from=" + from);
 
             artikelArrayList = executeRequest(request);
 
@@ -188,7 +206,7 @@ public class ElasticSearchService
             ArrayList<ArtikelNew> resTest = new ArrayList<>();
             Request requestTest = new Request(
                     "GET",
-                    "dummy_new/_search?sort=created:desc&size=" + size + "&from=" + from);
+                    this.index + "/_search?sort=created:desc&size=" + size + "&from=" + from);
             resTest = executeRequestNewDataFormat(requestTest);
 
 
@@ -262,7 +280,7 @@ public class ElasticSearchService
                     "}";
 
 
-            Request request = new Request("GET","dummy/_search?size="+size+"&from="+from);
+            Request request = new Request("GET",this.index + "/_search?size="+size+"&from="+from);
 
             request.setEntity(new NStringEntity(
                     queryBody,
@@ -304,7 +322,7 @@ public class ElasticSearchService
 
             Request request = new Request(
                     "GET",
-                    "dummy_new/_search?sort=created:desc&size=" + size + "&from=" + from);
+                    this.index + "/_search?sort=created:desc&size=" + size + "&from=" + from);
 
             request.setEntity(new NStringEntity(
                     queryBody,
@@ -321,7 +339,7 @@ public class ElasticSearchService
 
 
     int currentScrollValue = 0;
-    public ArrayList<Artikel> getAllArtikelInIndex(String index, int scrollsize)
+    public ArrayList<Artikel> getAllArtikelInIndex(int scrollsize)
     {
         if(scrollsize > 10000)
         {
@@ -336,7 +354,7 @@ public class ElasticSearchService
             {
                 Request request = new Request(
                         "GET",
-                        index + "/_search?sort=created:desc&size=10000&from=" + currentScrollValue);
+                        this.index + "/_search?sort=created:desc&size=10000&from=" + currentScrollValue);
 
                 ArrayList<Artikel> tmpList;
                 tmpList = executeRequest(request);
@@ -363,7 +381,7 @@ public class ElasticSearchService
         try {
             Request request = new Request(
                     "GET",
-                    "dummy/_search?sort=created:desc");
+                    this.index + "/_search?sort=created:desc");
 
             ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
@@ -393,7 +411,7 @@ public class ElasticSearchService
 
             Request request = new Request(
                     "GET",
-                    "dummy/_search?sort=created:desc&q=" + "content" + ":" + query + "%20OR%20" + "caption:" + query);
+                    this.index + "/_search?sort=created:desc&q=" + "content" + ":" + query + "%20OR%20" + "caption:" + query);
 
             executeRequest(request);
 
@@ -411,10 +429,10 @@ public class ElasticSearchService
         try {
             Request request = new Request(
                     "GET",
-                    "dummy/_search?q=_id    :" + id);
+                    this.index + "/_search?q=_id    :" + id);
 
             MetricDataService m = new MetricDataService();
-            m.addArtikelMetrik(id,"dummy");
+            m.addArtikelMetrik(id,this.index);
             ArrayList<Artikel> artikelArrayList = executeRequest(request);
 
             return artikelArrayList.get(0);
