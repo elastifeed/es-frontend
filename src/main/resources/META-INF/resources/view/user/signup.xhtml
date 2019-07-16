@@ -44,12 +44,9 @@
                         </p:commandButton>
                         <p:commandButton id="cancel" value="Cancel" update="panel messages" action="#{SignupC.cancel}"
                                          immediate="true" />
-
-                        <p:commandButton id="login" value="zum Login" update="panel messages" action="#{SignupC.showLogin}"
-                                         immediate="true" />
                     </h:panelGrid>
                     </p:panel>
-                    <a href="#{navigationController.navigate('user','signup')}">Bereits einen Account? Jetzt einloggen</a>
+                    <a href="#{navigationController.navigate('user','login')}">Bereits einen Account? Jetzt einloggen</a>
                 </h:form>
             </ui:define>
         </ui:composition>
