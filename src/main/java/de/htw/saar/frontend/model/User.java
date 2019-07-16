@@ -7,11 +7,14 @@ public class User implements Serializable
     private String token;
     private String username;
     private String email;
+    private int id;
 
-    public User(String token, String username, String email) {
+    public User(String token, String username, String email, int id) {
         this.token = token;
         this.username = username;
         this.email = email;
+        this.id = id;
+
     }
 
     public String getUsername() {
@@ -29,4 +32,15 @@ public class User implements Serializable
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setToken(String token){
+        this.token = token;
+    }
+
+    public String getToken()
+    {
+        return this.token;
+    }
+
+    public int getId(){return this.id;}
 }
