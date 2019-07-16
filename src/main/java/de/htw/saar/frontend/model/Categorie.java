@@ -5,8 +5,9 @@ package de.htw.saar.frontend.model;
  *
  * */
 public class Categorie {
-private int id;
-private String name;
+
+    private int id;
+    private String name;
 
     public Categorie(int id, String name) {
         this.id = id;

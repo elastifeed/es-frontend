@@ -2,6 +2,7 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.ArtikelMetric;
+import de.htw.saar.frontend.model.Categorie;
 import de.htw.saar.frontend.model.SearchMetric;
 import de.htw.saar.frontend.model.User;
 import de.htw.saar.frontend.service.MetricDataService;
@@ -16,6 +17,7 @@ import javax.faces.event.ActionEvent;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 
@@ -31,14 +33,16 @@ public class UserController extends MasterController implements Serializable
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+    RequestService requestService = new RequestService();
     UserService userService = new UserService();
+
     private String email;
     private String password;
 
     private boolean loggedIn=isLoggedIn();
+    List<Categorie> allCategories =new ArrayList<>();
 
     private User currentUser;
-
 
     @RequestMapping("")
     public String root()
@@ -99,6 +103,9 @@ public class UserController extends MasterController implements Serializable
             // requeste alle details des nutzers und speichere sie für die session
             currentUser = userService.getUser(token);
 
+            // lade alle kategorien des benutzers
+            refreshCategories();
+
             if (currentUser != null)
             {
                 LOGGER.info("user successful for '{}'", email);
@@ -157,6 +164,30 @@ public class UserController extends MasterController implements Serializable
 
         return null;
     }
+
+    /**
+     * Aktualisiert die dem benutzer zugepordneten Kategorien
+     */
+    public void refreshCategories()
+    {
+        allCategories = new ArrayList<>();
+
+        try{
+            if(currentUser != null && currentUser.getToken() != null && currentUser.getToken().length() > 0)
+            {
+                allCategories = requestService.getUserCategories(currentUser.getToken());
+            }
+        }catch(Exception ex){
+            LOGGER.info("Error Categorie result - " + ex);
+        }
+    }
+
+    /** Gibt alle hinterlegten Kategroeien zurück
+     * */
+    public List<Categorie> getAllCategories(){
+        return allCategories;
+    }
+
 
     public ArrayList<SearchMetric> getSearchMetric(){
         MetricDataService metricDataService = new MetricDataService();

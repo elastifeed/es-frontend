@@ -7,7 +7,8 @@ import java.util.List;
 
 public class CategorieService {
 
-    List<Categorie> allCategories=new ArrayList<>();
+    List<Categorie> allCategories =new ArrayList<>();
+
 
     /** Test Methode gibt alle Kategorien Zurück
      * */
