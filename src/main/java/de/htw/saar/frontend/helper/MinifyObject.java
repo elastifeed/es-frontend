@@ -13,7 +13,7 @@ public class MinifyObject
         ArtikelDisplay result = new ArtikelDisplay();
         result.id = artikel.getId();
         result.caption = artikel.getTitle();
-        result.content = artikel.getMarkdown_content();
+        result.content = artikel.getRaw_content();
         result.thumbnail = artikel.getThumbnail();
         result.date = artikel.getCreatedAsString();
         return result;
