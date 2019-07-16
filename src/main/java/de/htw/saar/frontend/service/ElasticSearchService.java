@@ -390,6 +390,21 @@ public class ElasticSearchService
         }
     }
 
+    public String getArtikelTitelById(String id){
+        try{
+            Request request = new Request(
+                    "GET",
+                    this.index + "/_search?q=_id:" + id);
+
+            ArrayList<Artikel> artikelArrayList = executeRequestNewDataFormat(request);
+            Artikel artikel = artikelArrayList.get(0);
+            return artikel.getTitle();
+        }catch(Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
     /**
      * toggles favorite status of the artikel
      * @param id

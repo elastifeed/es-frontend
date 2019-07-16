@@ -1,7 +1,10 @@
 package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.master.MasterController;
+import de.htw.saar.frontend.model.ArtikelMetric;
+import de.htw.saar.frontend.model.SearchMetric;
 import de.htw.saar.frontend.model.User;
+import de.htw.saar.frontend.service.MetricDataService;
 import de.htw.saar.frontend.service.RequestService;
 import de.htw.saar.frontend.service.UserService;
 
@@ -12,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 
@@ -71,6 +75,10 @@ public class UserController extends MasterController implements Serializable
     {
         return view("logout",this);
     }
+
+    @RequestMapping("/metric")
+    public String metric() { return view("metric", this); }
+
 
     /**
      * prüfe die angaben und versuche den user mit dem server zu validieren
@@ -148,6 +156,16 @@ public class UserController extends MasterController implements Serializable
         }
 
         return null;
+    }
+
+    public ArrayList<SearchMetric> getSearchMetric(){
+        MetricDataService metricDataService = new MetricDataService();
+        return metricDataService.getSearchMetric("dummy_new");
+    }
+
+    public ArrayList<ArtikelMetric> getArtikelMetric(){
+        MetricDataService metricDataService = new MetricDataService();
+        return metricDataService.getArtikelMetric("dummy_new");
     }
 
     public String getEmail() {
