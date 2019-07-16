@@ -2,11 +2,13 @@ package de.htw.saar.frontend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htw.saar.frontend.controller.UserController;
+import de.htw.saar.frontend.helper.CurrentUser;
 import de.htw.saar.frontend.model.Artikel;
 import org.apache.http.HttpHost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
@@ -31,18 +33,25 @@ public class ElasticSearchService
 
     private String index = "dummy_new";
 
-    UserController userController;
-
     public ElasticSearchService()
+    { }
+
+    //Sets the index
+    private void refreshIndex()
     {
-        /*
-        if(userController.isLoggedIn()){
-            this.index = userController.getCurrentUser().getUsername();
+        try{
+            Request request = new Request(
+                    "HEAD",
+                    "/" + CurrentUser.getInstance().getUserIndex());
+
+            Response response = getRestClient().performRequest(request);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 404) {
+                this.index = CurrentUser.getInstance().getUserIndex();
+            }
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
-        else{
-            this.index = "dummy_new";
-        }
-         */
     }
 
     /**
@@ -131,6 +140,7 @@ public class ElasticSearchService
     public int getIndexSize()
     {
         try{
+            refreshIndex();
             Request request = new Request(
                     "GET",
                     this.index + "/_stats");
@@ -160,6 +170,7 @@ public class ElasticSearchService
     public ArrayList<Artikel> getArtikelPaged(int size, int from)
     {
         try {
+            refreshIndex();
             ArrayList<Artikel> artikelArrayList = new ArrayList<>();
 
             Request request = new Request(
@@ -237,7 +248,7 @@ public class ElasticSearchService
                     "  ]\n" +
                     "}";
 
-
+            refreshIndex();
             Request request = new Request("GET",this.index + "/_search?size="+size+"&from="+from);
 
             request.setEntity(new NStringEntity(
@@ -278,6 +289,7 @@ public class ElasticSearchService
             RangeQueryBuilder rangeQueryBuilder = new RangeQueryBuilder("created").from(startDate).to(endDate.toString());
             String queryBody = "{\n \"query\": " + rangeQueryBuilder.toString() + " \n}";
 
+            refreshIndex();
             Request request = new Request(
                     "GET",
                     this.index + "/_search?sort=created:desc&size=" + size + "&from=" + from);
@@ -299,6 +311,7 @@ public class ElasticSearchService
     public ArrayList<Artikel> getAllEntries()
     {
         try {
+            refreshIndex();
             Request request = new Request(
                     "GET",
                     this.index + "/_search?sort=created:desc");
@@ -314,6 +327,7 @@ public class ElasticSearchService
 
     public ArrayList<Artikel> getFavoritEntries(){
         try{
+            refreshIndex();
             Request request = new Request(
                     "GET",
                     this.index + "/_search?q=starred:true&sort=created:desc&size=1000");
@@ -329,6 +343,7 @@ public class ElasticSearchService
 
     public ArrayList<Artikel> getReadLaterEntries(){
         try{
+            refreshIndex();
             Request request = new Request(
                     "GET",
                     this.index + "/_search?q=read_later:true&sort=created:desc&size=1000");
@@ -359,6 +374,7 @@ public class ElasticSearchService
                 counter++;
             }
 
+            refreshIndex();
             Request request = new Request(
                     "GET",
                     this.index + "/_search?sort=created:desc&q=" + "raw_content" + ":" + query + "%20OR%20" + "title:" + query);
@@ -375,6 +391,7 @@ public class ElasticSearchService
     public Artikel getArtikelById(String id)
     {
         try {
+            refreshIndex();
             Request request = new Request(
                     "GET",
                     this.index + "/_search?q=_id:" + id);
@@ -392,6 +409,7 @@ public class ElasticSearchService
 
     public String getArtikelTitelById(String id){
         try{
+            refreshIndex();
             Request request = new Request(
                     "GET",
                     this.index + "/_search?q=_id:" + id);
@@ -424,6 +442,7 @@ public class ElasticSearchService
         queryBody += "    }\n" +
                 "}";
 
+        refreshIndex();
         Request request = new Request(
                 "POST",
                 "/" + this.index + "/_update/" + id);
@@ -454,6 +473,7 @@ public class ElasticSearchService
         queryBody += "    }\n" +
                 "}";
 
+        refreshIndex();
         Request request = new Request(
                 "POST",
                 "/" + this.index + "/_update/" + id);

@@ -1,5 +1,6 @@
 package de.htw.saar.frontend.controller;
 
+import de.htw.saar.frontend.helper.CurrentUser;
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.ArtikelMetric;
 import de.htw.saar.frontend.model.SearchMetric;
@@ -98,6 +99,8 @@ public class UserController extends MasterController implements Serializable
 
             // requeste alle details des nutzers und speichere sie für die session
             currentUser = userService.getUser(token);
+            CurrentUser.getInstance().setUser(currentUser);
+
 
             if (currentUser != null)
             {

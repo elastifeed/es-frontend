@@ -91,7 +91,7 @@ public class RequestService
 
         if(result.has("name") && result.has("email"))
         {
-            return new User(token,result.getString("name"),result.getString("email"));
+            return new User(token,result.getString("name"),result.getString("email"), result.getInt("id"));
         }
         else
         {
