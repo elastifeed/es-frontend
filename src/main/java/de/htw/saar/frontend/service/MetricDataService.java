@@ -129,7 +129,7 @@ public class MetricDataService
     public ArrayList<SearchMetric> getSearchMetric(String benutzername){
         try(Connection conn = DriverManager.getConnection(getConnectionString())) {
             if(conn != null) {
-                String sqlQuery = "SELECT search, date FROM searchmetric WHERE username = '" + benutzername + "'";
+                String sqlQuery = "SELECT search, date FROM searchmetric WHERE username = '" + benutzername + "' ORDER BY id desc LIMIT 100";
                 Statement stmt = conn.createStatement();
                 ResultSet resultSet = stmt.executeQuery(sqlQuery);
 
