@@ -1,10 +1,16 @@
 package de.htw.saar.frontend.service;
 
+import de.htw.saar.frontend.model.Artikel;
+import de.htw.saar.frontend.model.ArtikelMetric;
+import de.htw.saar.frontend.model.SearchMetric;
+
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  * handles the metric data
@@ -47,6 +53,8 @@ public class MetricDataService
                 stmt.execute(sqlCreateArtikelmetric);
 
                 System.out.println("Datenbank init erfolgreich");
+                stmt.close();
+                conn.close();
             }
         } catch(SQLException ex) {
             System.out.println(ex.getMessage());
@@ -75,6 +83,8 @@ public class MetricDataService
                 String sqlQuery = "INSERT INTO artikelmetric(artikelid, username, date) VALUES ('"+idArtikel+"','"+benutzername+"','"+timestamp+"')";
                 Statement stmt = conn.createStatement();
                 stmt.execute(sqlQuery);
+                stmt.close();
+                conn.close();
             }
         } catch(SQLException ex) {
             System.out.println(ex.getMessage());
@@ -102,9 +112,79 @@ public class MetricDataService
                 String sqlQuery = "INSERT INTO searchmetric(search, username, date) VALUES ('"+ searchRequest +"','" + benutzername +"','" + timestamp +"')";
                 Statement stmt = conn.createStatement();
                 stmt.execute(sqlQuery);
+                stmt.close();
+                conn.close();
             }
+
         } catch(SQLException ex) {
             System.out.println(ex.getMessage());
+        }
+    }
+
+    /**
+     * Gibt die Suchdaten aus der Datenbank zuruek
+     * @param benutzername
+     * @return
+     */
+    public ArrayList<SearchMetric> getSearchMetric(String benutzername){
+        try(Connection conn = DriverManager.getConnection(getConnectionString())) {
+            if(conn != null) {
+                String sqlQuery = "SELECT search, date FROM searchmetric WHERE username = '" + benutzername + "'";
+                Statement stmt = conn.createStatement();
+                ResultSet resultSet = stmt.executeQuery(sqlQuery);
+
+                ArrayList<SearchMetric> searchMetricArrayList = new ArrayList<>();
+                while (resultSet.next()) {
+                    String search = resultSet.getString("search");
+                    String date = resultSet.getString("date");
+
+                    SearchMetric searchMetric = new SearchMetric(search, date);
+                    searchMetricArrayList.add(searchMetric);
+                }
+                resultSet.close();
+                stmt.close();
+                conn.close();
+                return searchMetricArrayList;
+            }
+            return null;
+        } catch(SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Gibt die Artikeldaten aus der Datenbank zurueck
+     * @param benutzername
+     * @return
+     */
+    public ArrayList<ArtikelMetric> getArtikelMetric(String benutzername){
+        try(Connection conn = DriverManager.getConnection(getConnectionString())) {
+            if(conn != null) {
+                String sqlQuery = "SELECT artikelid, date FROM artikelmetric WHERE username = '" + benutzername + "' ORDER BY id desc LIMIT 100";
+                Statement stmt = conn.createStatement();
+                ResultSet resultSet = stmt.executeQuery(sqlQuery);
+
+                ArrayList<ArtikelMetric> artikelMetricArrayList = new ArrayList<>();
+                while (resultSet.next()) {
+                    String artikelid = resultSet.getString("artikelid");
+                    String date = resultSet.getString("date");
+
+                    ElasticSearchService elasticSearchService = new ElasticSearchService();
+                    String artikelTitel = elasticSearchService.getArtikelTitelById(artikelid);
+
+                    ArtikelMetric artikelMetric = new ArtikelMetric(artikelTitel, date);
+                    artikelMetricArrayList.add(artikelMetric);
+                }
+                resultSet.close();
+                stmt.close();
+                conn.close();
+                return artikelMetricArrayList;
+            }
+            return null;
+        } catch(SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
         }
     }
 
