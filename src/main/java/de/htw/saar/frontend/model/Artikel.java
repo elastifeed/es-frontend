@@ -1,16 +1,20 @@
 package de.htw.saar.frontend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import de.htw.saar.frontend.Configuration.UrlConfig;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
 public class Artikel {
+
+    private String escollectorUrl = "http://localhost:30151";
 
     private String id;
     private double score;
@@ -29,10 +33,13 @@ public class Artikel {
     private String feed_url;
     private boolean starred;
     private boolean read_later;
-
+    ArrayList<String> categories;
 
     public Artikel()
-    {}
+    {
+        UrlConfig cnf = new UrlConfig();
+        escollectorUrl = cnf.getProperty("es-collector");
+    }
 
     public String getId() { return  this.id; }
     public void setId(String id) {
@@ -42,6 +49,11 @@ public class Artikel {
     public double getScore() { return this.score; }
     public void setScore(double score) {
         this.score = score;
+    }
+
+    public ArrayList<String> getCategories() { return this.categories; }
+    public void setCategories(ArrayList<String> categories) {
+        this.categories = categories;
     }
 
     public Date getCreated(){ return this.created; }
@@ -196,11 +208,14 @@ public class Artikel {
 
     public String CropLinkToLocalhost(String link)
     {
-        // Replace https with http because https protocol does not seem to work
+        try{
+            URL convertedUrl = new URL(escollectorUrl);
 
-        String initialUri = link;
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(initialUri);
-        return builder.host("localhost").toUriString().replaceFirst("https","http");
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(link);
+            return builder.host(convertedUrl.getHost()).port(convertedUrl.getPort()).scheme(convertedUrl.getProtocol()).toUriString();
+        }catch(Exception ex) {
+            return escollectorUrl;
+        }
     }
 
     public void setThumbnail(String thumbnail) {

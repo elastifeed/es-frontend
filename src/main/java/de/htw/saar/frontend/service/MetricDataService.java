@@ -1,5 +1,6 @@
 package de.htw.saar.frontend.service;
 
+import de.htw.saar.frontend.helper.CurrentUser;
 import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.model.ArtikelMetric;
 import de.htw.saar.frontend.model.SearchMetric;
@@ -123,13 +124,12 @@ public class MetricDataService
 
     /**
      * Gibt die Suchdaten aus der Datenbank zuruek
-     * @param benutzername
      * @return
      */
-    public ArrayList<SearchMetric> getSearchMetric(String benutzername){
+    public ArrayList<SearchMetric> getSearchMetric(){
         try(Connection conn = DriverManager.getConnection(getConnectionString())) {
             if(conn != null) {
-                String sqlQuery = "SELECT search, date FROM searchmetric WHERE username = '" + benutzername + "' ORDER BY id desc LIMIT 100";
+                String sqlQuery = "SELECT search, date FROM searchmetric WHERE username = '" + CurrentUser.getInstance().getUser().getUsername() + "' ORDER BY id desc LIMIT 100";
                 Statement stmt = conn.createStatement();
                 ResultSet resultSet = stmt.executeQuery(sqlQuery);
 
@@ -155,13 +155,12 @@ public class MetricDataService
 
     /**
      * Gibt die Artikeldaten aus der Datenbank zurueck
-     * @param benutzername
      * @return
      */
-    public ArrayList<ArtikelMetric> getArtikelMetric(String benutzername){
+    public ArrayList<ArtikelMetric> getArtikelMetric(){
         try(Connection conn = DriverManager.getConnection(getConnectionString())) {
             if(conn != null) {
-                String sqlQuery = "SELECT artikelid, date FROM artikelmetric WHERE username = '" + benutzername + "' ORDER BY id desc LIMIT 100";
+                String sqlQuery = "SELECT artikelid, date FROM artikelmetric WHERE username = '" + CurrentUser.getInstance().getUser().getUsername() + "' ORDER BY id desc LIMIT 100";
                 Statement stmt = conn.createStatement();
                 ResultSet resultSet = stmt.executeQuery(sqlQuery);
 
