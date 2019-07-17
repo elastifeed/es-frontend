@@ -2,12 +2,14 @@ package de.htw.saar.frontend.service;
 
 import de.htw.saar.frontend.model.TimelineDateMonth;
 
+import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@SessionScoped
 public class TimelineDateService {
 
     ArrayList<Integer> yearList = new ArrayList<>();

@@ -8,6 +8,7 @@ import de.htw.saar.frontend.service.ArtikelService;
 import de.htw.saar.frontend.service.MetricDataService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 
 @Named
+@SessionScoped
 @RequestMapping("/home")
 public class HomeController extends MasterController
 {

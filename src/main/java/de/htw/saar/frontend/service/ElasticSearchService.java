@@ -17,6 +17,7 @@ import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
+import javax.faces.bean.SessionScoped;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Properties;
 
+@SessionScoped
 public class ElasticSearchService
 {
     MetricDataService metricDataService = new MetricDataService();

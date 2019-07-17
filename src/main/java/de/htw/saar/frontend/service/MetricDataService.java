@@ -5,6 +5,7 @@ import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.model.ArtikelMetric;
 import de.htw.saar.frontend.model.SearchMetric;
 
+import javax.faces.bean.SessionScoped;
 import javax.xml.transform.Result;
 import java.sql.*;
 import java.text.DateFormat;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
  * handles the metric data
  * saves to database
  */
+@SessionScoped
 public class MetricDataService
 {
     public static final String dbName = "esfrontendDB";

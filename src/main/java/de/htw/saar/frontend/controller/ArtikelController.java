@@ -6,9 +6,11 @@ import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.service.ElasticSearchService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 
 @Named
+@SessionScoped
 @RequestMapping("/")
 public class ArtikelController extends MasterController
 {

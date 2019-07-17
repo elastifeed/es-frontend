@@ -2,9 +2,11 @@ package de.htw.saar.frontend.service;
 
 import de.htw.saar.frontend.model.Categorie;
 
+import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
 import java.util.List;
 
+@SessionScoped
 public class CategorieService {
 
     List<Categorie> allCategories =new ArrayList<>();

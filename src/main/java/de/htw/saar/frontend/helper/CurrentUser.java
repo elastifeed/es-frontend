@@ -2,8 +2,10 @@ package de.htw.saar.frontend.helper;
 
 import de.htw.saar.frontend.model.User;
 
+import javax.faces.bean.SessionScoped;
 import java.net.UnknownServiceException;
 
+@SessionScoped
 public class CurrentUser {
 
     private User user;

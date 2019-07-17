@@ -15,8 +15,10 @@ import org.apache.http.util.EntityUtils;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
+import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
 
+@SessionScoped
 public class RequestService
 {
     public String host = "http://localhost:8090/api/v1/";

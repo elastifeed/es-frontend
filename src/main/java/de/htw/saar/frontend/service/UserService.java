@@ -2,10 +2,12 @@ package de.htw.saar.frontend.service;
 
 import de.htw.saar.frontend.model.User;
 
+import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@SessionScoped
 public class UserService
 {
     RequestService requestService = new RequestService();

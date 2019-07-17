@@ -5,10 +5,12 @@ import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.service.ArtikelService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import java.util.ArrayList;
 
 @Named
+@SessionScoped
 @RequestMapping("/favoriten")
 public class FavoritenController extends MasterController
 {

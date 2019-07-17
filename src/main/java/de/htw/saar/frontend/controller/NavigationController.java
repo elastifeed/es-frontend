@@ -3,6 +3,8 @@ package de.htw.saar.frontend.controller;
 
 import de.htw.saar.frontend.model.Categorie;
 import de.htw.saar.frontend.service.CategorieService;
+
+import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
  *
  */
 @Named
+@SessionScoped
 public class NavigationController
 {
 

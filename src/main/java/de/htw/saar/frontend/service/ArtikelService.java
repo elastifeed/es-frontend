@@ -2,8 +2,10 @@ package de.htw.saar.frontend.service;
 
 import de.htw.saar.frontend.model.Artikel;
 
+import javax.faces.bean.SessionScoped;
 import java.util.ArrayList;
 
+@SessionScoped
 public class ArtikelService
 {
     ElasticSearchService manager = new ElasticSearchService();
