@@ -1,4 +1,5 @@
 # Elasticsearch frontend
+[![Docker Repository on Quay](https://quay.io/repository/elastifeed/es-frontend/status "Docker Repository on Quay")](https://quay.io/repository/elastifeed/es-frontend)
 > This Project provides an visual dashboard to display data collected in an elasticsearch database
 
 ![search](https://i.imglol.de/search-2041815_19202lpeone4.jpg)
