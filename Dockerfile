@@ -15,6 +15,7 @@ FROM openjdk:13-ea-27-jdk-alpine
 
 WORKDIR /app
 COPY --from=builder /build/target/es_frontend-*-SNAPSHOT.jar es_frontend.jar
+COPY ./src/main/resources/k8s/config.properties .
 
 ENTRYPOINT ["java", "-jar", "es_frontend.jar"]
 
