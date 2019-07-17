@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <c:if test="#{!artikelController.artikel.starred}">
                                     <a style="color: darkgreen" class="nav-link text-center mr-3" href="#{navigationController.navigate('artikeledit')}?id=#{artikelController.artikel.id}&amp;toggle=favorite&amp;value=true"><i class="fas fa-star mr-1"></i><br/>Favorit hinzufügen</a>
                                 </c:if>
@@ -63,7 +63,7 @@
                                     <a style="color: red" class="nav-link text-center mr-3" href="#{navigationController.navigate('artikeledit')}?id=#{artikelController.artikel.id}&amp;toggle=favorite&amp;value=false"><i class="fas fa-star mr-1"></i><br/>Favorit entfernen</a>
                                 </c:if>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <c:if test="#{!artikelController.artikel.read_later}">
                                     <a style="color: darkgreen" class="nav-link text-center mr-3" href="#{navigationController.navigate('artikeledit')}?id=#{artikelController.artikel.id}&amp;toggle=spaeteransehen&amp;value=true"><i class="fas fa-history mr-1"></i><br/>später ansehen</a>
                                 </c:if>
@@ -71,7 +71,15 @@
                                     <a style="color: red" class="nav-link text-center mr-3" href="#{navigationController.navigate('artikeledit')}?id=#{artikelController.artikel.id}&amp;toggle=spaeteransehen&amp;value=false"><i class="fas fa-history mr-1"></i><br/>später ansehen entfernen</a>
                                 </c:if>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <c:if test="#{!artikelController.artikel.hasScreenshot}">
+                                    <a style="color: red" class="nav-link text-center mr-3" href="#{artikelController.artikel.screenshot}"><i class="fas fa-image mr-1"></i><br/><h:outputText value="#{artikelController.artikel.screenshotName}"></h:outputText> </a>
+                                </c:if>
+                                <c:if test="#{artikelController.artikel.hasScreenshot}">
+                                    <a style="color: darkgreen" class="nav-link text-center mr-3" href="#{artikelController.artikel.screenshot}"><i class="fas fa-image mr-1"></i><br/><h:outputText value="#{artikelController.artikel.screenshotName}"></h:outputText> </a>
+                                </c:if>
+                            </div>
+                            <div class="col-md-3">
                                 <c:if test="#{!artikelController.artikel.hasPdf}">
                                     <a style="color: red" class="nav-link text-center mr-3" href="#{artikelController.artikel.pdf}"><i class="fas fa-file-pdf mr-1"></i><br/><h:outputText value="#{artikelController.artikel.pdfName}"></h:outputText> </a>
                                 </c:if>

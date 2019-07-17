@@ -15,6 +15,7 @@
  */
 package de.htw.saar.frontend;
 
+import de.htw.saar.frontend.Configuration.UrlConfig;
 import de.htw.saar.frontend.service.MetricDataService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

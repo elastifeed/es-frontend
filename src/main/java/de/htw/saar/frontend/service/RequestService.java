@@ -1,6 +1,7 @@
 package de.htw.saar.frontend.service;
 
 import com.google.gson.JsonArray;
+import de.htw.saar.frontend.Configuration.UrlConfig;
 import de.htw.saar.frontend.model.Categorie;
 import de.htw.saar.frontend.model.User;
 import org.apache.http.HttpResponse;
@@ -18,7 +19,14 @@ import java.util.ArrayList;
 
 public class RequestService
 {
-    public static final String host = "http://localhost:8090/api/v1/";
+    public String host = "http://localhost:8090/api/v1/";
+
+    public RequestService()
+    {
+        UrlConfig cnf = new UrlConfig();
+        host = cnf.getProperty("es-collector");
+        host += "/api/v1/";
+    }
 
     public String userRegister(String email, String password, String name) throws Exception
     {

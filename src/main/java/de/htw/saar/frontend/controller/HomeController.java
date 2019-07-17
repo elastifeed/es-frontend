@@ -1,5 +1,6 @@
 package de.htw.saar.frontend.controller;
 
+import de.htw.saar.frontend.helper.CurrentUser;
 import de.htw.saar.frontend.master.MasterController;
 import de.htw.saar.frontend.model.Artikel;
 import de.htw.saar.frontend.model.PageNavigation;
@@ -11,14 +12,13 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.Currency;
 
 @Named
 @RequestMapping("/home")
 public class HomeController extends MasterController
 {
     private ArtikelService artikelService = new ArtikelService();
-
-    private String benutzername = "dummy_new";
 
     /* Pagnition */
     private int totalArtikelCount = 0;
@@ -214,7 +214,7 @@ public class HomeController extends MasterController
     public String initSuche(String query)
     {
         MetricDataService metricDataService = new MetricDataService();
-        metricDataService.addSearchMetric(query, this.benutzername);
+        metricDataService.addSearchMetric(query, CurrentUser.getInstance().getUser().getUsername());
 
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();

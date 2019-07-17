@@ -194,12 +194,12 @@ public class UserController extends MasterController implements Serializable
 
     public ArrayList<SearchMetric> getSearchMetric(){
         MetricDataService metricDataService = new MetricDataService();
-        return metricDataService.getSearchMetric("dummy_new");
+        return metricDataService.getSearchMetric();
     }
 
     public ArrayList<ArtikelMetric> getArtikelMetric(){
         MetricDataService metricDataService = new MetricDataService();
-        return metricDataService.getArtikelMetric("dummy_new");
+        return metricDataService.getArtikelMetric();
     }
 
     public String getEmail() {

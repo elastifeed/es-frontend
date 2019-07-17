@@ -1,6 +1,7 @@
 package de.htw.saar.frontend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.htw.saar.frontend.Configuration.UrlConfig;
 import de.htw.saar.frontend.controller.UserController;
 import de.htw.saar.frontend.helper.CurrentUser;
 import de.htw.saar.frontend.model.Artikel;
@@ -16,6 +17,7 @@ import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
 
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -24,17 +26,19 @@ import java.util.Date;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Properties;
 
 public class ElasticSearchService
 {
-    private final String hostname = "localhost";
-    private final String scheme = "http";
-    private final int port = 9200;
-
+    MetricDataService metricDataService = new MetricDataService();
+    private String elasticsearchUrl = "http://localhost:9200";
     private String index = "dummy_new";
 
     public ElasticSearchService()
-    { }
+    {
+        UrlConfig cnf = new UrlConfig();
+        elasticsearchUrl = cnf.getProperty("elasticsearch");
+    }
 
     //Sets the index
     private void refreshIndex()
@@ -59,11 +63,17 @@ public class ElasticSearchService
      * @return
      */
     private RestClient getRestClient(){
-        //Make the connection to ElasticSearch
-        RestClient restClient = RestClient.builder(
-                new HttpHost(hostname, port, scheme)).build();
+        try{
+            URL convertedUrl = new URL(elasticsearchUrl);
 
-        return restClient;
+            //Make the connection to ElasticSearch
+            RestClient restClient = RestClient.builder(
+                    new HttpHost(convertedUrl.getHost(), convertedUrl.getPort(), convertedUrl.getProtocol())).build();
+
+            return restClient;
+        } catch(Exception ex){
+            return null;
+        }
     }
 
     /**
@@ -396,8 +406,7 @@ public class ElasticSearchService
                     "GET",
                     this.index + "/_search?q=_id:" + id);
 
-            MetricDataService m = new MetricDataService();
-            m.addArtikelMetrik(id,this.index);
+            metricDataService.addArtikelMetrik(id, CurrentUser.getInstance().getUser().getUsername());
             ArrayList<Artikel> artikelArrayList = executeRequestNewDataFormat(request);
 
             return artikelArrayList.get(0);
