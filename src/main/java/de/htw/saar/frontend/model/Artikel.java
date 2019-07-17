@@ -38,7 +38,7 @@ public class Artikel {
     public Artikel()
     {
         UrlConfig cnf = new UrlConfig();
-        escollectorUrl = cnf.getProperty("es-collector");
+        escollectorUrl = cnf.getProperty("s3-storage");
     }
 
     public String getId() { return  this.id; }
