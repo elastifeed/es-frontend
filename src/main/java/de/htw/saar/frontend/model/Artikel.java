@@ -171,6 +171,28 @@ public class Artikel {
         }
     }
 
+    public boolean getHasScreenshot(){
+        if(screenshot == null || screenshot.length() < 1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public String getScreenshotName() {
+        if(screenshot == null || screenshot.length() < 1)
+        {
+            return "Screenshot not available";
+        }
+        else
+        {
+            return "Download Screenshot";
+        }
+    }
+
     public String getScreenshot()
     {
         return CropLinkToLocalhost(this.screenshot);
