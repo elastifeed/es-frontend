@@ -16,6 +16,8 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.faces.bean.SessionScoped;
 import java.net.URL;
@@ -32,6 +34,7 @@ import java.util.Properties;
 @SessionScoped
 public class ElasticSearchService
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElasticSearchService.class);
     MetricDataService metricDataService = new MetricDataService();
     private String elasticsearchUrl = "http://localhost:9200";
     private String index = "dummy_new";
@@ -50,7 +53,10 @@ public class ElasticSearchService
                     "HEAD",
                     "/" + CurrentUser.getInstance().getUserIndex());
 
-            Response response = getRestClient().performRequest(request);
+            RestClient client = getRestClient();
+            Response response = client.performRequest(request);
+            client.close();
+
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != 404) {
                 this.index = CurrentUser.getInstance().getUserIndex();
@@ -188,6 +194,8 @@ public class ElasticSearchService
             Request request = new Request(
                     "GET",
                     this.index + "/_search?sort=created:desc&size=" + size + "&from=" + from);
+
+            LOGGER.info("get Artikel paged for '{}'", this.index);
 
             artikelArrayList = executeRequestNewDataFormat(request);
 
@@ -344,6 +352,8 @@ public class ElasticSearchService
                     "GET",
                     this.index + "/_search?q=starred:true&sort=created:desc&size=1000");
 
+            LOGGER.info("get favorite for '{}'", this.index);
+
             ArrayList<Artikel> favoritArtikelArrayList = executeRequestNewDataFormat(request);
 
             return favoritArtikelArrayList;
@@ -359,6 +369,8 @@ public class ElasticSearchService
             Request request = new Request(
                     "GET",
                     this.index + "/_search?q=read_later:true&sort=created:desc&size=1000");
+
+            LOGGER.info("get spaeter ansehen for '{}'", this.index);
 
             ArrayList<Artikel> readlaterArtikelArrayList = executeRequestNewDataFormat(request);
 
